@@ -57,7 +57,7 @@
 | آزمایش‌ها | `Experiments/ExperimentService.php`، `Learning.php` | `experiments` در `pages-intel.js` | |
 | گزارش‌ها | `Reports/ReportService.php` | `reports` در `pages-intel.js` | |
 | اعلان‌ها + ایمیل | `Alerts/AlertService.php` | `alerts` در `pages-intel.js` | 15c |
-| پیگیری‌ها | `Watch/FollowUps.php` | داخل `alerts` | 15c |
+| پیگیری‌ها و اثر تغییرات ۲.۰ | `Watch/FollowUps.php` | داخل `alerts` | 15c، 15d |
 | اهمیت صفحه | `Content/PageImportance.php` | داخل مسیر راه و چت | 15c |
 | تحلیل کامل سایت | `Analysis/FullAnalysis.php` | دکمه در `audit` | |
 | ممیزی و خزش | `Crawler/Crawler.php`، `Checks.php`، `PageParser.php`، `Doctor/Doctor.php` | `audit` در `pages-seo.js` | 9 |
@@ -73,6 +73,7 @@
 | لینک داخلی | `Links/InternalLinker.php` | `links` در `pages-seo.js` | |
 | ریدایرکت | `Redirects/Manager.php` | `redirects` در `pages-intel.js` | |
 | ۴۰۴ و بررسی هوش مصنوعی | `Redirects/NotFoundMonitor.php`، `NotFoundTriage.php` | `404` در `pages-intel.js` | |
+| پوشش ایندکس (خروجی‌ها و پیام‌های سرچ کنسول، پایش URL Inspection، بازرسی ریدایرکت) | `GSC/Coverage.php` | `coverage` در `pages-coverage.js` | 15d |
 | ایندکس‌پذیری و بودجه خزش | `Technical/Indexability.php` | `indexability` در `pages-tech.js` | |
 | اسکیما | `Schema/SchemaService.php` | `schema` در `pages-intel.js` | |
 | نقشه سایت | `Technical/SitemapService.php`، `SiteMap.php` | `sitemap` در `pages-map.js` | |
