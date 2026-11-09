@@ -942,8 +942,16 @@ final class Router {
 		} );
 		$this->route( 'POST', '/experiments/evaluate', 'manage', function () use ( $p ) {
 			$p->queue->push( 'experiments_evaluate', array(), array( 'unique' => true, 'priority' => 2 ) );
-			Scheduler::kick();
-			return array( 'queued' => true );
+			\SEOlity\Activity\AiJobs::run_after_response( $p );
+			return array( 'queued' => true, 'stats' => $p->experiments->query( array() )['stats'] );
+		} );
+		$this->route( 'GET', '/brain', 'view', function () use ( $p ) {
+			return $p->brain->view();
+		} );
+		$this->route( 'POST', '/brain/think', 'ai', function () use ( $p ) {
+			$job = $p->queue->push( 'site_brain_think', array(), array( 'unique' => true, 'priority' => 3, 'max_attempts' => 3 ) );
+			\SEOlity\Activity\AiJobs::run_after_response( $p );
+			return array( 'queued' => (bool) $job );
 		} );
 
 		/* ---------------- Redirects / 404 ---------------- */

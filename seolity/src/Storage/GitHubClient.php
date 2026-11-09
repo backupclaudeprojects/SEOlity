@@ -119,6 +119,12 @@ final class GitHubClient {
 		return (string) base64_decode( str_replace( "\n", '', $res['content'] ) ); // phpcs:ignore
 	}
 
+	/** Git blob sha of a file in the repository ('' when missing). */
+	public function file_sha( $repo, $path, $branch = 'main' ) {
+		$res = $this->request( 'GET', '/repos/' . $repo . '/contents/' . self::enc_path( $path ) . '?ref=' . rawurlencode( $branch ) );
+		return ! is_wp_error( $res ) && isset( $res['sha'] ) ? (string) $res['sha'] : '';
+	}
+
 	/** Create/update one file (Contents API). */
 	public function put_file( $repo, $path, $content, $message, $branch = 'main' ) {
 		$existing = $this->request( 'GET', '/repos/' . $repo . '/contents/' . self::enc_path( $path ) . '?ref=' . rawurlencode( $branch ) );

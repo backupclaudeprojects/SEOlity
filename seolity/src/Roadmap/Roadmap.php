@@ -446,6 +446,8 @@ final class Roadmap {
 			'risks'        => $ai ? array_values( (array) $ai['data']['risks'] ) : array(),
 			'focus'        => $ai ? array_values( (array) $ai['data']['focus'] ) : array_slice( wp_list_pluck( $items, 'title' ), 0, 3 ),
 			'problem_areas' => $ai && isset( $ai['data']['problem_areas'] ) ? array_values( (array) $ai['data']['problem_areas'] ) : array(),
+			'mission'      => $ai && isset( $ai['data']['mission'] ) ? (array) $ai['data']['mission'] : array(),
+			'wins'         => $ai && isset( $ai['data']['wins'] ) ? array_values( (array) $ai['data']['wins'] ) : array(),
 			'changes_note' => $ai ? (string) $ai['data']['changes_note'] : ( $prev ? '' : __( 'First roadmap.', 'seolity' ) ),
 			'model'        => $ai ? $ai['meta']['model'] : null,
 			'knowledge'    => $ai ? $ai['meta']['knowledge_refs'] : array(),

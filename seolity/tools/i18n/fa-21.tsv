@@ -1,0 +1,79 @@
+Changing %1$s on %2$s pages moved %3$s by %4$s on average (%5$d experiments, %6$d clearly positive).	تغییر %1$s در صفحه‌های %2$s، معیار %3$s را به‌طور میانگین %4$s جابه‌جا کرده (%5$d آزمایش، %6$d مثبتِ قطعی).
+Last 28 days: %1$d clicks (%2$s%%) and %3$d impressions (%4$s%%) compared with the 28 days before.	۲۸ روز اخیر: %1$d کلیک (%2$s٪) و %3$d نمایش (%4$s٪) نسبت به ۲۸ روز قبل از آن.
+Sunday	یکشنبه
+Monday	دوشنبه
+Tuesday	سه‌شنبه
+Wednesday	چهارشنبه
+Thursday	پنجشنبه
+Friday	جمعه
+Saturday	شنبه
+Most search clicks come on %1$s, fewest on %2$s — publish and post on social media a day before the busy day.	بیشترین کلیک جست‌وجو در روز %1$s و کمترینش در روز %2$s است — یک روز قبل از روز شلوغ مطلب منتشر و در شبکه‌های اجتماعی پست کنید.
+Titles and snippets attract more clicks than usual at positions %s — what you write in titles works.	در رتبه‌های %s عنوان‌ها و توضیحات شما بیشتر از معمول کلیک می‌گیرند — عنوان‌نویسی‌تان جواب می‌دهد.
+Fewer clicks than usual at positions %s — rewrite titles and descriptions of those pages (CTR).	در رتبه‌های %s کمتر از معمول کلیک می‌گیرید — عنوان و توضیحات آن صفحه‌ها را بازنویسی کنید (CTR).
+Question searches (what is, how to, benefits …)	جست‌وجوهای سؤالی (چیست، طرز تهیه، خواص …)
+Buying searches (buy, price …)	جست‌وجوهای خرید (خرید، قیمت …)
+Brand searches	جست‌وجوهای برند
+%1$s: %2$d%% of impressions, %3$d clicks, CTR %4$s%%, average position %5$s.	%1$s: %2$d٪ نمایش‌ها، %3$d کلیک، CTR %4$s٪، میانگین رتبه %5$s.
+Already position 1 for %1$d searches (%2$s) and top 3 for %3$d.	همین حالا برای %1$d جست‌وجو رتبه ۱ هستید (%2$s) و برای %3$d جست‌وجو جزو ۳ تای اول.
+%1$d searches are on positions 4–15 with real demand — the shortest road to position 1: %2$s.	%1$d جست‌وجوی پرتقاضا در رتبه‌های ۴ تا ۱۵ هستند — کوتاه‌ترین راه به رتبه ۱: %2$s.
+The 10 pages with the most clicks have about %1$d words and %3$d internal links each; the other pages about %2$d words and %4$d links.	۱۰ صفحه پرکلیک هر کدام حدود %1$d کلمه و %3$d لینک داخلی دارند؛ بقیه صفحه‌ها حدود %2$d کلمه و %4$d لینک.
+%1$s %2$d%% (CTR %3$s%%, position %4$s)	%1$s %2$d٪ (CTR %3$s٪، رتبه %4$s)
+Applied changes of type “%1$s”: %2$d measured, %3$d%% positive, clicks %4$s%% vs the site trend.	تغییرات نوع «%1$s»: %2$d اندازه‌گیری‌شده، %3$d٪ مثبت، کلیک %4$s٪ نسبت به روند سایت.
+What SEOlity has learned about your site	چیزهایی که SEOlity درباره سایت شما یاد گرفته
+Going well:	چیزهایی که خوب پیش می‌رود:
+The site’s SEO brain	ذهن سئوی سایت
+Past edits (WordPress revisions) within your Search Console period are being measured — the list updates by itself.	ویرایش‌های گذشته (نسخه‌های وردپرس) در بازه داده سرچ کنسول در حال اندازه‌گیری‌اند — فهرست خودش به‌روز می‌شود.
+Evaluating the due experiments — the list updates by itself.	آزمایش‌های سررسیده در حال ارزیابی‌اند — فهرست خودش به‌روز می‌شود.
+sure	مطمئن
+fairly sure	نسبتاً مطمئن
+early signal	نشانه اولیه
+Thinking…	در حال فکر کردن…
+Think again	دوباره فکر کن
+The AI is thinking about everything it measured — the answer arrives here and as a notification.	هوش مصنوعی دارد درباره همه چیزهایی که اندازه گرفته فکر می‌کند — جواب همین‌جا و به‌صورت اعلان می‌رسد.
+Going well	خوب پیش می‌رود
+So:	پس:
+Experiments worth running next	آزمایش‌هایی که ارزش امتحان دارند
+Not sure yet	هنوز مطمئن نیست
+Strategy to position 1:	راهبرد رسیدن به رتبه ۱:
+Thought on %s	فکرشده در %s
+The AI has not thought about these observations yet — press “Think again”.	هوش مصنوعی هنوز درباره این مشاهده‌ها فکر نکرده — «دوباره فکر کن» را بزنید.
+The site’s SEO brain — what it has learned	ذهن سئوی سایت — چیزهایی که یاد گرفته
+What the AI thinks	هوش مصنوعی چه فکر می‌کند
+Measured from your own data	اندازه‌گیری‌شده از داده خود سایت
+Not enough data yet	هنوز داده کافی نیست
+Connect Search Console and let it sync a few weeks.	سرچ کنسول را وصل کنید و بگذارید چند هفته داده جمع شود.
+Strict about problems, generous about wins — everything here is used in every AI suggestion.	درباره مشکلات سخت‌گیر، درباره موفقیت‌ها دست‌ودل‌باز — همه این‌ها در هر پیشنهاد هوش مصنوعی استفاده می‌شود.
+Road to position 1	مسیر رتبه ۱
+One path from where your site is today to position 1 on Google. Every station is one area, in the order it should be done; click a station to see its tasks. Each task can be done by the AI (with a preview and your approval) or by hand, and is ticked only after the result was verified on the site.	یک مسیر واحد از جایی که سایت امروز هست تا رتبه ۱ گوگل. هر ایستگاه یک بخش است، به همان ترتیبی که باید انجام شود؛ روی هر ایستگاه بزنید تا کارهایش را ببینید. هر کار را هوش مصنوعی (با پیش‌نمایش و تأیید شما) یا خودتان انجام می‌دهید و فقط بعد از تأیید نتیجه روی سایت تیک می‌خورد.
+Data & analysis	داده‌ها و تحلیل
+Position 1 on Google	رتبه ۱ گوگل
+%s: all clear	%s: همه‌چیز سالم
+of the way	از مسیر
+Mission: position 1 on Google for your most valuable searches	مأموریت: رتبه ۱ گوگل برای ارزشمندترین جست‌وجوهای شما
+%1$s of %2$s stations cleared — keep going, every station brings you closer.	%1$s از %2$s ایستگاه پاک شده — ادامه بدهید، هر ایستگاه شما را نزدیک‌تر می‌کند.
+What the AI guide says	راهنمای هوش مصنوعی چه می‌گوید
+Analysed	تحلیل شد
+Run the full analysis	تحلیل کامل را اجرا کنید
+Reached — now defend it	رسیدید — حالا از آن دفاع کنید
+The treasure	گنج
+All clear	همه‌چیز سالم
+%s to do	%s کار مانده
+Everything in this station is done and verified. Great work — on to the next station.	همه کارهای این ایستگاه انجام و تأیید شده. عالی بود — برویم ایستگاه بعد.
+The AI’s strategy for this station	راهبرد هوش مصنوعی برای این ایستگاه
+This area is clear.	این بخش سالم است.
+The journey starts with fresh data: SEOlity crawls the site, reads Search Console, finds every problem and the AI writes the plan. Run it again whenever you have made changes.	سفر با داده تازه شروع می‌شود: SEOlity سایت را می‌خزد، سرچ کنسول را می‌خواند، همه مشکلات را پیدا می‌کند و هوش مصنوعی برنامه را می‌نویسد. هر وقت تغییری دادید دوباره اجرا کنید.
+Ask the AI to re-plan	برنامه را دوباره بچین
+The target: position 1 on Google for the searches that bring customers. The AI picks them from Search Console and checks who ranks above you.	هدف: رتبه ۱ گوگل برای جست‌وجوهایی که مشتری می‌آورند. هوش مصنوعی آن‌ها را از سرچ کنسول انتخاب می‌کند و بررسی می‌کند چه کسی بالاتر از شماست.
+Search	جست‌وجو
+Now	الان
+Who is #1	چه کسی رتبه ۱ است
+Gap to close	فاصله‌ای که باید پر شود
+Next move	حرکت بعدی
+No target searches yet	هنوز جست‌وجوی هدف انتخاب نشده
+Run the full analysis — the AI then chooses the searches to win.	تحلیل کامل را اجرا کنید — هوش مصنوعی جست‌وجوهایی را که باید ببریم انتخاب می‌کند.
+Competitor details: 	جزئیات رقبا: 
+How the AI talks to you	لحن هوش مصنوعی با شما
+teacher	صمیمی و آموزشی (همه‌چیز را از صفر توضیح بده)
+friendly	دوستانه و ساده
+professional	رسمی و حرفه‌ای
+expert	فنی و خلاصه (برای متخصص)

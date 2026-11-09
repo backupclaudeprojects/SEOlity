@@ -236,6 +236,34 @@ final class GitHubHub {
 	}
 
 	/**
+	 * Before every knowledge run: the repository gets this version's builder (workflow + scripts),
+	 * e.g. 1.16.1 prefers the subscription token over an old pay-per-token key without credit.
+	 * Only files whose content differs are committed (git blob sha comparison).
+	 */
+	private function refresh_builder( $repo, $branch ) {
+		$files = array(
+			'.github/workflows/' . self::KB_WORKFLOW            => SEOLITY_DIR . 'runner/seolity-knowledge.yml',
+			'seolity/tools/knowledge-builder/build.mjs'         => SEOLITY_DIR . 'tools/knowledge-builder/build.mjs',
+			'seolity/tools/knowledge-builder/llm.mjs'           => SEOLITY_DIR . 'tools/knowledge-builder/llm.mjs',
+			'seolity/tools/knowledge-builder/sources.json'      => SEOLITY_DIR . 'tools/knowledge-builder/sources.json',
+		);
+		$put = array();
+		foreach ( $files as $path => $local ) {
+			if ( ! file_exists( $local ) ) {
+				continue;
+			}
+			$content = (string) file_get_contents( $local ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+			$remote  = $this->gh()->file_sha( $repo, $path, $branch );
+			if ( $remote !== sha1( 'blob ' . strlen( $content ) . "\0" . $content ) ) {
+				$put[ $path ] = $content;
+			}
+		}
+		if ( $put ) {
+			$this->gh()->commit_files( $repo, $branch, $put, 'SEOlity ' . SEOLITY_VERSION . ': update the knowledge builder' );
+		}
+	}
+
+	/**
 	 * One click: create the owner's private knowledge repository, seed it and switch to it.
 	 *
 	 * @param bool $share_key Store the site's Anthropic API key as the builder secret.
@@ -397,6 +425,7 @@ final class GitHubHub {
 			return new \WP_Error( 'seolity_github', __( 'The knowledge builder needs an AI account: deploy subscription AI (Claude or ChatGPT) or give it your Anthropic key first.', 'seolity' ), array( 'status' => 400 ) );
 		}
 		$this->gh()->ensure_actions( $repo );
+		$this->refresh_builder( $repo, $branch );
 		$this->gh()->workflow_state( $repo, self::KB_WORKFLOW, true );
 		$run = $this->gh()->dispatch( $repo, self::KB_WORKFLOW, $branch, array( 'site' => $host, 'max_sources' => '8' ) );
 		if ( is_wp_error( $run ) ) {

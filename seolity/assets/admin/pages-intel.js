@@ -146,13 +146,80 @@
 	App.pages.experiments = function ( v ) {
 		v.appendChild( App.header( t( 'SEO Experiments' ), t( 'Every edit becomes an experiment — SEOlity’s own changes and edits made in WordPress or a page builder: equal before/after windows, adjusted by the site-wide trend (control), judged Positive / Negative / Neutral / Inconclusive, down to each query.' ), App.cap( 'manage' ) ? [ App.abtn( SL.il( 'clock', t( 'Analyze the edit history' ), 15 ), function () {
 			return SL.api( 'experiments/history', { method: 'POST' } ).then( function () {
-				SL.toast( t( 'Past edits (WordPress revisions) within your Search Console period are being measured in the background.' ) );
+				SL.toast( t( 'Past edits (WordPress revisions) within your Search Console period are being measured — the list updates by itself.' ) );
+				refreshSoon();
 			} );
 		}, 'primary' ), App.abtn( t( 'Evaluate now' ), function () {
 			return SL.api( 'experiments/evaluate', { method: 'POST' } ).then( function () {
-				SL.toast( t( 'Evaluation queued.' ) );
+				SL.toast( t( 'Evaluating the due experiments — the list updates by itself.' ) );
+				refreshSoon();
 			} );
 		} ) ] : null ) );
+		var brainBox = h( 'div' );
+		v.appendChild( brainBox );
+		var tries = 0;
+		function refreshSoon() {
+			tries = 0;
+			( function again() {
+				setTimeout( function () {
+					if ( ! document.body.contains( body ) ) {
+						return;
+					}
+					load();
+					brain();
+					if ( ++tries < 6 ) {
+						again();
+					}
+				}, 6000 );
+			} )();
+		}
+		function brain() {
+			App.load( brainBox, SL.api( 'brain' ), function ( b ) {
+				brainBox.appendChild( brainCard( b ) );
+			} );
+		}
+		function brainCard( b ) {
+			var KIND = { good: [ 'check-circle', 'sl-brain__obs--good' ], bad: [ 'alert', 'sl-brain__obs--bad' ], info: [ 'info', '' ] };
+			var CONF = { high: t( 'sure' ), medium: t( 'fairly sure' ), low: t( 'early signal' ) };
+			var ai = b.ai;
+			var obs = h( 'ul', { class: 'sl-brain__obs' }, ( b.observations || [] ).map( function ( o ) {
+				var k = KIND[ o.kind ] || KIND.info;
+				return h( 'li', { class: k[ 1 ] }, SL.icon( k[ 0 ], 16 ), h( 'span', { dir: 'auto', text: o.text } ), h( 'em', { class: 'sl-muted sl-small', text: CONF[ o.confidence ] || '' } ) );
+			} ) );
+			var think = App.cap( 'ai' ) ? App.abtn( SL.il( 'brain', b.thinking ? t( 'Thinking…' ) : t( 'Think again' ), 15 ), function () {
+				return SL.api( 'brain/think', { method: 'POST' } ).then( function () {
+					SL.toast( t( 'The AI is thinking about everything it measured — the answer arrives here and as a notification.' ) );
+					refreshSoon();
+				} );
+			}, 'primary', { disabled: b.thinking } ) : null;
+			var mind = ai ? h( 'div', { class: 'sl-stack' },
+				h( 'div', { class: 'sl-md', dir: 'auto' }, SL.markdown( ai.summary || '' ) ),
+				( ai.wins || [] ).length ? h( 'div', { class: 'sl-brain__wins' }, h( 'b', { text: t( 'Going well' ) } ), h( 'ul', null, ai.wins.map( function ( x ) {
+					return h( 'li', { dir: 'auto', text: x } );
+				} ) ) ) : null,
+				( ai.beliefs || [] ).length ? h( 'div', { class: 'sl-mapcards' }, ai.beliefs.map( function ( x ) {
+					var col = 'high' === x.confidence ? '#16a34a' : ( 'medium' === x.confidence ? '#2563eb' : '#d97706' );
+					return h( 'article', { class: 'sl-mapcard', style: '--c:' + col },
+						h( 'div', { class: 'sl-mapcard__head' }, h( 'span', { class: 'sl-mapcard__ic', 'aria-hidden': 'true' }, SL.icon( 'brain', 20 ) ), h( 'div', { class: 'sl-mapcard__titles' }, h( 'b', { class: 'sl-mapcard__title', dir: 'auto', text: x.belief } ), h( 'span', { class: 'sl-muted sl-small', text: CONF[ x.confidence ] || x.confidence } ) ) ),
+						h( 'p', { class: 'sl-small', dir: 'auto', text: x.evidence } ),
+						x.implication ? h( 'p', { class: 'sl-small', dir: 'auto' }, h( 'b', { text: t( 'So:' ) + ' ' } ), x.implication ) : null
+					);
+				} ) ) : null,
+				( ai.experiments || [] ).length ? h( 'div', null, h( 'b', { text: t( 'Experiments worth running next' ) } ), h( 'ol', null, ai.experiments.map( function ( x ) {
+					return h( 'li', { dir: 'auto' }, h( 'b', { text: x.idea } ), h( 'span', { class: 'sl-muted', text: ' — ' + x.why + ( x.measure ? ' · ' + x.measure : '' ) } ) );
+				} ) ) ) : null,
+				( ai.open_questions || [] ).length ? h( 'details', null, h( 'summary', { text: t( 'Not sure yet' ) } ), h( 'ul', null, ai.open_questions.map( function ( x ) {
+					return h( 'li', { dir: 'auto', text: x } );
+				} ) ) ) : null,
+				ai.strategy ? h( 'p', { dir: 'auto' }, h( 'b', { text: t( 'Strategy to position 1:' ) + ' ' } ), ai.strategy ) : null,
+				h( 'p', { class: 'sl-muted sl-small', text: t( 'Thought on %s', SL.date( b.thought_at ) ) } )
+			) : h( 'p', { class: 'sl-muted', text: t( 'The AI has not thought about these observations yet — press “Think again”.' ) } );
+			return App.card( t( 'The site’s SEO brain — what it has learned' ), h( 'div', { class: 'sl-stack' },
+				h( 'h4', { text: t( 'What the AI thinks' ) } ), mind,
+				h( 'h4', { text: t( 'Measured from your own data' ) } ), obs.children.length ? obs : SL.empty( t( 'Not enough data yet' ), t( 'Connect Search Console and let it sync a few weeks.' ) )
+			), { icon: 'brain', actions: think, sub: t( 'Strict about problems, generous about wins — everything here is used in every AI suggestion.' ) } );
+		}
+		brain();
 		var body = h( 'div' );
 		v.appendChild( body );
 		var outcomeKind = { positive: 'good', negative: 'bad', neutral: 'default', inconclusive: 'warn' };
@@ -160,9 +227,7 @@
 			App.load( body, SL.api( 'experiments' ), function ( r ) {
 				var s = r.stats;
 				body.appendChild( h( 'div', { class: 'sl-kpis' }, App.kpi( t( 'Running' ), SL.num( s.running || 0, 0 ) ), App.kpi( t( 'Positive' ), SL.num( s.positive || 0, 0 ) ), App.kpi( t( 'Negative' ), SL.num( s.negative || 0, 0 ) ), App.kpi( t( 'Neutral' ), SL.num( s.neutral || 0, 0 ) ), App.kpi( t( 'Inconclusive' ), SL.num( s.inconclusive || 0, 0 ) ) ) );
-				body.appendChild( App.card( t( 'Site-Specific SEO Intelligence' ), r.insights.length ? h( 'ul', { class: 'sl-insights' }, r.insights.map( function ( i ) {
-					return h( 'li', null, h( 'span', { class: i.avg_delta > 0 ? 'is-up' : 'is-down' }, SL.icon( i.avg_delta > 0 ? 'arrow-up' : 'arrow-down', 14 ) ), ' ', i.text, ' ', SL.badge( t( 'win rate' ) + ' ' + i.win_rate + '%' ) );
-				} ) ) : SL.empty( t( 'Learning in progress' ), t( 'After a few experiments are evaluated, SEOlity learns which changes work best on your site and uses it in every AI suggestion.' ) ) ) );
+
 				body.appendChild( App.table( [
 					{ label: t( 'Experiment' ), render: function ( e ) {
 						return h( 'div', null, h( 'strong', { text: '#' + e.id + ' ' + e.name } ), ' ', SL.badge( 0 === String( e.change_type ).indexOf( 'editor:' ) ? t( 'Edited in WordPress' ) : 'SEOlity', '' ), h( 'div', { class: 'sl-muted sl-small' }, e.url ? App.ext( e.url ) : '' ) );

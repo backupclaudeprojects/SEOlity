@@ -4,7 +4,7 @@ Tags: seo, ai, search console, woocommerce, schema
 Requires at least: 6.2
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.16.0
+Stable tag: 1.17.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,13 @@ Yes. The interface is fully translated and RTL-native, text analysis understands
 Enable "Delete all data on uninstall" in Settings → Privacy, then delete the plugin.
 
 == Changelog ==
+
+= 1.17.0 =
+* Road to position 1: the SEO roadmap is ONE path (treasure-map style) instead of two separate parts — start (data & analysis), one station per area in the order it must be done (the open issues and the AI's strategy tasks of that area together), the goal (position 1 on Google). Done stations glow, the current one pulses with a "you are here" pin, the road draws itself; click a station to open its tasks. A mission card shows the progress, the wins so far and the AI guide's diagnosis. The AI now picks the target searches to win, who ranks first and the gap to close.
+* The site's SEO brain (Experiments): learning no longer waits for single experiments to be significant (on a small site most are inconclusive) — effects are pooled by change type. New panel with measured observations from the site's own data (growth, the site's CTR per position vs typical, question / buying / brand searches, searches already at position 1, the shortest road to position 1, what the best pages have in common, devices, best weekday, measured impact of changes) and what the AI concluded: beliefs with evidence and confidence, wins, open questions, experiments worth running and the strategy to position 1. Re-thought weekly and on demand; used in every AI prompt.
+* Fix: "Evaluate now" and "Analyze the edit history" run right away and the page refreshes itself with the results.
+* AI tone setting (Settings → AI): warm and teaching (explains everything from zero), friendly, professional or expert. Every AI text follows a strict-but-positive mindset aimed at position 1 — problems in detail, and always what is already going well.
+* Knowledge builder (GitHub): a Claude / ChatGPT subscription token is now used before an Anthropic API key (an old key without credit made every run fail), a billing error stops the run at once, and the builder files in the repository are updated before every run.
 
 = 1.16.0 =
 * New page: Index coverage (Technical SEO). Upload the Search Console "Pages" exports (the summary and each reason as ZIP — Google has no API for this report) and SEOlity separates intentional exclusions (feeds, cart, add-to-cart, tracking parameters, theme internals) from real problems: published articles whose own address redirects, redirect chains, rules that point at the wrong article, live-traced redirect errors (loop, long chain, broken end), 404s with a likely destination, deleted files still linked, truncated Persian links (�), noindex on landing pages, real pages in "Crawled – currently not indexed", and jumps in the indexed timeline matched with the changes made those days. Every fix is an operation you approve (and can undo).

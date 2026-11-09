@@ -28,7 +28,9 @@ final class Learning {
 	public function recompute() {
 		$db   = $this->plugin->db;
 		$pid  = $db->project_id();
-		$rows = $db->rows( "SELECT change_type, object_type, outcome, metrics_after FROM {experiments} WHERE project_id = %d AND status = 'evaluated' AND outcome <> 'inconclusive'", array( $pid ) );
+		// Pooled: on a small site most single experiments are inconclusive (too little data per page),
+		// but together the experiments of one change type still show the direction.
+		$rows = $db->rows( "SELECT change_type, object_type, outcome, metrics_after FROM {experiments} WHERE project_id = %d AND status = 'evaluated'", array( $pid ) );
 		$agg  = array();
 		foreach ( $rows as $r ) {
 			$m = json_decode( (string) $r['metrics_after'], true );
@@ -42,7 +44,9 @@ final class Learning {
 				}
 				$agg[ $k ]['sum'] += (float) $m['adjusted'][ $metric ];
 				$agg[ $k ]['n']++;
-				$agg[ $k ][ $r['outcome'] ]++;
+				if ( isset( $agg[ $k ][ $r['outcome'] ] ) ) {
+					$agg[ $k ][ $r['outcome'] ]++;
+				}
 			}
 		}
 		$db->query( 'DELETE FROM {learnings} WHERE project_id = %d', array( $pid ) );
@@ -83,13 +87,14 @@ final class Learning {
 			$sign  = $l['avg_delta'] > 0 ? '+' : '';
 			$out[] = array(
 				'change_type' => $l['change_type'],
+				'confidence'  => (int) $l['samples'] >= 10 ? 'high' : ( (int) $l['samples'] >= 5 ? 'medium' : 'low' ),
 				'object_type' => $l['object_type'],
 				'metric'      => $l['metric'],
 				'avg_delta'   => (float) $l['avg_delta'],
 				'samples'     => (int) $l['samples'],
 				'win_rate'    => (int) round( 100 * $l['positive'] / max( 1, $l['samples'] ) ),
 				/* translators: 1 change 2 page type 3 metric 4 delta 5 n 6 wins */
-				'text'        => sprintf( __( 'Changing %1$s on %2$s pages moved %3$s by %4$s on average (%5$d experiments, %6$d positive).', 'seolity' ), str_replace( '+', ' + ', $l['change_type'] ), $l['object_type'], $l['metric'], $sign . $l['avg_delta'] . $unit, $l['samples'], $l['positive'] ),
+				'text'        => sprintf( __( 'Changing %1$s on %2$s pages moved %3$s by %4$s on average (%5$d experiments, %6$d clearly positive).', 'seolity' ), str_replace( array( 'editor:', '+' ), array( '', ' + ' ), $l['change_type'] ), $l['object_type'], $l['metric'], $sign . $l['avg_delta'] . $unit, $l['samples'], $l['positive'] ),
 			);
 		}
 		return $out;

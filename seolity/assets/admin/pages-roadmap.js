@@ -42,217 +42,306 @@
 		return h( 'span', { class: 'sl-rm-cat' }, SL.icon( x[ 0 ], 13 ), h( 'span', { text: x[ 1 ] } ) );
 	}
 
-	App.pages.actions = function ( v ) {
-		var head = App.header( t( 'SEO roadmap' ), t( 'Every problem on the site appears here once, in the order it should be fixed. Run a full analysis to update every section; each item can be done by AI (with a preview and your approval) or by hand, and gets a checkmark only after the result was verified on the site.' ) );
-		v.appendChild( head );
-		var ov = h( 'div', { class: 'sl-stack sl-rm-ov' } );
-		v.appendChild( ov );
-		App.roadmapOverview( ov );
-		var box = h( 'div', { class: 'sl-stack sl-rm' } );
-		v.appendChild( h( 'h2', { class: 'sl-rm-h', text: t( 'AI diagnosis and plan' ) } ) );
-		v.appendChild( box );
-		var timer = null;
-		var filter = { phase: 'all', cat: '', done: false };
+	/*
+	 * The SEO roadmap as ONE path ("treasure map"): start = data & analysis, then one station per
+	 * area in the order it has to be done (canonical issues + the AI's strategic tasks of that area),
+	 * the goal = position 1 on Google for the target queries. Done stations glow, the current one
+	 * pulses with a "you are here" pin; click a station to open its tasks below the map.
+	 */
+	var AI_CAT = { indexing: 'indexability', indexability: 'indexability', technical: 'technical', schema: 'technical', '404': '404', duplicates: 'duplicates', cannibalization: 'duplicates', ctr: 'onpage', 'on-page': 'onpage', onpage: 'onpage', images: 'onpage', links: 'links', content: 'content', strategy: 'content', products: 'products', offpage: 'offpage', backlinks: 'offpage', competitors: 'competitors' };
+	var ST_ICON = { indexability: 'search', technical: 'wrench', '404': 'unlink', duplicates: 'copy', onpage: 'type', links: 'link', content: 'content', products: 'bag', offpage: 'globe', competitors: 'swords', other: 'layers' };
 
-		function analyzeBtn( label, kind ) {
-			return App.cap( 'ai' ) ? App.abtn( h( 'span', { class: 'sl-row' }, SL.icon( 'refresh', 16 ), h( 'span', { text: label } ) ), function () {
-				return SL.api( 'roadmap/analyze', { method: 'POST' } ).then( load );
-			}, kind || 'primary' ) : null;
-		}
+	App.pages.actions = function ( v ) {
+		v.appendChild( App.header( t( 'Road to position 1' ), t( 'One path from where your site is today to position 1 on Google. Every station is one area, in the order it should be done; click a station to see its tasks. Each task can be done by the AI (with a preview and your approval) or by hand, and is ticked only after the result was verified on the site.' ) ) );
+		var hero = h( 'div', { class: 'sl-stack' } );
+		var map = h( 'div', { class: 'sl-quest', role: 'list' } );
+		var panel = h( 'div', { class: 'sl-stack sl-quest-panel', id: 'sl-quest-panel' } );
+		v.appendChild( hero );
+		v.appendChild( map );
+		v.appendChild( panel );
+		var timer = null;
+		var data = { board: null, rm: null };
+		var openId = null;
 
 		function load() {
 			clearTimeout( timer );
-			SL.api( 'roadmap' ).then( render ).catch( function ( e ) {
-				SL.clear( box );
-				box.appendChild( h( 'div', { class: 'sl-alert sl-alert--error', text: e.message } ) );
-			} );
-		}
-
-		function render( st ) {
-			if ( ! d.body.contains( box ) ) {
-				return; // Page left.
-			}
-			SL.clear( box );
-			var run = st.running;
-			if ( run && run.status === 'running' ) {
-				box.appendChild( progress( run ) );
-				timer = setTimeout( load, 3000 );
-			} else if ( run && run.status === 'failed' ) {
-				box.appendChild( h( 'div', { class: 'sl-alert sl-alert--error' }, h( 'strong', { text: t( 'The last analysis failed:' ) + ' ' } ), run.error || '', ' ', analyzeBtn( t( 'Try again' ), 'sm' ) ) );
-			}
-			if ( ! st.roadmap ) {
-				if ( ! run || run.status !== 'running' ) {
-					box.appendChild( intro( st ) );
-				}
-				return;
-			}
-			box.appendChild( summary( st ) );
-			box.appendChild( board( st.roadmap ) );
-		}
-
-		function intro( st ) {
-			var checks = [
-				[ st.ai_ready, t( 'AI provider connected' ), t( 'Without AI the roadmap is still built from your data and the built-in guides.' ), 'settings?tab=ai' ],
-				[ st.gsc, t( 'Search Console connected' ), t( 'Needed for indexing, CTR, ranking and traffic tasks.' ), 'gsc' ],
-				[ st.audit, t( 'Site audit done' ), t( 'Needed for technical and on-page tasks.' ), 'audit' ],
-			];
-			return App.card( t( 'Build your SEO roadmap' ), h( 'div', { class: 'sl-stack' },
-				h( 'p', { text: t( 'SEOlity will read all your data once, study the SEO knowledge base and write a prioritized plan — from new articles that still need indexing to technical fixes, content, links and products. Every task comes with the exact pages and a step-by-step guide in your dashboard.' ) } ),
-				h( 'ul', { class: 'sl-checks' }, checks.map( function ( c ) {
-					return h( 'li', { class: 'sl-checks__row' + ( c[ 0 ] ? '' : ' is-warn' ) }, SL.icon( c[ 0 ] ? 'check-circle' : 'alert', 18 ), h( 'span', { class: 'sl-checks__text' }, h( 'b', { text: c[ 1 ] } ), h( 'small', { text: c[ 2 ] } ) ), c[ 0 ] ? null : App.link( t( 'Set up' ), c[ 3 ] ) );
-				} ) ),
-				h( 'div', null, analyzeBtn( t( 'Analyze my site' ) ) )
-			), { icon: 'map' } );
-		}
-
-		function progress( run ) {
-			var idx = 0;
-			STAGES.forEach( function ( s, i ) {
-				if ( s[ 0 ] === run.stage ) {
-					idx = i;
-				}
-			} );
-			if ( run.stage === 'waiting_ai' ) {
-				idx = STAGES.length - 1;
-			}
-			var secs = Math.max( 0, Math.round( ( Date.now() - new Date( run.started_at.replace( ' ', 'T' ) + 'Z' ).getTime() ) / 1000 ) );
-			return App.card( t( 'Analyzing your site…' ), h( 'div', { class: 'sl-stack' },
-				h( 'ol', { class: 'sl-steps' }, STAGES.map( function ( s, i ) {
-					return h( 'li', { class: i < idx ? 'is-done' : i === idx ? 'is-active' : '', text: s[ 1 ] } );
-				} ) ),
-				run.stage === 'waiting_ai' ? h( 'p', { class: 'sl-muted', text: t( 'The AI is answering through GitHub — this page updates by itself.' ) } ) : null,
-				h( 'p', { class: 'sl-muted', text: t( 'Elapsed: %s s · usually 1–3 minutes. You can leave this page; the analysis continues.', secs ) } )
-			), { icon: 'activity' } );
-		}
-
-		function summary( st ) {
-			var rm = st.roadmap;
-			var s = rm.summary || {};
-			var ch = rm.changes || {};
-			var c = s.counts || {};
-			var done = rm.items.filter( function ( i ) {
-				return i.status === 'done';
-			} ).length;
-			var pct = rm.items.length ? Math.round( 100 * done / rm.items.length ) : 0;
-			var changes = null;
-			if ( ch && ! ch.first && ( ( ch.added || [] ).length || ( ch.resolved || [] ).length || ( ch.priority || [] ).length ) ) {
-				changes = h( 'details', { class: 'sl-explain' }, h( 'summary', { text: t( 'What changed since the previous analysis' ) } ), h( 'div', { class: 'sl-explain__body' },
-					s.changes_note ? h( 'p', { text: s.changes_note } ) : null,
-					( ch.added || [] ).length ? h( 'p', null, h( 'b', { text: t( 'New tasks:' ) + ' ' } ), ch.added.map( function ( x ) {
-						return x.title;
-					} ).join( ' · ' ) ) : null,
-					( ch.resolved || [] ).length ? h( 'p', null, h( 'b', { text: t( 'Solved / gone:' ) + ' ' } ), ch.resolved.map( function ( x ) {
-						return x.title;
-					} ).join( ' · ' ) ) : null,
-					( ch.priority || [] ).length ? h( 'ul', null, ch.priority.map( function ( x ) {
-						return h( 'li', { text: x.title + ': ' + ( PRIO[ x.from ] || x.from ) + ' → ' + ( PRIO[ x.to ] || x.to ) + ( x.reason ? ' — ' + x.reason : '' ) } );
-					} ) ) : null
-				) );
-			} else if ( ch && ! ch.first ) {
-				changes = h( 'p', { class: 'sl-muted', text: s.changes_note || t( 'No important changes since the previous analysis — the plan stays the same.' ) } );
-			}
-			var list = function ( title, arr, icon ) {
-				return arr && arr.length ? h( 'div', { class: 'sl-rm-list' }, h( 'h4', null, SL.icon( icon, 16 ), h( 'span', { text: title } ) ), h( 'ul', null, arr.map( function ( x ) {
-					return h( 'li', { text: x } );
-				} ) ) ) : null;
-			};
-			var body = h( 'div', { class: 'sl-stack' },
-				h( 'div', { class: 'sl-rm-diag' }, SL.markdown( s.diagnosis || '' ) ),
-				s.problem_areas && s.problem_areas.length ? h( 'div', { class: 'sl-rm-focus' }, h( 'h4', null, SL.icon( 'layers', 16 ), h( 'span', { text: t( 'Where the problems are (AI ranking)' ) } ) ), h( 'ol', null, s.problem_areas.slice().sort( function ( a, b ) {
-					return a.rank - b.rank;
-				} ).map( function ( x ) {
-					return h( 'li', null, h( 'b', { dir: 'auto', text: x.area + ': ' } ), h( 'span', { dir: 'auto', text: x.verdict } ) );
-				} ) ) ) : null,
-				s.focus && s.focus.length ? h( 'div', { class: 'sl-rm-focus' }, h( 'h4', null, SL.icon( 'target', 16 ), h( 'span', { text: t( 'Focus this week' ) } ) ), h( 'ol', null, s.focus.map( function ( x ) {
-					return h( 'li', { text: x } );
-				} ) ) ) : null,
-				h( 'div', { class: 'sl-grid-2 sl-grid-2--top' }, list( t( 'Strengths' ), s.strengths, 'check-circle' ), list( t( 'Risks' ), s.risks, 'alert' ) ),
-				h( 'div', { class: 'sl-rm-progress' }, h( 'div', { class: 'sl-rm-progress__bar' }, h( 'span', { style: 'width:' + pct + '%' } ) ), h( 'span', { text: t( '%1$s of %2$s tasks done', done, rm.items.length ) } ) ),
-				changes,
-				h( 'p', { class: 'sl-muted sl-small', text: [ t( 'Version %s', rm.version ), SL.date( rm.finished_at.replace( ' ', 'T' ) + 'Z' ), s.ai ? t( 'AI: %s', s.model || '' ) : t( 'Built without AI' ), ( s.knowledge || [] ).length ? t( 'Knowledge: %s', s.knowledge.join( ' · ' ) ) : '' ].filter( Boolean ).join( ' · ' ) } ),
-				rm.meta && rm.meta.ai_error ? h( 'div', { class: 'sl-alert sl-alert--warn', text: rm.meta.ai_error } ) : null
-			);
-			return App.card( t( 'Diagnosis' ), body, { icon: 'brain', sub: t( '%1$s tasks · %2$s critical · %3$s high', c.total || 0, c.critical || 0, c.high || 0 ), actions: analyzeBtn( t( 'Re-analyze' ) ) } );
-		}
-
-		function board( rm ) {
-			var wrap = h( 'div', { class: 'sl-stack' } );
-			var cats = {};
-			rm.items.forEach( function ( i ) {
-				cats[ i.category ] = ( cats[ i.category ] || 0 ) + 1;
-			} );
-			var tabs = h( 'div', { class: 'sl-subtabs sl-rm-tabs' }, [ [ 'all', function () {
-				return t( 'All' );
-			}, 'list' ] ].concat( PHASES ).map( function ( p ) {
-				var n = rm.items.filter( function ( i ) {
-					return ( p[ 0 ] === 'all' || i.phase === p[ 0 ] ) && ( filter.done || i.status !== 'done' ) && i.status !== 'dismissed';
-				} ).length;
-				return h( 'a', { href: '#', class: 'sl-subtab' + ( filter.phase === p[ 0 ] ? ' is-active' : '' ), onClick: function ( e ) {
-					e.preventDefault();
-					filter.phase = p[ 0 ];
-					redraw();
-				} }, SL.icon( p[ 2 ], 15 ), h( 'span', { text: p[ 1 ]() + ' (' + n + ')' } ) );
-			} ) );
-			var chips = h( 'div', { class: 'sl-chips' }, [ h( 'button', { type: 'button', class: 'sl-chip sl-chip--btn' + ( filter.cat ? '' : ' is-on' ), onClick: function () {
-				filter.cat = '';
-				redraw();
-			} }, t( 'All categories' ) ) ].concat( Object.keys( cats ).map( function ( k ) {
-				return h( 'button', { type: 'button', class: 'sl-chip sl-chip--btn' + ( filter.cat === k ? ' is-on' : '' ), onClick: function () {
-					filter.cat = filter.cat === k ? '' : k;
-					redraw();
-				} }, cat( k ), ' ' + cats[ k ] );
-			} ) ), h( 'label', { class: 'sl-check sl-rm-showdone' }, h( 'input', { type: 'checkbox', checked: filter.done, onChange: function ( e ) {
-				filter.done = e.target.checked;
-				redraw();
-			} } ), h( 'span', { text: t( 'Show done tasks' ) } ) ) );
-			var list = h( 'div', { class: 'sl-stack' } );
-			function redraw() {
-				var parent = wrap.parentNode;
-				var fresh = board( rm );
-				parent.replaceChild( fresh, wrap );
-			}
-			PHASES.forEach( function ( p ) {
-				if ( filter.phase !== 'all' && filter.phase !== p[ 0 ] ) {
+			Promise.all( [ SL.api( 'issues/board' ), SL.api( 'roadmap' ) ] ).then( function ( r ) {
+				if ( ! d.body.contains( map ) ) {
 					return;
 				}
-				var items = rm.items.filter( function ( i ) {
-					return i.phase === p[ 0 ] && i.status !== 'dismissed' && ( filter.done || i.status !== 'done' ) && ( ! filter.cat || i.category === filter.cat );
-				} );
-				if ( ! items.length ) {
-					return;
+				data.board = r[ 0 ];
+				data.rm = r[ 1 ];
+				render();
+				var busy = ( r[ 0 ].analysis && 'running' === r[ 0 ].analysis.status ) || ( r[ 1 ].running && 'running' === r[ 1 ].running.status );
+				if ( busy ) {
+					timer = setTimeout( load, 4000 );
 				}
-				list.appendChild( h( 'h3', { class: 'sl-rm-phase' }, SL.icon( p[ 2 ], 18 ), h( 'span', { text: p[ 1 ]() } ), h( 'em', { text: String( items.length ) } ) ) );
-				items.forEach( function ( it ) {
-					list.appendChild( row( it ) );
-				} );
-			} );
-			if ( ! list.children.length ) {
-				list.appendChild( SL.empty( t( 'Nothing here' ), t( 'All tasks in this view are done. Press “Re-analyze” after your changes have been live for a while.' ) ) );
-			}
-			wrap.appendChild( tabs );
-			wrap.appendChild( chips );
-			wrap.appendChild( list );
-			return wrap;
-		}
-
-		function setStatus( it, status ) {
-			return SL.api( 'roadmap/task', { body: { key: it.key, status: status } } ).then( function () {
-				it.status = status;
-				load();
 			} ).catch( SL.fail );
 		}
 
-		function row( it ) {
-			var cb = h( 'input', { type: 'checkbox', checked: it.status === 'done', 'aria-label': t( 'Mark as done' ), onChange: function ( e ) {
-				setStatus( it, e.target.checked ? 'done' : 'todo' );
+		function aiItems( catId ) {
+			var rm = data.rm && data.rm.roadmap;
+			return rm ? rm.items.filter( function ( it ) {
+				return ( AI_CAT[ it.category ] || 'other' ) === catId && 'dismissed' !== it.status;
+			} ) : [];
+		}
+
+		function stations() {
+			var b = data.board || {};
+			var list = [ { id: 'start', label: t( 'Data & analysis' ), icon: 'pulse', kind: 'start' } ];
+			( b.categories || [] ).forEach( function ( c ) {
+				var ai = aiItems( c.id );
+				var aiOpen = ai.filter( function ( x ) {
+					return 'done' !== x.status;
+				} ).length;
+				list.push( { id: c.id, label: c.label, icon: ST_ICON[ c.id ] || 'layers', open: c.open || 0, aiOpen: aiOpen, aiTotal: ai.length, reason: c.reason, route: c.route, kind: 'area' } );
+			} );
+			list.push( { id: 'goal', label: t( 'Position 1 on Google' ), icon: 'sparkles', kind: 'goal' } );
+			var current = null;
+			list.forEach( function ( s ) {
+				if ( 'area' === s.kind ) {
+					s.done = ! s.open && ! s.aiOpen;
+					if ( ! s.done && ! current ) {
+						current = s;
+					}
+				}
+			} );
+			list[ 0 ].done = !! ( b.analysis && b.analysis.finished_at );
+			if ( ! list[ 0 ].done ) {
+				current = list[ 0 ];
+			}
+			var last = list[ list.length - 1 ];
+			last.done = ! current;
+			( current || last ).current = true;
+			return list;
+		}
+
+		function render() {
+			var list = stations();
+			if ( null === openId ) {
+				openId = list.filter( function ( s ) {
+					return s.current;
+				} )[ 0 ].id;
+			}
+			renderHero( list );
+			renderMap( list );
+			renderPanel( list.filter( function ( s ) {
+				return s.id === openId;
+			} )[ 0 ] || list[ 0 ] );
+		}
+
+		function renderHero( list ) {
+			SL.clear( hero );
+			var rm = data.rm && data.rm.roadmap;
+			var s = rm ? rm.summary || {} : {};
+			var areas = list.filter( function ( x ) {
+				return 'area' === x.kind;
+			} );
+			var clear = areas.filter( function ( x ) {
+				return x.done;
+			} );
+			var pct = areas.length ? Math.round( 100 * clear.length / areas.length ) : 0;
+			var wins = ( s.wins && s.wins.length ? s.wins : s.strengths || [] ).slice( 0, 6 );
+			clear.slice( 0, 3 ).forEach( function ( x ) {
+				wins.push( t( '%s: all clear', x.label ) );
+			} );
+			var mission = s.mission || {};
+			hero.appendChild( h( 'div', { class: 'sl-quest-hero' },
+				h( 'div', { class: 'sl-quest-hero__ring', style: '--p:' + pct }, h( 'b', { text: SL.num( pct, 0 ) + '%' } ), h( 'small', { text: t( 'of the way' ) } ) ),
+				h( 'div', { class: 'sl-quest-hero__text' },
+					h( 'h2', { dir: 'auto', text: mission.goal || t( 'Mission: position 1 on Google for your most valuable searches' ) } ),
+					h( 'p', { class: 'sl-muted', text: t( '%1$s of %2$s stations cleared — keep going, every station brings you closer.', clear.length, areas.length ) } ),
+					wins.length ? h( 'div', { class: 'sl-quest-wins' }, wins.map( function ( w ) {
+						return h( 'span', { class: 'sl-quest-win', dir: 'auto' }, SL.icon( 'check-circle', 14 ), h( 'span', { text: w } ) );
+					} ) ) : null
+				)
+			) );
+			if ( s.diagnosis ) {
+				hero.appendChild( h( 'details', { class: 'sl-quest-guide' },
+					h( 'summary', null, SL.icon( 'brain', 16 ), h( 'span', { text: t( 'What the AI guide says' ) } ) ),
+					h( 'div', { class: 'sl-stack' },
+						h( 'div', { class: 'sl-md', dir: 'auto' }, SL.markdown( s.diagnosis ) ),
+						( s.focus || [] ).length ? h( 'div', null, h( 'b', { text: t( 'Focus this week' ) } ), h( 'ol', null, s.focus.map( function ( x ) {
+							return h( 'li', { dir: 'auto', text: x } );
+						} ) ) ) : null,
+						( s.risks || [] ).length ? h( 'div', null, h( 'b', { text: t( 'Risks' ) } ), h( 'ul', null, s.risks.map( function ( x ) {
+							return h( 'li', { dir: 'auto', text: x } );
+						} ) ) ) : null,
+						s.changes_note ? h( 'p', { class: 'sl-muted', dir: 'auto', text: s.changes_note } ) : null
+					)
+				) );
+			}
+		}
+
+		function renderMap( list ) {
+			SL.clear( map );
+			var rtl = SL.config.rtl;
+			list.forEach( function ( s, i ) {
+				var side = i % 2 ? 'b' : 'a';
+				var sub = 'start' === s.kind ? ( s.done ? t( 'Analysed' ) : t( 'Run the full analysis' ) ) : ( 'goal' === s.kind ? ( s.done ? t( 'Reached — now defend it' ) : t( 'The treasure' ) ) : ( s.done ? t( 'All clear' ) : t( '%s to do', SL.num( s.open + s.aiOpen, 0 ) ) ) );
+				var node = h( 'button', { type: 'button', role: 'listitem', class: 'sl-quest__node sl-quest__node--' + s.kind + ( s.done ? ' is-done' : '' ) + ( s.current ? ' is-current' : '' ) + ( s.id === openId ? ' is-open' : '' ), 'aria-current': s.current ? 'step' : null, onClick: function () {
+					openId = s.id;
+					render();
+					var p = d.getElementById( 'sl-quest-panel' );
+					if ( p && p.scrollIntoView ) {
+						p.scrollIntoView( { behavior: 'smooth', block: 'start' } );
+					}
+				} },
+					h( 'span', { class: 'sl-quest__dot' }, s.done && 'goal' !== s.kind ? SL.icon( 'check', 22 ) : SL.icon( s.icon, 22 ), s.current ? h( 'span', { class: 'sl-quest__pin', 'aria-hidden': 'true' }, SL.icon( 'map', 14 ) ) : null ),
+					h( 'span', { class: 'sl-quest__label' }, h( 'b', { text: ( 'area' === s.kind ? SL.num( i, 0 ) + '. ' : '' ) + s.label } ), h( 'small', { text: sub } ) )
+				);
+				map.appendChild( h( 'div', { class: 'sl-quest__row sl-quest__row--' + side }, node ) );
+				if ( i < list.length - 1 ) {
+					var from = 'a' === side ? ( rtl ? 80 : 20 ) : ( rtl ? 20 : 80 );
+					var to = 100 - from;
+					var svg = d.createElementNS( 'http://www.w3.org/2000/svg', 'svg' );
+					svg.setAttribute( 'viewBox', '0 0 100 40' );
+					svg.setAttribute( 'preserveAspectRatio', 'none' );
+					svg.setAttribute( 'class', 'sl-quest__road' + ( s.done ? ' is-done' : '' ) );
+					svg.setAttribute( 'aria-hidden', 'true' );
+					var path = d.createElementNS( 'http://www.w3.org/2000/svg', 'path' );
+					path.setAttribute( 'd', 'M ' + from + ' 0 C ' + from + ' 24, ' + to + ' 16, ' + to + ' 40' );
+					path.setAttribute( 'vector-effect', 'non-scaling-stroke' );
+					path.style.animationDelay = ( i * 0.12 ) + 's';
+					svg.appendChild( path );
+					map.appendChild( svg );
+				}
+			} );
+			fitRoads();
+		}
+
+		/* Join every road exactly to the centres of the two station circles (layout depends on width). */
+		function fitRoads() {
+			w.requestAnimationFrame( function () {
+				var box = map.getBoundingClientRect();
+				var dots = map.querySelectorAll( '.sl-quest__dot' );
+				var roads = map.querySelectorAll( '.sl-quest__road path' );
+				if ( ! box.width ) {
+					return;
+				}
+				Array.prototype.forEach.call( roads, function ( path, i ) {
+					if ( ! dots[ i ] || ! dots[ i + 1 ] ) {
+						return;
+					}
+					var a = dots[ i ].getBoundingClientRect();
+					var b = dots[ i + 1 ].getBoundingClientRect();
+					var x1 = ( 100 * ( a.left + a.width / 2 - box.left ) / box.width ).toFixed( 1 );
+					var x2 = ( 100 * ( b.left + b.width / 2 - box.left ) / box.width ).toFixed( 1 );
+					path.setAttribute( 'd', 'M ' + x1 + ' 0 C ' + x1 + ' 24, ' + x2 + ' 16, ' + x2 + ' 40' );
+				} );
+			} );
+		}
+		var resizeT;
+		w.addEventListener( 'resize', function () {
+			clearTimeout( resizeT );
+			resizeT = setTimeout( function () {
+				if ( d.body.contains( map ) ) {
+					fitRoads();
+				}
+			}, 150 );
+		} );
+
+		function renderPanel( s ) {
+			SL.clear( panel );
+			if ( 'start' === s.kind ) {
+				panel.appendChild( startPanel() );
+				return;
+			}
+			if ( 'goal' === s.kind ) {
+				panel.appendChild( goalPanel() );
+				return;
+			}
+			var box = h( 'div', { class: 'sl-stack' } );
+			panel.appendChild( App.card( s.label, box, { icon: s.icon, sub: s.reason || '', actions: s.route ? h( 'a', { class: 'sl-btn sl-btn--sm', href: s.route, text: t( 'Open the section' ) } ) : null } ) );
+			if ( s.done ) {
+				box.appendChild( h( 'div', { class: 'sl-alert sl-alert--success', text: t( 'Everything in this station is done and verified. Great work — on to the next station.' ) } ) );
+			}
+			var list = h( 'div', { class: 'sl-stack' } );
+			box.appendChild( list );
+			App.load( list, SL.api( 'issues/canonical', { query: { category: s.id, status: 'active', page: 1, per_page: 50 } } ), function ( r ) {
+				( r.items || [] ).forEach( function ( it ) {
+					list.appendChild( issueCard( it, load ) );
+				} );
+				var ai = aiItems( s.id );
+				if ( ai.length ) {
+					list.appendChild( h( 'h4', { class: 'sl-rm-phase' }, SL.icon( 'brain', 16 ), h( 'span', { text: t( 'The AI’s strategy for this station' ) } ) ) );
+					ai.forEach( function ( it ) {
+						list.appendChild( aiRow( it ) );
+					} );
+				}
+				if ( ! list.children.length ) {
+					list.appendChild( SL.empty( t( 'Nothing to do here' ), t( 'This area is clear.' ) ) );
+				}
+			} );
+		}
+
+		function startPanel() {
+			var b = data.board || {};
+			var a = b.analysis;
+			var rmState = data.rm || {};
+			var running = a && 'running' === a.status;
+			var box = h( 'div', { class: 'sl-stack' },
+				h( 'p', { text: t( 'The journey starts with fresh data: SEOlity crawls the site, reads Search Console, finds every problem and the AI writes the plan. Run it again whenever you have made changes.' ) } ),
+				h( 'div', { class: 'sl-row' },
+					App.cap( 'manage' ) ? App.abtn( SL.il( 'pulse', running ? t( 'Analysis running…' ) : t( 'Run full-site analysis' ), 15 ), function () {
+						return SL.api( 'analysis/full', { method: 'POST' } ).then( load );
+					}, 'primary', { disabled: running } ) : null,
+					App.cap( 'ai' ) ? App.abtn( SL.il( 'refresh', t( 'Ask the AI to re-plan' ), 15 ), function () {
+						return SL.api( 'roadmap/analyze', { method: 'POST' } ).then( load );
+					} ) : null
+				),
+				a && a.finished_at ? h( 'p', { class: 'sl-muted sl-small', text: t( 'Last full analysis: %s', SL.date( a.finished_at ) ) } ) : null
+			);
+			if ( a && a.stages ) {
+				box.appendChild( h( 'ol', { class: 'sl-rm-stages' }, Object.keys( a.stages ).map( function ( k ) {
+					var x = a.stages[ k ];
+					return h( 'li', { class: 'is-' + x.status }, h( 'span', { class: 'sl-rm-stages__ic', text: STAGE_ICON[ x.status ] || '○' } ), h( 'b', { text: x.label } ), x.detail ? h( 'span', { class: 'sl-muted', text: ' — ' + x.detail } ) : null );
+				} ) ) );
+			}
+			if ( rmState.running && 'failed' === rmState.running.status ) {
+				box.appendChild( h( 'div', { class: 'sl-alert sl-alert--error', text: t( 'The last analysis failed:' ) + ' ' + ( rmState.running.error || '' ) } ) );
+			}
+			if ( rmState.roadmap && rmState.roadmap.meta && rmState.roadmap.meta.ai_error ) {
+				box.appendChild( h( 'div', { class: 'sl-alert sl-alert--warn', text: rmState.roadmap.meta.ai_error } ) );
+			}
+			return App.card( t( 'Data & analysis' ), box, { icon: 'pulse' } );
+		}
+
+		function goalPanel() {
+			var rm = data.rm && data.rm.roadmap;
+			var mission = rm && rm.summary && rm.summary.mission ? rm.summary.mission : {};
+			var q = mission.target_queries || [];
+			var box = h( 'div', { class: 'sl-stack' }, h( 'p', { dir: 'auto', text: mission.goal || t( 'The target: position 1 on Google for the searches that bring customers. The AI picks them from Search Console and checks who ranks above you.' ) } ) );
+			if ( q.length ) {
+				box.appendChild( App.table( [ { label: t( 'Search' ), render: function ( x ) {
+					return h( 'b', { dir: 'auto', text: x.query } );
+				} }, { label: t( 'Now' ), render: function ( x ) {
+					return x.position ? SL.num( x.position, 1 ) : '—';
+				} }, { label: t( 'Who is #1' ), render: function ( x ) {
+					return h( 'span', { dir: 'ltr', text: x.leader || '—' } );
+				} }, { label: t( 'Gap to close' ), render: function ( x ) {
+					return h( 'span', { dir: 'auto', text: x.gap } );
+				} }, { label: t( 'Next move' ), render: function ( x ) {
+					return h( 'span', { dir: 'auto', text: x.next_move } );
+				} } ], q ) );
+			} else {
+				box.appendChild( SL.empty( t( 'No target searches yet' ), t( 'Run the full analysis — the AI then chooses the searches to win.' ) ) );
+			}
+			box.appendChild( h( 'p', { class: 'sl-muted sl-small' }, t( 'Competitor details: ' ), h( 'a', { href: '#/competitors', text: t( 'Competitors' ) } ) ) );
+			return App.card( t( 'Position 1 on Google' ), box, { icon: 'sparkles' } );
+		}
+
+		function aiRow( it ) {
+			var cb = h( 'input', { type: 'checkbox', checked: 'done' === it.status, 'aria-label': t( 'Mark as done' ), onChange: function ( e ) {
+				SL.api( 'roadmap/task', { body: { key: it.key, status: e.target.checked ? 'done' : 'todo' } } ).then( load ).catch( SL.fail );
 			} } );
-			return h( 'div', { class: 'sl-rm-item sl-rm-item--' + it.priority + ( it.status === 'done' ? ' is-done' : '' ) },
+			return h( 'div', { class: 'sl-rm-item sl-rm-item--' + it.priority + ( 'done' === it.status ? ' is-done' : '' ) },
 				App.cap( 'apply' ) ? h( 'label', { class: 'sl-rm-item__check' }, cb ) : null,
 				h( 'button', { type: 'button', class: 'sl-rm-item__main', onClick: function () {
 					guide( it, load );
 				} },
 					h( 'span', { class: 'sl-rm-item__title' }, SL.dot( it.priority ), h( 'b', { text: it.title } ) ),
-					h( 'span', { class: 'sl-rm-item__meta' }, cat( it.category ), SL.priorityBadge( it.priority ), it.count ? SL.badge( t( '%s pages', it.count ) ) : null, it.source === 'ai' ? SL.badge( t( 'AI strategy' ), 'brand' ) : null, it.is_new ? SL.badge( t( 'New' ), 'brand' ) : null, it.reappeared ? SL.badge( t( 'Came back' ), 'warn' ) : null, it.status === 'doing' ? SL.badge( t( 'In progress' ), 'warn' ) : null, it.previous && it.previous.priority !== it.priority ? SL.badge( t( 'Priority changed' ), 'warn' ) : null ),
+					h( 'span', { class: 'sl-rm-item__meta' }, SL.priorityBadge( it.priority ), it.count ? SL.badge( t( '%s pages', it.count ) ) : null, SL.badge( t( 'AI strategy' ), 'brand' ) ),
 					h( 'span', { class: 'sl-rm-item__why', text: it.analysis || it.why } )
 				),
 				h( 'div', { class: 'sl-rm-item__go' }, App.btn( h( 'span', { class: 'sl-row' }, SL.icon( 'book', 15 ), h( 'span', { text: t( 'Guide' ) } ) ), function () {
@@ -385,6 +474,64 @@
 		return App.cap( 'ai' ) && !! it.auto_fixable && 'route' !== a.type;
 	}
 
+	/** One canonical issue (roadmap item with AI fix / manual guide / state). */
+	function issueCard( it, refresh ) {
+		var row = h( 'div', { class: 'sl-card sl-rm-item is-' + it.status } );
+		row.appendChild( h( 'div', { class: 'sl-row' }, doneBadge( it ), it.priority ? SL.badge( PRIO[ it.priority ] || it.priority, PRIO_CLS[ it.priority ] || '' ) : null, h( 'b', { dir: 'auto', class: 'sl-rm-item__title', text: it.title } ) ) );
+		if ( it.url ) {
+			row.appendChild( h( 'a', { href: it.url, target: '_blank', rel: 'noopener', dir: 'ltr', class: 'sl-small', text: decodeURI( it.url ) } ) );
+		}
+		if ( it.reason ) {
+			row.appendChild( h( 'p', { class: 'sl-small' }, h( 'b', { text: t( 'AI recommendation:' ) + ' ' } ), h( 'span', { dir: 'auto', text: it.reason } ) ) );
+		}
+		if ( it.verification && it.verification.lines ) {
+			row.appendChild( h( 'details', { class: 'sl-small' }, h( 'summary', { text: t( 'Result and verification' ) } ), h( 'ul', {}, it.verification.lines.map( function ( l ) {
+				return h( 'li', { dir: 'auto', text: l } );
+			} ) ) ) );
+		}
+		var acts = h( 'div', { class: 'sl-row' } );
+		var active = 'open' === it.status || 'in_progress' === it.status;
+		if ( active && canAi( it ) ) {
+			acts.appendChild( App.abtn( SL.il( 'wand', t( 'Do it with AI' ), 14 ), function () {
+				App.agentPopup( it.id, refresh );
+				return Promise.resolve();
+			}, 'primary' ) );
+		}
+		if ( it.operation ) {
+			acts.appendChild( App.abtn( t( 'View the change' ), function () {
+				return SL.api( 'operations/' + it.operation.id ).then( function ( op ) {
+					var m = SL.modal( { title: op.title, wide: true, onClose: refresh } );
+					var b = h( 'div' );
+					m.body.appendChild( b );
+					App.operationView( b, op, refresh );
+				} );
+			} ) );
+		}
+		var a = it.action || {};
+		if ( a.route ) {
+			acts.appendChild( h( 'a', { class: 'sl-btn sl-btn--sm', href: a.route, text: t( 'Open in its section' ) } ) );
+		}
+		if ( it.edit ) {
+			acts.appendChild( h( 'a', { class: 'sl-btn sl-btn--ghost sl-btn--sm', href: it.edit, text: t( 'Edit manually' ) } ) );
+		}
+		if ( App.cap( 'apply' ) ) {
+			if ( active ) {
+				acts.appendChild( App.abtn( t( 'Mark as done' ), function () {
+					return SL.api( 'issues/' + it.id + '/state', { body: { status: 'done' } } ).then( refresh );
+				}, 'ghost' ) );
+				acts.appendChild( App.abtn( t( 'Dismiss' ), function () {
+					return SL.api( 'issues/' + it.id + '/state', { body: { status: 'dismissed' } } ).then( refresh );
+				}, 'ghost' ) );
+			} else {
+				acts.appendChild( App.abtn( t( 'Reopen' ), function () {
+					return SL.api( 'issues/' + it.id + '/state', { body: { status: 'open' } } ).then( refresh );
+				}, 'ghost' ) );
+			}
+		}
+		row.appendChild( acts );
+		return row;
+	}
+
 	App.roadmapOverview = function ( ov ) {
 		var f = { category: '', status: 'active', page: 1 };
 		var timer;
@@ -463,60 +610,7 @@
 		}
 
 		function item( it ) {
-			var row = h( 'div', { class: 'sl-card sl-rm-item is-' + it.status } );
-			row.appendChild( h( 'div', { class: 'sl-row' }, doneBadge( it ), it.priority ? SL.badge( PRIO[ it.priority ] || it.priority, PRIO_CLS[ it.priority ] || '' ) : null, h( 'b', { dir: 'auto', class: 'sl-rm-item__title', text: it.title } ) ) );
-			if ( it.url ) {
-				row.appendChild( h( 'a', { href: it.url, target: '_blank', rel: 'noopener', dir: 'ltr', class: 'sl-small', text: decodeURI( it.url ) } ) );
-			}
-			if ( it.reason ) {
-				row.appendChild( h( 'p', { class: 'sl-small' }, h( 'b', { text: t( 'AI recommendation:' ) + ' ' } ), h( 'span', { dir: 'auto', text: it.reason } ) ) );
-			}
-			if ( it.verification && it.verification.lines ) {
-				row.appendChild( h( 'details', { class: 'sl-small' }, h( 'summary', { text: t( 'Result and verification' ) } ), h( 'ul', {}, it.verification.lines.map( function ( l ) {
-					return h( 'li', { dir: 'auto', text: l } );
-				} ) ) ) );
-			}
-			var acts = h( 'div', { class: 'sl-row' } );
-			var active = 'open' === it.status || 'in_progress' === it.status;
-			if ( active && canAi( it ) ) {
-				acts.appendChild( App.abtn( SL.il( 'wand', t( 'Do it with AI' ), 14 ), function () {
-					App.agentPopup( it.id, loadBoard );
-					return Promise.resolve();
-				}, 'primary' ) );
-			}
-			if ( it.operation ) {
-				acts.appendChild( App.abtn( t( 'View the change' ), function () {
-					return SL.api( 'operations/' + it.operation.id ).then( function ( op ) {
-						var m = SL.modal( { title: op.title, wide: true, onClose: loadBoard } );
-						var b = h( 'div' );
-						m.body.appendChild( b );
-						App.operationView( b, op, loadBoard );
-					} );
-				} ) );
-			}
-			var a = it.action || {};
-			if ( a.route ) {
-				acts.appendChild( h( 'a', { class: 'sl-btn sl-btn--sm', href: a.route, text: t( 'Open in its section' ) } ) );
-			}
-			if ( it.edit ) {
-				acts.appendChild( h( 'a', { class: 'sl-btn sl-btn--ghost sl-btn--sm', href: it.edit, text: t( 'Edit manually' ) } ) );
-			}
-			if ( App.cap( 'apply' ) ) {
-				if ( active ) {
-					acts.appendChild( App.abtn( t( 'Mark as done' ), function () {
-						return SL.api( 'issues/' + it.id + '/state', { body: { status: 'done' } } ).then( loadBoard );
-					}, 'ghost' ) );
-					acts.appendChild( App.abtn( t( 'Dismiss' ), function () {
-						return SL.api( 'issues/' + it.id + '/state', { body: { status: 'dismissed' } } ).then( loadBoard );
-					}, 'ghost' ) );
-				} else {
-					acts.appendChild( App.abtn( t( 'Reopen' ), function () {
-						return SL.api( 'issues/' + it.id + '/state', { body: { status: 'open' } } ).then( loadBoard );
-					}, 'ghost' ) );
-				}
-			}
-			row.appendChild( acts );
-			return row;
+			return issueCard( it, loadBoard );
 		}
 
 		function list() {

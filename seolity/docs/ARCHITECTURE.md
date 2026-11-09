@@ -538,6 +538,12 @@ Upgrade: settings `sub_cli_*` and the saved secrets are reused unchanged; new se
 - `Watch\FollowUps` 2.0: `change_date`, `checkpoints_due` (7/14/main/long), `evaluate()` equal windows before/after, `verdict()` with site-wide control from `gsc_daily`, group = pages together + `track_queries`; `after_checkpoint()` reports (early only when clear), `learn()` → option `seolity_impact_learnings`, job `follow_up_review` → AI task `change_impact_review` → roadmap items `impact_next_step`. Learnings feed `Engine::build_system()`.
 - Knowledge market: setting `seo_market` (auto/iran/international) → `KnowledgeBase::market()`; front matter `market:` (or folder `iran/` / `international/`) becomes tag `market-…`; retrieval +3 for the chosen market, −4 for the other; the system prompt states the market. Bundled knowledge re-syncs on every version change.
 
+## 15e. Road to position 1, site brain, tone (1.17)
+- `pages-roadmap.js` `App.pages.actions`: one path built from `issues/board` (categories = stations, analysis = start) + `roadmap` (AI items mapped into stations by `AI_CAT`, `summary.mission` = goal, `summary.wins`); `issueCard()` (canonical issue) and `aiRow()` (AI task + guide) in the station panel; roads joined to the measured dot centres (`fitRoads`). `seo_roadmap@1.2` adds `mission` and `wins`.
+- `Experiments\SiteBrain` (`brain` service): `observations()` deterministic facts; job `site_brain_think` (weekly from the daily pipeline, or `POST /brain/think`) → AI task `site_brain` → option `seolity_site_brain`; `prompt_lines()` feed `Engine::build_system()`. `Learning::recompute()` pools all evaluated experiments (inconclusive included).
+- Setting `ai_tone` (teacher/friendly/professional/expert) + mindset line in `Engine::build_system()`.
+- Knowledge builder: `pickEngine()` prefers CLAUDE_CODE_OAUTH_TOKEN → CODEX_AUTH_JSON → ANTHROPIC_API_KEY; `GitHubHub::refresh_builder()` commits changed builder files before each dispatch.
+
 ## 16. Compatibility
 
 * **WooCommerce**: product SEO (title, descriptions, short description, attributes, images, schema,

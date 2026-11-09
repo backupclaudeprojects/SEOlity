@@ -832,3 +832,53 @@ button.sl-segcard { cursor: pointer; }
 .sl-notice.is-new { box-shadow: 0 0 0 2px color-mix(in srgb, var(--c) 30%, transparent), var(--sl-shadow); }
 .sl-notice__msg { font-size: 14px; line-height: 1.9; white-space: normal; }
 .sl-notice__lines { margin: 0; padding-inline-start: 18px; font-size: 13px; line-height: 1.9; }
+
+/* 1.17 Road to position 1 — one path, treasure-map style */
+.sl-quest-hero { display: flex; gap: 20px; align-items: center; padding: 20px; border-radius: var(--sl-radius); border: 1px solid var(--sl-border); background: linear-gradient(135deg, var(--sl-surface) 0%, var(--sl-brand-50) 100%); box-shadow: var(--sl-shadow); }
+.sl-quest-hero__ring { --p: 0; flex: 0 0 104px; width: 104px; height: 104px; border-radius: 50%; display: grid; place-content: center; text-align: center; background: radial-gradient(closest-side, var(--sl-surface) 78%, transparent 80% 100%), conic-gradient(#f59e0b calc(var(--p) * 1%), var(--sl-border) 0); }
+.sl-quest-hero__ring b { font-size: 24px; line-height: 1.1; }
+.sl-quest-hero__ring small { color: var(--sl-muted); font-size: 11px; }
+.sl-quest-hero__text h2 { margin: 0 0 4px; font-size: 18px; }
+.sl-quest-wins { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.sl-quest-win { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: var(--sl-good-50); color: var(--sl-good); font-size: 12.5px; font-weight: 600; animation: sl-quest-pop .4s ease-out both; }
+.sl-quest-guide { border: 1px solid var(--sl-border); border-radius: var(--sl-radius); background: var(--sl-surface); padding: 12px 16px; }
+.sl-quest-guide > summary { cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--sl-brand-600); }
+.sl-quest { position: relative; display: flex; flex-direction: column; padding: 18px 8px 8px; margin: 4px 0; border-radius: var(--sl-radius); background: repeating-linear-gradient(45deg, transparent 0 22px, rgba(245, 158, 11, .04) 22px 44px), var(--sl-surface); border: 1px solid var(--sl-border); box-shadow: var(--sl-shadow); }
+.sl-quest__row { display: flex; padding: 0 6%; }
+.sl-quest__row--a { justify-content: flex-start; }
+.sl-quest__row--b { justify-content: flex-end; }
+.sl-quest__road { display: block; width: 100%; height: 56px; overflow: visible; margin: -6px 0; }
+.sl-quest__road path { fill: none; stroke: var(--sl-border-strong); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 2 10; }
+.sl-quest__road.is-done path { stroke: #f59e0b; stroke-dasharray: 4000; stroke-dashoffset: 4000; animation: sl-quest-draw 1.1s ease-out forwards; }
+.sl-quest__node { display: flex; align-items: center; gap: 12px; max-width: 72%; padding: 6px 14px 6px 6px; border: 1px solid transparent; border-radius: 999px; background: transparent; cursor: pointer; text-align: start; color: var(--sl-text); font: inherit; transition: background .15s, border-color .15s, transform .15s; }
+.sl-quest__node:hover { background: var(--sl-brand-50); }
+.sl-quest__node.is-open { background: var(--sl-brand-50); border-color: var(--sl-brand-100); }
+.sl-quest__node:focus-visible { outline: 2px solid var(--sl-brand); outline-offset: 2px; }
+.sl-quest__dot { position: relative; flex: 0 0 52px; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: var(--sl-surface-2); color: var(--sl-faint); border: 3px solid var(--sl-border); }
+.sl-quest__node.is-done .sl-quest__dot { background: #fef3c7; color: #b45309; border-color: #f59e0b; }
+.sl-quest__node.is-current .sl-quest__dot { background: var(--sl-brand); color: #fff; border-color: var(--sl-brand); box-shadow: 0 0 0 0 rgba(29, 78, 216, .45); animation: sl-quest-pulse 1.8s ease-out infinite; }
+.sl-quest__node--goal .sl-quest__dot { width: 64px; height: 64px; flex-basis: 64px; background: linear-gradient(135deg, #fde68a, #f59e0b); color: #78350f; border-color: #f59e0b; animation: sl-quest-glow 2.4s ease-in-out infinite; }
+.sl-quest__pin { position: absolute; top: -18px; inset-inline-start: 50%; transform: translateX(-50%); width: 24px; height: 24px; border-radius: 50% 50% 50% 0; background: #dc2626; color: #fff; display: grid; place-items: center; animation: sl-quest-bob 1.2s ease-in-out infinite; }
+.sl-quest__label { display: flex; flex-direction: column; line-height: 1.4; min-width: 0; }
+.sl-quest__label b { font-size: 14px; }
+.sl-quest__label small { color: var(--sl-muted); font-size: 12px; }
+.sl-quest__node.is-done .sl-quest__label small { color: var(--sl-good); }
+.sl-quest-panel { scroll-margin-top: 120px; }
+@keyframes sl-quest-draw { to { stroke-dashoffset: 0; } }
+@keyframes sl-quest-pulse { 0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, .45); } 70% { box-shadow: 0 0 0 14px rgba(29, 78, 216, 0); } 100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); } }
+@keyframes sl-quest-bob { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -5px); } }
+@keyframes sl-quest-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, .5); } 50% { box-shadow: 0 0 18px 4px rgba(245, 158, 11, .45); } }
+@keyframes sl-quest-pop { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .sl-quest__road.is-done path, .sl-quest__node.is-current .sl-quest__dot, .sl-quest__pin, .sl-quest__node--goal .sl-quest__dot, .sl-quest-win { animation: none; stroke-dashoffset: 0; } }
+@media (max-width: 600px) { .sl-quest-hero { flex-direction: column; text-align: center; } .sl-quest__row { padding: 0 2%; } .sl-quest__node { max-width: 88%; } .sl-quest__dot { width: 44px; height: 44px; flex-basis: 44px; } }
+
+/* 1.17 Site brain */
+.sl-brain__obs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.sl-brain__obs li { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: var(--sl-radius-sm); background: var(--sl-surface-2); border: 1px solid var(--sl-border); }
+.sl-brain__obs li em { margin-inline-start: auto; white-space: nowrap; font-style: normal; }
+.sl-brain__obs--good { border-color: #a7f3d0 !important; background: var(--sl-good-50) !important; }
+.sl-brain__obs--good .sl-ic { color: var(--sl-good); }
+.sl-brain__obs--bad { border-color: #fde68a !important; background: var(--sl-warn-50) !important; }
+.sl-brain__obs--bad .sl-ic { color: var(--sl-warn); }
+.sl-brain__wins { padding: 10px 14px; border-radius: var(--sl-radius-sm); background: var(--sl-good-50); }
+.sl-brain__wins ul { margin: 6px 0 0; }

@@ -349,11 +349,20 @@ final class Engine {
 			'- Output language: ' . $language,
 			'- SEO market: ' . ( 'iran' === $this->plugin->knowledge->market() ? 'IRAN — the audience searches in Iran (Persian queries, Google dominant, Iranian marketplaces such as Torob, Digikala, Basalam and Emalls, eNamad trust badge, Toman prices, local hosting/CDN limits, reportage backlinks). Apply the Iran-market SEO knowledge first.' : 'INTERNATIONAL — global SEO practices (Google Search Central, Merchant Center, Business Profile, digital PR).' ),
 		);
+		$tones = array(
+			'teacher'      => 'Warm, friendly and colloquial (Persian: محاوره‌ای و صمیمی). Explain EVERYTHING from zero as if the owner has never heard of SEO: say what each term means in everyday words, why it matters for their business, give a small example, then the exact steps. Short sentences, no unexplained jargon or English terms without a Persian explanation.',
+			'friendly'     => 'Friendly, simple and conversational; explain technical terms briefly in plain words.',
+			'professional' => 'Professional and clear, like an SEO consultant writing to a client; explain only what is not obvious.',
+			'expert'       => 'Concise and technical, for an SEO specialist; no basic explanations.',
+		);
+		$tone    = (string) $s->get( 'ai_tone' );
+		$parts[] = '- Tone of every text the owner reads (answers, diagnoses, explanations, notifications — NOT site content, which follows the brand voice): ' . ( isset( $tones[ $tone ] ) ? $tones[ $tone ] : $tones['teacher'] );
+		$parts[] = '- Mindset: the goal is position 1 on Google for this site\'s money queries — always check what the competitors ranking above do better and plan to beat them. Be meticulous, detailed and strict about problems, but positive: also name what is going well and the progress made, with numbers, to keep the owner motivated.';
 		$voice = trim( (string) $s->get( 'ai_brand_voice' ) );
 		if ( '' !== $voice ) {
 			$parts[] = '- Brand voice / editorial rules: ' . $voice;
 		}
-		$insights = $this->plugin->learning->prompt_insights();
+		$insights = array_merge( $this->plugin->learning->prompt_insights(), $this->plugin->brain->prompt_lines() );
 		foreach ( array_slice( $this->plugin->followups->learnings(), 0, 6 ) as $l ) {
 			if ( $l['measured'] >= 2 && null !== $l['success_rate'] ) {
 				/* Measured impact of applied changes, by type (Watch\FollowUps). */

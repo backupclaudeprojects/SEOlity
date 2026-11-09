@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEOlity 1.0.0\n"
-"POT-Creation-Date: 2026-11-09 13:45+0000\n"
+"POT-Creation-Date: 2026-11-09 14:27+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3031,8 +3031,87 @@ msgid "Experiment not found."
 msgstr "آزمایش پیدا نشد."
 
 #, php-format
-msgid "Changing %1$s on %2$s pages moved %3$s by %4$s on average (%5$d experiments, %6$d positive)."
-msgstr "تغییر %1$s در صفحات %2$s به‌طور میانگین %3$s را %4$s جابه‌جا کرد (%5$d آزمایش، %6$d مثبت)."
+msgid "Changing %1$s on %2$s pages moved %3$s by %4$s on average (%5$d experiments, %6$d clearly positive)."
+msgstr "تغییر %1$s در صفحه‌های %2$s، معیار %3$s را به‌طور میانگین %4$s جابه‌جا کرده (%5$d آزمایش، %6$d مثبتِ قطعی)."
+
+#, php-format
+msgid "Last 28 days: %1$d clicks (%2$s%%) and %3$d impressions (%4$s%%) compared with the 28 days before."
+msgstr "۲۸ روز اخیر: %1$d کلیک (%2$s٪) و %3$d نمایش (%4$s٪) نسبت به ۲۸ روز قبل از آن."
+
+msgid "Sunday"
+msgstr "یکشنبه"
+
+msgid "Monday"
+msgstr "دوشنبه"
+
+msgid "Tuesday"
+msgstr "سه‌شنبه"
+
+msgid "Wednesday"
+msgstr "چهارشنبه"
+
+msgid "Thursday"
+msgstr "پنجشنبه"
+
+msgid "Friday"
+msgstr "جمعه"
+
+msgid "Saturday"
+msgstr "شنبه"
+
+#, php-format
+msgid "Most search clicks come on %1$s, fewest on %2$s — publish and post on social media a day before the busy day."
+msgstr "بیشترین کلیک جست‌وجو در روز %1$s و کمترینش در روز %2$s است — یک روز قبل از روز شلوغ مطلب منتشر و در شبکه‌های اجتماعی پست کنید."
+
+#, php-format
+msgid "Titles and snippets attract more clicks than usual at positions %s — what you write in titles works."
+msgstr "در رتبه‌های %s عنوان‌ها و توضیحات شما بیشتر از معمول کلیک می‌گیرند — عنوان‌نویسی‌تان جواب می‌دهد."
+
+#, php-format
+msgid "Fewer clicks than usual at positions %s — rewrite titles and descriptions of those pages (CTR)."
+msgstr "در رتبه‌های %s کمتر از معمول کلیک می‌گیرید — عنوان و توضیحات آن صفحه‌ها را بازنویسی کنید (CTR)."
+
+msgid "Question searches (what is, how to, benefits …)"
+msgstr "جست‌وجوهای سؤالی (چیست، طرز تهیه، خواص …)"
+
+msgid "Buying searches (buy, price …)"
+msgstr "جست‌وجوهای خرید (خرید، قیمت …)"
+
+msgid "Brand searches"
+msgstr "جست‌وجوهای برند"
+
+#, php-format
+msgid "%1$s: %2$d%% of impressions, %3$d clicks, CTR %4$s%%, average position %5$s."
+msgstr "%1$s: %2$d٪ نمایش‌ها، %3$d کلیک، CTR %4$s٪، میانگین رتبه %5$s."
+
+#, php-format
+msgid "Already position 1 for %1$d searches (%2$s) and top 3 for %3$d."
+msgstr "همین حالا برای %1$d جست‌وجو رتبه ۱ هستید (%2$s) و برای %3$d جست‌وجو جزو ۳ تای اول."
+
+#, php-format
+msgid "%1$d searches are on positions 4–15 with real demand — the shortest road to position 1: %2$s."
+msgstr "%1$d جست‌وجوی پرتقاضا در رتبه‌های ۴ تا ۱۵ هستند — کوتاه‌ترین راه به رتبه ۱: %2$s."
+
+#, php-format
+msgid "The 10 pages with the most clicks have about %1$d words and %3$d internal links each; the other pages about %2$d words and %4$d links."
+msgstr "۱۰ صفحه پرکلیک هر کدام حدود %1$d کلمه و %3$d لینک داخلی دارند؛ بقیه صفحه‌ها حدود %2$d کلمه و %4$d لینک."
+
+#, php-format
+msgid "%1$s %2$d%% (CTR %3$s%%, position %4$s)"
+msgstr "%1$s %2$d٪ (CTR %3$s٪، رتبه %4$s)"
+
+#, php-format
+msgid "Applied changes of type “%1$s”: %2$d measured, %3$d%% positive, clicks %4$s%% vs the site trend."
+msgstr "تغییرات نوع «%1$s»: %2$d اندازه‌گیری‌شده، %3$d٪ مثبت، کلیک %4$s٪ نسبت به روند سایت."
+
+msgid "What SEOlity has learned about your site"
+msgstr "چیزهایی که SEOlity درباره سایت شما یاد گرفته"
+
+msgid "Going well:"
+msgstr "چیزهایی که خوب پیش می‌رود:"
+
+msgid "The site’s SEO brain"
+msgstr "ذهن سئوی سایت"
 
 msgid "Frequently asked questions"
 msgstr "سؤالات متداول"
@@ -7884,29 +7963,75 @@ msgstr "هر ویرایش یک آزمایش است — تغییرات خود SEO
 msgid "Analyze the edit history"
 msgstr "تحلیل سابقه ویرایش‌ها"
 
-msgid "Past edits (WordPress revisions) within your Search Console period are being measured in the background."
-msgstr "ویرایش‌های گذشته (نسخه‌های بازبینی وردپرس) در بازه سرچ کنسول شما در پس‌زمینه اندازه‌گیری می‌شوند."
+msgid "Past edits (WordPress revisions) within your Search Console period are being measured — the list updates by itself."
+msgstr "ویرایش‌های گذشته (نسخه‌های وردپرس) در بازه داده سرچ کنسول در حال اندازه‌گیری‌اند — فهرست خودش به‌روز می‌شود."
 
 msgid "Evaluate now"
 msgstr "همین حالا ارزیابی کن"
 
-msgid "Evaluation queued."
-msgstr "ارزیابی در صف قرار گرفت."
+msgid "Evaluating the due experiments — the list updates by itself."
+msgstr "آزمایش‌های سررسیده در حال ارزیابی‌اند — فهرست خودش به‌روز می‌شود."
+
+msgid "sure"
+msgstr "مطمئن"
+
+msgid "fairly sure"
+msgstr "نسبتاً مطمئن"
+
+msgid "early signal"
+msgstr "نشانه اولیه"
+
+msgid "Thinking…"
+msgstr "در حال فکر کردن…"
+
+msgid "Think again"
+msgstr "دوباره فکر کن"
+
+msgid "The AI is thinking about everything it measured — the answer arrives here and as a notification."
+msgstr "هوش مصنوعی دارد درباره همه چیزهایی که اندازه گرفته فکر می‌کند — جواب همین‌جا و به‌صورت اعلان می‌رسد."
+
+msgid "Going well"
+msgstr "خوب پیش می‌رود"
+
+msgid "So:"
+msgstr "پس:"
+
+msgid "Experiments worth running next"
+msgstr "آزمایش‌هایی که ارزش امتحان دارند"
+
+msgid "Not sure yet"
+msgstr "هنوز مطمئن نیست"
+
+msgid "Strategy to position 1:"
+msgstr "راهبرد رسیدن به رتبه ۱:"
+
+#, php-format
+msgid "Thought on %s"
+msgstr "فکرشده در %s"
+
+msgid "The AI has not thought about these observations yet — press “Think again”."
+msgstr "هوش مصنوعی هنوز درباره این مشاهده‌ها فکر نکرده — «دوباره فکر کن» را بزنید."
+
+msgid "The site’s SEO brain — what it has learned"
+msgstr "ذهن سئوی سایت — چیزهایی که یاد گرفته"
+
+msgid "What the AI thinks"
+msgstr "هوش مصنوعی چه فکر می‌کند"
+
+msgid "Measured from your own data"
+msgstr "اندازه‌گیری‌شده از داده خود سایت"
+
+msgid "Not enough data yet"
+msgstr "هنوز داده کافی نیست"
+
+msgid "Connect Search Console and let it sync a few weeks."
+msgstr "سرچ کنسول را وصل کنید و بگذارید چند هفته داده جمع شود."
+
+msgid "Strict about problems, generous about wins — everything here is used in every AI suggestion."
+msgstr "درباره مشکلات سخت‌گیر، درباره موفقیت‌ها دست‌ودل‌باز — همه این‌ها در هر پیشنهاد هوش مصنوعی استفاده می‌شود."
 
 msgid "Inconclusive"
 msgstr "نامشخص"
-
-msgid "Site-Specific SEO Intelligence"
-msgstr "هوش سئوی اختصاصی سایت"
-
-msgid "win rate"
-msgstr "نرخ موفقیت"
-
-msgid "Learning in progress"
-msgstr "در حال یادگیری"
-
-msgid "After a few experiments are evaluated, SEOlity learns which changes work best on your site and uses it in every AI suggestion."
-msgstr "پس از ارزیابی چند آزمایش، سئولیتی یاد می‌گیرد کدام تغییرات روی سایت شما بهتر جواب می‌دهد و از آن در همه پیشنهادهای هوش مصنوعی استفاده می‌کند."
 
 msgid "Edited in WordPress"
 msgstr "ویرایش در وردپرس"
@@ -9002,103 +9127,120 @@ msgstr "جمع‌آوری محتوای جدید، رقبا و روندها"
 msgid "Studying the SEO knowledge base and writing the roadmap"
 msgstr "مطالعه پایگاه دانش سئو و نوشتن نقشه راه"
 
-msgid "Every problem on the site appears here once, in the order it should be fixed. Run a full analysis to update every section; each item can be done by AI (with a preview and your approval) or by hand, and gets a checkmark only after the result was verified on the site."
-msgstr "هر مشکل سایت فقط یک بار اینجا و به ترتیبی که باید رفع شود نمایش داده می‌شود. تحلیل کامل را اجرا کنید تا همه بخش‌ها به‌روز شوند؛ هر مورد را می‌توان با هوش مصنوعی (با پیش‌نمایش و تأیید شما) یا دستی انجام داد و فقط بعد از تأیید نتیجه روی سایت تیک می‌خورد."
+msgid "Road to position 1"
+msgstr "مسیر رتبه ۱"
 
-msgid "AI diagnosis and plan"
-msgstr "تشخیص و برنامه هوش مصنوعی"
+msgid "One path from where your site is today to position 1 on Google. Every station is one area, in the order it should be done; click a station to see its tasks. Each task can be done by the AI (with a preview and your approval) or by hand, and is ticked only after the result was verified on the site."
+msgstr "یک مسیر واحد از جایی که سایت امروز هست تا رتبه ۱ گوگل. هر ایستگاه یک بخش است، به همان ترتیبی که باید انجام شود؛ روی هر ایستگاه بزنید تا کارهایش را ببینید. هر کار را هوش مصنوعی (با پیش‌نمایش و تأیید شما) یا خودتان انجام می‌دهید و فقط بعد از تأیید نتیجه روی سایت تیک می‌خورد."
 
-msgid "The last analysis failed:"
-msgstr "آخرین تحلیل ناموفق بود:"
+msgid "Data & analysis"
+msgstr "داده‌ها و تحلیل"
 
-msgid "AI provider connected"
-msgstr "هوش مصنوعی وصل است"
-
-msgid "Without AI the roadmap is still built from your data and the built-in guides."
-msgstr "بدون هوش مصنوعی هم نقشه راه از داده‌های شما و راهنماهای داخلی ساخته می‌شود."
-
-msgid "Needed for indexing, CTR, ranking and traffic tasks."
-msgstr "برای کارهای ایندکس، CTR، رتبه و ترافیک لازم است."
-
-msgid "Site audit done"
-msgstr "ممیزی سایت انجام شده"
-
-msgid "Needed for technical and on-page tasks."
-msgstr "برای کارهای فنی و درون‌صفحه‌ای لازم است."
-
-msgid "Build your SEO roadmap"
-msgstr "نقشه راه سئوی خود را بسازید"
-
-msgid "SEOlity will read all your data once, study the SEO knowledge base and write a prioritized plan — from new articles that still need indexing to technical fixes, content, links and products. Every task comes with the exact pages and a step-by-step guide in your dashboard."
-msgstr "SEOlity یک بار همه داده‌های شما را می‌خواند، پایگاه دانش سئو را مطالعه می‌کند و یک برنامه اولویت‌بندی‌شده می‌نویسد — از مقاله‌های جدیدی که هنوز باید ایندکس شوند تا اصلاحات فنی، محتوا، لینک‌ها و محصولات. هر کار با صفحه‌های دقیق و راهنمای قدم‌به‌قدم در پیشخوان همراه است."
-
-msgid "Analyze my site"
-msgstr "تحلیل سایت من"
-
-msgid "Analyzing your site…"
-msgstr "در حال تحلیل سایت شما…"
-
-msgid "The AI is answering through GitHub — this page updates by itself."
-msgstr "هوش مصنوعی از طریق گیت‌هاب پاسخ می‌دهد — این صفحه خودش به‌روز می‌شود."
+msgid "Position 1 on Google"
+msgstr "رتبه ۱ گوگل"
 
 #, php-format
-msgid "Elapsed: %s s · usually 1–3 minutes. You can leave this page; the analysis continues."
-msgstr "زمان سپری‌شده: %s ثانیه · معمولاً ۱ تا ۳ دقیقه. می‌توانید از این صفحه بروید؛ تحلیل ادامه دارد."
+msgid "%s: all clear"
+msgstr "%s: همه‌چیز سالم"
 
-msgid "What changed since the previous analysis"
-msgstr "از تحلیل قبلی چه چیزی تغییر کرده"
+msgid "of the way"
+msgstr "از مسیر"
 
-msgid "New tasks:"
-msgstr "کارهای جدید:"
+msgid "Mission: position 1 on Google for your most valuable searches"
+msgstr "مأموریت: رتبه ۱ گوگل برای ارزشمندترین جست‌وجوهای شما"
 
-msgid "Solved / gone:"
-msgstr "حل‌شده / حذف‌شده:"
+#, php-format
+msgid "%1$s of %2$s stations cleared — keep going, every station brings you closer."
+msgstr "%1$s از %2$s ایستگاه پاک شده — ادامه بدهید، هر ایستگاه شما را نزدیک‌تر می‌کند."
 
-msgid "No important changes since the previous analysis — the plan stays the same."
-msgstr "از تحلیل قبلی تغییر مهمی نیست — برنامه همان می‌ماند."
-
-msgid "Where the problems are (AI ranking)"
-msgstr "مشکلات بیشتر کجاست (رتبه‌بندی هوش مصنوعی)"
+msgid "What the AI guide says"
+msgstr "راهنمای هوش مصنوعی چه می‌گوید"
 
 msgid "Focus this week"
 msgstr "تمرکز این هفته"
 
-msgid "Strengths"
-msgstr "نقاط قوت"
-
 msgid "Risks"
 msgstr "ریسک‌ها"
 
-#, php-format
-msgid "%1$s of %2$s tasks done"
-msgstr "%1$s از %2$s کار انجام شده"
+msgid "Analysed"
+msgstr "تحلیل شد"
+
+msgid "Run the full analysis"
+msgstr "تحلیل کامل را اجرا کنید"
+
+msgid "Reached — now defend it"
+msgstr "رسیدید — حالا از آن دفاع کنید"
+
+msgid "The treasure"
+msgstr "گنج"
+
+msgid "All clear"
+msgstr "همه‌چیز سالم"
 
 #, php-format
-msgid "Version %s"
-msgstr "نسخه %s"
+msgid "%s to do"
+msgstr "%s کار مانده"
+
+msgid "Open the section"
+msgstr "باز کردن بخش"
+
+msgid "Everything in this station is done and verified. Great work — on to the next station."
+msgstr "همه کارهای این ایستگاه انجام و تأیید شده. عالی بود — برویم ایستگاه بعد."
+
+msgid "The AI’s strategy for this station"
+msgstr "راهبرد هوش مصنوعی برای این ایستگاه"
+
+msgid "Nothing to do here"
+msgstr "اینجا کاری برای انجام نیست"
+
+msgid "This area is clear."
+msgstr "این بخش سالم است."
+
+msgid "The journey starts with fresh data: SEOlity crawls the site, reads Search Console, finds every problem and the AI writes the plan. Run it again whenever you have made changes."
+msgstr "سفر با داده تازه شروع می‌شود: SEOlity سایت را می‌خزد، سرچ کنسول را می‌خواند، همه مشکلات را پیدا می‌کند و هوش مصنوعی برنامه را می‌نویسد. هر وقت تغییری دادید دوباره اجرا کنید."
+
+msgid "Analysis running…"
+msgstr "تحلیل در حال اجرا…"
+
+msgid "Run full-site analysis"
+msgstr "اجرای تحلیل کامل سایت"
+
+msgid "Ask the AI to re-plan"
+msgstr "برنامه را دوباره بچین"
 
 #, php-format
-msgid "AI: %s"
-msgstr "هوش مصنوعی: %s"
+msgid "Last full analysis: %s"
+msgstr "آخرین تحلیل کامل: %s"
 
-msgid "Built without AI"
-msgstr "بدون هوش مصنوعی ساخته شد"
+msgid "The last analysis failed:"
+msgstr "آخرین تحلیل ناموفق بود:"
 
-#, php-format
-msgid "%1$s tasks · %2$s critical · %3$s high"
-msgstr "%1$s کار · %2$s بحرانی · %3$s بالا"
+msgid "The target: position 1 on Google for the searches that bring customers. The AI picks them from Search Console and checks who ranks above you."
+msgstr "هدف: رتبه ۱ گوگل برای جست‌وجوهایی که مشتری می‌آورند. هوش مصنوعی آن‌ها را از سرچ کنسول انتخاب می‌کند و بررسی می‌کند چه کسی بالاتر از شماست."
 
-msgid "Re-analyze"
-msgstr "تحلیل مجدد"
+msgid "Search"
+msgstr "جست‌وجو"
 
-msgid "All categories"
-msgstr "همه دسته‌ها"
+msgid "Now"
+msgstr "الان"
 
-msgid "Show done tasks"
-msgstr "نمایش کارهای انجام‌شده"
+msgid "Who is #1"
+msgstr "چه کسی رتبه ۱ است"
 
-msgid "All tasks in this view are done. Press “Re-analyze” after your changes have been live for a while."
-msgstr "همه کارهای این بخش انجام شده‌اند. وقتی تغییرات مدتی منتشر بودند «تحلیل مجدد» را بزنید."
+msgid "Gap to close"
+msgstr "فاصله‌ای که باید پر شود"
+
+msgid "Next move"
+msgstr "حرکت بعدی"
+
+msgid "No target searches yet"
+msgstr "هنوز جست‌وجوی هدف انتخاب نشده"
+
+msgid "Run the full analysis — the AI then chooses the searches to win."
+msgstr "تحلیل کامل را اجرا کنید — هوش مصنوعی جست‌وجوهایی را که باید ببریم انتخاب می‌کند."
+
+msgid "Competitor details: "
+msgstr "جزئیات رقبا: "
 
 #, php-format
 msgid "%s pages"
@@ -9106,15 +9248,6 @@ msgstr "%s صفحه"
 
 msgid "AI strategy"
 msgstr "استراتژی هوش مصنوعی"
-
-msgid "Came back"
-msgstr "برگشته"
-
-msgid "In progress"
-msgstr "در حال انجام"
-
-msgid "Priority changed"
-msgstr "اولویت تغییر کرد"
 
 msgid "Do it with AI"
 msgstr "انجام با هوش مصنوعی"
@@ -9153,6 +9286,9 @@ msgstr "در حال انجام"
 msgid "To do"
 msgstr "باید انجام شود"
 
+msgid "In progress"
+msgstr "در حال انجام"
+
 msgid "Resolved"
 msgstr "حل شده"
 
@@ -9165,15 +9301,20 @@ msgstr "توسط شما انجام‌شده علامت خورد (تأیید نش
 msgid "Gone after the last check"
 msgstr "در آخرین بررسی دیگر وجود نداشت"
 
-msgid "Analysis running…"
-msgstr "تحلیل در حال اجرا…"
+msgid "AI recommendation:"
+msgstr "پیشنهاد هوش مصنوعی:"
 
-msgid "Run full-site analysis"
-msgstr "اجرای تحلیل کامل سایت"
+msgid "Result and verification"
+msgstr "نتیجه و تأیید"
 
-#, php-format
-msgid "Last full analysis: %s"
-msgstr "آخرین تحلیل کامل: %s"
+msgid "View the change"
+msgstr "مشاهده تغییر"
+
+msgid "Open in its section"
+msgstr "باز کردن در بخش خودش"
+
+msgid "Reopen"
+msgstr "باز کردن دوباره"
 
 msgid "Crawl, Search Console, issues, indexability, duplicates, 404 targets and the AI plan — all sections updated in one run."
 msgstr "خزش، سرچ کنسول، مشکلات، ایندکس‌پذیری، مقالات تکراری، مقصدهای ۴۰۴ و برنامه هوش مصنوعی — همه بخش‌ها در یک اجرا به‌روز می‌شوند."
@@ -9195,27 +9336,9 @@ msgstr "%s باز"
 msgid "all clear"
 msgstr "همه درست"
 
-msgid "Open the section"
-msgstr "باز کردن بخش"
-
 #, php-format
 msgid "Step %s:"
 msgstr "گام %s:"
-
-msgid "AI recommendation:"
-msgstr "پیشنهاد هوش مصنوعی:"
-
-msgid "Result and verification"
-msgstr "نتیجه و تأیید"
-
-msgid "View the change"
-msgstr "مشاهده تغییر"
-
-msgid "Open in its section"
-msgstr "باز کردن در بخش خودش"
-
-msgid "Reopen"
-msgstr "باز کردن دوباره"
 
 #, php-format
 msgid "%s items"
@@ -9312,6 +9435,9 @@ msgstr "مستثنا (هنوز داده‌ای نیست)"
 
 msgid "All severities"
 msgstr "همه سطوح"
+
+msgid "All categories"
+msgstr "همه دسته‌ها"
 
 msgid "Fixed"
 msgstr "رفع‌شده"
@@ -10761,6 +10887,9 @@ msgstr "کش پاسخ‌های هوش مصنوعی (ساعت)"
 msgid "Content language"
 msgstr "زبان محتوا"
 
+msgid "How the AI talks to you"
+msgstr "لحن هوش مصنوعی با شما"
+
 msgid "SEO market (methods differ in Iran)"
 msgstr "بازار سئو (روش‌ها در ایران فرق دارد)"
 
@@ -11202,6 +11331,18 @@ msgstr "ایران"
 
 msgid "international"
 msgstr "بین‌المللی"
+
+msgid "teacher"
+msgstr "صمیمی و آموزشی (همه‌چیز را از صفر توضیح بده)"
+
+msgid "friendly"
+msgstr "دوستانه و ساده"
+
+msgid "professional"
+msgstr "رسمی و حرفه‌ای"
+
+msgid "expert"
+msgstr "فنی و خلاصه (برای متخصص)"
 
 msgid "insufficient"
 msgstr "ناکافی"

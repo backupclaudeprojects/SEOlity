@@ -6,7 +6,8 @@
 - هوش مصنوعی: API (Anthropic/OpenAI/Gemini/…)، اشتراک Claude/ChatGPT از طریق CLI روی همین سرور یا اجراکننده GitHub Actions، رله Cloudflare.
 
 ## 2. وضعیت فعلی
-- نسخه **1.16.0** (`seolity/seolity.php:6`)، DB schema **1.7.0** (`seolity.php:23`). شاخه `claude/beautiful-ride-7ilxpf`.
+- نسخه **1.17.0** (`seolity/seolity.php:6`)، DB schema **1.7.0** (`seolity.php:23`). شاخه `claude/beautiful-ride-7ilxpf`.
+- 1.17.0: «مسیر رتبه ۱» = یک مسیر واحد نقشه‌گنجی (`pages-roadmap.js`)؛ «ذهن سئوی سایت» (`Experiments/SiteBrain.php`، یادگیری تجمیعی آزمایش‌ها)؛ تنظیم لحن `ai_tone`؛ ذهنیت «سخت‌گیر ولی مثبت‌بین، هدف رتبه ۱»؛ سازنده دانش اول توکن اشتراک را استفاده می‌کند.
 - 1.16.0: صفحه «پوشش ایندکس» (`GSC/Coverage.php`، `pages-coverage.js`): خروجی‌های Pages سرچ کنسول، پیام‌های سرچ کنسول، پایش روزانه URL Inspection، بازرسی ریدایرکت‌ها؛ «اثر تغییرات ۲.۰» (`Watch/FollowUps.php`: روز ۷/۱۴/۲۸/بلندمدت، کنترل روند کل سایت، اطمینان، تحلیل AI و درس‌ها)؛ بازار سئو ایران/بین‌المللی + ۱۴ سند دانش جدید (`knowledge/fa/iran/`).
 - ناوبری 1.15.0 مثل AI Writer: هر صفحه یک آیتم جدا در منوی وردپرس و سایدبار، زیر عنوان گروه؛ بدون «تب بخش» بالای صفحه. چت و نقشه راه دو کاشی بزرگ بالای سایدبار. تنظیمات به ۷ صفحه جدا (`settings`، `settings-ai`، …) شکسته شد.
 - کار می‌کند (با آزمایش در سایت آزمایشی؛ با حساب واقعی کاربر تأیید نشده):
@@ -50,7 +51,7 @@
 | `assets/admin/pages-map.js` | نقشه سایت (کارت بزرگ) | App.pages.sitemap:421 |
 | `assets/admin/app.js` | پوسته: shell() سایدبار (navTile/navItem)، route() (نگاشت `settings?tab=x` ← `settings-x`)، engines() متن زیر کاشی‌ها | — |
 | `assets/admin/app.css` | همه استایل‌ها (.sl-mapcard الگوی کارت بزرگ، .sl-nav__tile کاشی سایدبار) | — |
-| `tools/i18n/fa-*.tsv` + `build.py` | ترجمه فارسی | آخرین: fa-20.tsv |
+| `tools/i18n/fa-*.tsv` + `build.py` | ترجمه فارسی | آخرین: fa-21.tsv |
 | `docs/ARCHITECTURE.md` | معماری؛ بخش‌های 15b (CLI) و 15c (چت/اعلان) | — |
 | `readme.txt` | changelog | — |
 | `runner/runner.mjs` | کد اجراکننده گیت‌هاب (رمزنگاری AES-GCM) | — |
@@ -82,6 +83,7 @@
 - ناوبری: هیچ تب بخش (hub/subtabs) نباشد؛ صفحه جدید = route در `Admin::routes()` + جای آن در `Admin::nav()`. تب‌های فیلتر داخل خود صفحه (یک سطح) مجاز است. ظاهر = کپی AI Writer (کاربر فایل `ARIAGH-AIWRITER-1.9.1` را مرجع داد).
 
 ## 6. راه‌های امتحان‌شده و شکست‌خورده
+- مسیر راه در دو بخش جدا (برد مشکلات + تشخیص AI) ← کاربر نپسندید؛ باید یک مسیر واحد باشد. یادگیری فقط از آزمایش‌های قطعی ← در سایت کم‌ترافیک هیچ‌وقت یاد نمی‌گرفت.
 - مقایسه پیگیری با «۲۸ روز آخر» در زمان ایجاد و زمان بررسی، بدون کنترل روند سایت ← همه چیز «بهتر» دیده می‌شد و برای ادغام‌ها گمراه‌کننده بود؛ در 1.16 جایگزین شد.
 - `npm install @openai/codex` زیر سقف ۱GB حافظه مجازی ← heap out of memory.
 - اجرای Codex با ۵۱۲ و ۷۶۸MB ← «memory allocation failed»؛ حداقل ~۱GB لازم است. TOKIO_WORKER_THREADS کمکی نکرد.
