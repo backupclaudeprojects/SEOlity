@@ -766,6 +766,13 @@ final class Duplicates {
 				$items[] = array( 'kind' => 'change', 'id' => (int) $cid, 'key' => 'noindex_' . $s->ID, 'requires' => array( 'merge' ) );
 			}
 			$items[] = array( 'kind' => 'redirect', 'source' => $surl, 'target' => $to, 'type' => 301, 'origin' => 'consolidation', 'merge' => true, 'key' => 'r_' . $s->ID, 'requires' => array( 'merge' ) );
+			// Once its URL redirects, the merged article becomes a draft: a published post whose own
+			// address redirects stays in the sitemap and Search Console reports "Page with redirect" /
+			// "Redirect error" for it. Draft = not deleted, and undo publishes it again.
+			$cid = $this->plugin->changes->propose( $src + array( 'object_type' => 'post', 'object_id' => $s->ID, 'field' => 'post_status', 'after' => 'draft', 'reason' => __( 'Merged and redirected: unpublished so it leaves the sitemap (kept as a draft, not deleted).', 'seolity' ) ) );
+			if ( ! is_wp_error( $cid ) ) {
+				$items[] = array( 'kind' => 'change', 'id' => (int) $cid, 'key' => 'draft_' . $s->ID, 'requires' => array( 'r_' . $s->ID ) );
+			}
 		}
 		// Internal links elsewhere that point at the merged URLs.
 		$like  = array();

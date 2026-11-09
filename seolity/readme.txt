@@ -4,7 +4,7 @@ Tags: seo, ai, search console, woocommerce, schema
 Requires at least: 6.2
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.15.0
+Stable tag: 1.16.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,15 @@ Yes. The interface is fully translated and RTL-native, text analysis understands
 Enable "Delete all data on uninstall" in Settings → Privacy, then delete the plugin.
 
 == Changelog ==
+
+= 1.16.0 =
+* New page: Index coverage (Technical SEO). Upload the Search Console "Pages" exports (the summary and each reason as ZIP — Google has no API for this report) and SEOlity separates intentional exclusions (feeds, cart, add-to-cart, tracking parameters, theme internals) from real problems: published articles whose own address redirects, redirect chains, rules that point at the wrong article, live-traced redirect errors (loop, long chain, broken end), 404s with a likely destination, deleted files still linked, truncated Persian links (�), noindex on landing pages, real pages in "Crawled – currently not indexed", and jumps in the indexed timeline matched with the changes made those days. Every fix is an operation you approve (and can undo).
+* Search Console messages: paste the e-mail (e.g. "New reasons prevent pages in a sitemap from being indexed") — SEOlity recognises the type and reasons, explains it, notifies you (also by e-mail) and the AI connects it with your data and puts a plan on the SEO roadmap.
+* Daily index watch: Google URL Inspection for a rotating batch of your pages, sitemap errors and redirect hygiene — a notification when a NEW reason appears, usually before Search Console's own e-mail.
+* Change impact 2.0 (follow-ups): every applied change is measured on day 7, 14, 28 and long-term, comparing equal windows before/after the change and correcting by the whole site's trend; merged or moved pages are measured as one group plus the queries they ranked for; verdict positive / negative / neutral / too little data with a confidence level. Clear early results warn you (undo possible), the main result is always reported, the AI explains it and adds next steps to the roadmap, and every result builds the site's record of "what worked here", which the AI uses when it plans.
+* Fix: positive results ("Good news") were never e-mailed by default.
+* Consolidation now also unpublishes the merged article (as a draft, after its redirect works), so it leaves the sitemap; undo publishes it again. Correcting a redirect target through an operation keeps the old rule for undo.
+* SEO knowledge: choose the search market (Iran / international / automatic). 14 new in-depth documents — 9 for the Iranian market (market overview, hosting/CDN and Googlebot access, Persian language and URL rules, Torob / Digikala / Basalam / eNamad and Product schema in IRR, reportage links, content, seasonality calendar, keyword research without sanctioned tools, local SEO with Neshan / Balad) and guides to the Page indexing report, Search Console messages, change measurement, URL migrations and YMYL health content. Persian knowledge grew from about 1,700 to 16,500 words; it is loaded automatically after every update.
 
 = 1.15.0 =
 * Simpler navigation, like the ARIAGH AI Writer admin: every page is its own item in the WordPress menu and in the SEOlity sidebar, listed under small group headings (Overview, Data collection, Content, Keywords & links, Technical SEO, Connections, Settings). No more section tabs on top of page tabs: one click opens one page.

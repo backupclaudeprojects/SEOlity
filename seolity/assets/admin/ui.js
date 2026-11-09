@@ -19,7 +19,7 @@
 		for ( var i = 1; i < arguments.length; i++ ) {
 			out = out.replace( '%s', arguments[ i ] ).replace( '%' + i + '$s', arguments[ i ] ).replace( '%d', arguments[ i ] );
 		}
-		return out;
+		return out.replace( /%%/g, '%' );
 	};
 	var t = SL.t;
 	var locale = ( C.locale || 'en' ).replace( '_', '-' );
@@ -126,11 +126,12 @@
 				url += ( url.indexOf( '?' ) > -1 ? '&' : '?' ) + q;
 			}
 		}
+		var isForm = w.FormData && opts.body instanceof w.FormData; // File uploads: the browser sets the multipart header.
 		return fetch( url, {
 			method: method,
 			credentials: 'same-origin',
-			headers: { 'Content-Type': 'application/json', 'X-WP-Nonce': C.nonce },
-			body: opts.body ? JSON.stringify( opts.body ) : undefined,
+			headers: isForm ? { 'X-WP-Nonce': C.nonce } : { 'Content-Type': 'application/json', 'X-WP-Nonce': C.nonce },
+			body: opts.body ? ( isForm ? opts.body : JSON.stringify( opts.body ) ) : undefined,
 		} ).then( function ( res ) {
 			return res.text().then( function ( txt ) {
 				var data = null;
@@ -674,7 +675,7 @@
 	var FIELD_LABELS = {
 		post_content: 'Content', post_excerpt: 'Short description', post_title: 'Title', post_name: 'URL slug', meta_title: 'SEO title',
 		meta_description: 'Meta description', focus_keyword: 'Focus keyword', faq_schema: 'FAQ', alt: 'Image ALT', image_title: 'Image title',
-		caption: 'Caption', term_description: 'Category description', term_name: 'Name', user_description: 'Author bio', noindex: 'Noindex',
+		caption: 'Caption', term_description: 'Category description', term_name: 'Name', user_description: 'Author bio', noindex: 'Noindex', post_status: 'Publish status',
 		nofollow: 'Nofollow', canonical: 'Canonical URL', product_tags: 'Product tags', robots_txt: 'robots.txt',
 	};
 	SL.fieldLabel = function ( f ) {

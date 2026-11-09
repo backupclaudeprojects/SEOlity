@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEOlity 1.0.0\n"
-"POT-Creation-Date: 2026-11-07 12:33+0000\n"
+"POT-Creation-Date: 2026-11-09 13:45+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1243,6 +1243,9 @@ msgstr ""
 msgid "404 Monitor"
 msgstr ""
 
+msgid "Index coverage"
+msgstr ""
+
 msgid "Indexability & crawl budget"
 msgstr ""
 
@@ -2021,6 +2024,9 @@ msgstr ""
 msgid "Not a valid e-mail address: %s"
 msgstr ""
 
+msgid "Choose the ZIP files exported from Search Console."
+msgstr ""
+
 msgid "Unknown secret."
 msgstr ""
 
@@ -2300,6 +2306,9 @@ msgstr ""
 msgid "Merged into the primary article: keep it out of the index and the sitemap (it is not deleted)."
 msgstr ""
 
+msgid "Merged and redirected: unpublished so it leaves the sitemap (kept as a draft, not deleted)."
+msgstr ""
+
 msgid "Internal link now points straight at the merged article."
 msgstr ""
 
@@ -2311,6 +2320,9 @@ msgid "Left out:"
 msgstr ""
 
 msgid "Order: merged article first; the old articles get noindex, a 301 and updated internal links only after the merge was saved and verified. Nothing is deleted and every edit keeps a WordPress revision."
+msgstr ""
+
+msgid "Only “publish” and “draft” can be set."
 msgstr ""
 
 msgid "FAQ must be valid JSON."
@@ -3022,6 +3034,281 @@ msgid "Changing %1$s on %2$s pages moved %3$s by %4$s on average (%5$d experimen
 msgstr ""
 
 msgid "Frequently asked questions"
+msgstr ""
+
+msgid "Not a Search Console “Pages” export."
+msgstr ""
+
+msgid "Search Console indexing exports imported"
+msgstr ""
+
+#, php-format
+msgid "%d files"
+msgstr ""
+
+msgid "This server cannot open ZIP files (PHP zip extension). Unzip and upload the CSV files instead."
+msgstr ""
+
+msgid "The ZIP file could not be opened."
+msgstr ""
+
+msgid "No Search Console CSV found in this file."
+msgstr ""
+
+#, php-format
+msgid "%1$d of these URLs are excluded on purpose (%2$s) — this is correct, nothing to fix."
+msgstr ""
+
+msgid "Feeds, cart / checkout / account, add-to-cart links, tracking parameters, theme internals and internal search should stay out of Google. Do not press “Validate fix” for them."
+msgstr ""
+
+#, php-format
+msgid "%d pages have noindex but do not look like system pages — check whether they should be in Google."
+msgstr ""
+
+msgid "Landing pages or category pages with noindex cannot rank. If a page redirects anyway, take it out of the menus and links instead."
+msgstr ""
+
+#, php-format
+msgid "%d real pages are not indexed yet — Google did not find them valuable or important enough."
+msgstr ""
+
+msgid "Improve them (unique depth, answer the query better, E-E-A-T), link to them from strong pages and the menu, check they are in the sitemap, then request indexing in URL Inspection."
+msgstr ""
+
+#, php-format
+msgid "%d published pages are blocked by robots.txt."
+msgstr ""
+
+msgid "Google cannot crawl them. Remove the matching Disallow rule (Robots.txt page) unless they are meant to be private."
+msgstr ""
+
+#, php-format
+msgid "%d pages are seen by Google as duplicates of another page."
+msgstr ""
+
+msgid "Usually two articles on the same topic (cannibalization) or URL variants. See “Duplicate & similar articles”: merge, differentiate or set a canonical."
+msgstr ""
+
+#, php-format
+msgid "Validation of “%s” failed."
+msgstr ""
+
+msgid "Validation fails when some URLs still have the reason — normal for intentional exclusions (noindex system pages, junk 404s). Only validate after fixing the real pages listed here."
+msgstr ""
+
+msgid "feeds"
+msgstr ""
+
+msgid "cart, checkout, account pages"
+msgstr ""
+
+msgid "add-to-cart links"
+msgstr ""
+
+msgid "tracking parameters"
+msgstr ""
+
+msgid "comment reply links"
+msgstr ""
+
+msgid "theme / builder internals"
+msgstr ""
+
+msgid "WordPress system URLs"
+msgstr ""
+
+msgid "internal search"
+msgstr ""
+
+msgid "author / tag / paged archives"
+msgstr ""
+
+msgid "robots.txt patterns read as URLs"
+msgstr ""
+
+#, php-format
+msgid "Published article “%s” redirects to another page"
+msgstr ""
+
+msgid "Its own address redirects (after a merge), but it is still published, so it stays in the sitemap and Search Console reports it. Make it a draft: visitors keep being redirected, it leaves the sitemap, nothing is deleted."
+msgstr ""
+
+msgid "Unpublish (keep the redirect)"
+msgstr ""
+
+msgid "The redirect error is gone now — press “Validate fix” in Search Console."
+msgstr ""
+
+#, php-format
+msgid "Redirect chain of %d steps — point the first URL straight at the last one."
+msgstr ""
+
+#, php-format
+msgid "The redirect ends on an error page (HTTP %d)."
+msgstr ""
+
+msgid "The server answers with a redirect without a destination."
+msgstr ""
+
+msgid "Redirect loop: the URLs send visitors in a circle. Fix the rules so the old URL points at the live article."
+msgstr ""
+
+msgid "More than 8 redirects — Google stops following."
+msgstr ""
+
+#, php-format
+msgid "404 that probably belongs to “%s”"
+msgstr ""
+
+msgid "A 301 to the closest live page keeps its links and visitors. Check the suggestion before approving."
+msgstr ""
+
+msgid "Create 301 redirect"
+msgstr ""
+
+#, php-format
+msgid "%d deleted files are still linked"
+msgstr ""
+
+msgid "A PDF or image was removed from the media library but a page or menu still links to it. Upload it again or remove the link."
+msgstr ""
+
+#, php-format
+msgid "%d broken links contain a cut-off character (�)"
+msgstr ""
+
+msgid "Somewhere a link to an article was cut in the middle of a Persian letter. Find the link (Internal Links) and fix it, or redirect the broken address to the article."
+msgstr ""
+
+msgid "Its own address redirects, but it is still published: it stays in the sitemap and Search Console reports “Page with redirect” or “Redirect error”. Make it a draft (the redirect keeps working, nothing is deleted) — or delete the rule if the article should be live."
+msgstr ""
+
+msgid "Redirect chain"
+msgstr ""
+
+msgid "Point straight at the final page"
+msgstr ""
+
+msgid "Redirect probably points to the wrong article"
+msgstr ""
+
+#, php-format
+msgid "%1$s matches “%2$s” much better than the current destination."
+msgstr ""
+
+msgid "Point to the matching article"
+msgstr ""
+
+#, php-format
+msgid "%1$s: indexed %2$d → %3$d, not indexed %4$d → %5$d"
+msgstr ""
+
+msgid "Timeline"
+msgstr ""
+
+msgid "Changes on the site in the days before:"
+msgstr ""
+
+msgid "No SEOlity-recorded change in the days before (a theme, plugin or permalink change outside SEOlity, or Google re-evaluating)."
+msgstr ""
+
+#, php-format
+msgid "%d redirects created"
+msgstr ""
+
+#, php-format
+msgid "%d slugs changed"
+msgstr ""
+
+msgid "This finding has no automatic fix."
+msgstr ""
+
+msgid "Its address redirects to another page: unpublished so it leaves the sitemap (kept as a draft)."
+msgstr ""
+
+msgid "Paste the whole message text."
+msgstr ""
+
+msgid "Search Console message"
+msgstr ""
+
+msgid "Redirect error: Google followed a redirect that ended in a loop, a too-long chain, an empty or broken destination. Usually after changing article addresses twice or merging. Open Index coverage → the URL is traced live and the rule is fixed with your approval; then “Validate fix”."
+msgstr ""
+
+msgid "Page with redirect: the URL redirects — fine for old addresses, a problem only when it is a published page or still in the sitemap."
+msgstr ""
+
+msgid "Not found (404): deleted or mistyped URLs. Redirect the valuable ones (links, traffic) to the closest page; ignore junk."
+msgstr ""
+
+msgid "Soft 404: the page answers 200 but looks empty / not found to Google (empty category, out-of-stock template). Add content or return a real 404/410."
+msgstr ""
+
+msgid "Excluded by noindex: correct for cart, account and archives; check landing and category pages."
+msgstr ""
+
+msgid "Blocked by robots.txt: correct for add-to-cart, feeds and system URLs; a problem only for real pages."
+msgstr ""
+
+msgid "Crawled – currently not indexed: Google saw the page and decided not to index it yet (quality, duplication, weak internal links). Feeds in this list are normal."
+msgstr ""
+
+msgid "Discovered – currently not indexed: Google knows the URL but has not crawled it (crawl budget, weak links, slow server)."
+msgstr ""
+
+msgid "Server error (5xx): the server failed while Google crawled — check hosting limits, firewall and uptime first."
+msgstr ""
+
+msgid "Google chose a different canonical: two pages look the same to Google — merge or differentiate them."
+msgstr ""
+
+msgid "Upload the export of this reason (Search Console → Pages → the reason → Export → Download ZIP) on the Index coverage page so SEOlity can see the URLs."
+msgstr ""
+
+msgid "A manual action is a penalty by a Google reviewer — the most serious message. Open Search Console → Security & Manual actions, fix every listed issue, then request a review."
+msgstr ""
+
+msgid "Security issue: the site may be hacked. Scan files and users, update everything, then request a review in Search Console."
+msgstr ""
+
+msgid "Core Web Vitals: real visitors find some pages slow or jumpy. See Site Audit → Core Web Vitals and Server & speed."
+msgstr ""
+
+msgid "Structured data issue: some rich-result markup is invalid or incomplete. See Schema."
+msgstr ""
+
+msgid "Sitemap problem: Google could not read a sitemap. Check Sitemap (address, errors, size)."
+msgstr ""
+
+msgid "SEOlity stored the message; the AI explains it in a moment."
+msgstr ""
+
+msgid "AI explanation of the Search Console message"
+msgstr ""
+
+msgid "AI analysis of index coverage"
+msgstr ""
+
+msgid "Plan (added to the SEO roadmap):"
+msgstr ""
+
+#, php-format
+msgid "New reason prevents pages from being indexed: %s"
+msgstr ""
+
+msgid "Found by SEOlity’s daily Google URL Inspection of your own pages (before Search Console e-mails about it):"
+msgstr ""
+
+#, php-format
+msgid "Google reports %2$d errors in sitemap %1$s"
+msgstr ""
+
+msgid "Open Sitemap and Search Console → Sitemaps to see which entries Google could not use."
+msgstr ""
+
+#, php-format
+msgid "%d new redirect problems"
 msgstr ""
 
 msgid "Enter your Google OAuth Client ID and Client Secret first."
@@ -4991,27 +5278,94 @@ msgstr ""
 msgid "Follow-up"
 msgstr ""
 
-#, php-format
-msgid "%1$s: clicks %2$d → %3$d, position %4$s → %5$s"
+msgid "Positive: it worked."
 msgstr ""
 
-msgid "It got better."
-msgstr ""
-
-msgid "It got worse — worth a look."
+msgid "Negative: it got worse — worth a look."
 msgstr ""
 
 msgid "No clear change yet."
 msgstr ""
 
+msgid "Not enough Search Console data to judge yet."
+msgstr ""
+
+msgid "high"
+msgstr ""
+
+msgid "medium"
+msgstr ""
+
+msgid "low"
+msgstr ""
+
+msgid "too little data"
+msgstr ""
+
 #, php-format
-msgid "Result of “%2$s” (since %1$s)"
+msgid "(confidence: %s)"
+msgstr ""
+
+#, php-format
+msgid "Compared %1$d days after the change with the same %1$d days before it (%2$s → %3$s)."
+msgstr ""
+
+msgid "Partial: Search Console data is not complete yet."
+msgstr ""
+
+#, php-format
+msgid "Clicks: %1$d → %2$d (expected from the site trend: %3$s, difference %4$s%%)"
+msgstr ""
+
+#, php-format
+msgid "Impressions: %1$d → %2$d (difference to the site trend %3$s%%)"
+msgstr ""
+
+#, php-format
+msgid "Average position: %1$s → %2$s"
+msgstr ""
+
+#, php-format
+msgid "Whole site in the same time: clicks %1$s%%, impressions %2$s%%"
+msgstr ""
+
+#, php-format
+msgid "%1$s: clicks %2$d → %3$d, position %4$s → %5$s"
+msgstr ""
+
+msgid "This is an early warning: if the drop continues at the next check, consider undoing the change (AI Changes → Undo)."
+msgstr ""
+
+#, php-format
+msgid "Day %1$d result of “%2$s”"
+msgstr ""
+
+msgid "Follow-ups"
+msgstr ""
+
+msgid "Ask the AI what to do next"
+msgstr ""
+
+msgid "The change (undo possible)"
 msgstr ""
 
 msgid "Goal:"
 msgstr ""
 
-msgid "Ask the AI what to do next"
+msgid "Why:"
+msgstr ""
+
+msgid "Next steps (added to the SEO roadmap):"
+msgstr ""
+
+msgid "The AI recommends undoing this change (AI Changes → Undo)."
+msgstr ""
+
+msgid "Lesson for this site:"
+msgstr ""
+
+#, php-format
+msgid "AI analysis of “%s”"
 msgstr ""
 
 msgid "Applied change"
@@ -5071,9 +5425,6 @@ msgid "To"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
-
-msgid "Create 301 redirect"
 msgstr ""
 
 msgid "Redirect created."
@@ -6036,6 +6387,24 @@ msgstr ""
 msgid "Synced: %1$s bundled, %2$s from GitHub."
 msgstr ""
 
+msgid "Automatic (Iran for a .ir / Persian site)"
+msgstr ""
+
+msgid "Iran — Iranian search market"
+msgstr ""
+
+msgid "International"
+msgstr ""
+
+msgid "Saved."
+msgstr ""
+
+msgid "SEO market"
+msgstr ""
+
+msgid "SEO in Iran works differently (Persian language issues, Torob / Digikala / Basalam, eNamad, reportage links, hosting and filtering limits, Iranian seasons). With “Iran” the AI uses the Iranian knowledge first; with “International” the global documents."
+msgstr ""
+
 msgid "Collect knowledge for this site"
 msgstr ""
 
@@ -6939,6 +7308,136 @@ msgstr ""
 msgid "Connected"
 msgstr ""
 
+msgid "Why Google does or does not index your pages: Search Console exports and messages, Google’s own URL Inspection, redirects — explained, with fixes you approve."
+msgstr ""
+
+msgid "AI analysis"
+msgstr ""
+
+msgid "The AI is analysing the indexing data — the result arrives as a notification and here."
+msgstr ""
+
+msgid "Search Console exports"
+msgstr ""
+
+msgid "Search Console → Indexing → Pages → Export (top right) → Download ZIP. This is the summary with the timeline."
+msgstr ""
+
+msgid "Click each reason in the list “Why pages aren’t indexed” → Export → Download ZIP. These contain the URLs."
+msgstr ""
+
+msgid "Choose all ZIP files here at once. Re-upload whenever Search Console e-mails you."
+msgstr ""
+
+msgid "Upload & analyse"
+msgstr ""
+
+#, php-format
+msgid "Imported. %d findings."
+msgstr ""
+
+#, php-format
+msgid "Last summary: %s"
+msgstr ""
+
+msgid "Google offers no API for this report, so SEOlity reads the exports you download."
+msgstr ""
+
+msgid "Indexed vs not indexed"
+msgstr ""
+
+msgid "Indexed"
+msgstr ""
+
+msgid "Not indexed"
+msgstr ""
+
+#, php-format
+msgid "Validation: %s"
+msgstr ""
+
+msgid "Needs attention — see the findings below."
+msgstr ""
+
+msgid "Checked: nothing harmful found."
+msgstr ""
+
+msgid "Export this reason too to see its URLs."
+msgstr ""
+
+msgid "Why pages aren’t indexed"
+msgstr ""
+
+msgid "Problem"
+msgstr ""
+
+msgid "Check"
+msgstr ""
+
+msgid "OK"
+msgstr ""
+
+msgid "Plan (added to the SEO roadmap)"
+msgstr ""
+
+msgid "Findings"
+msgstr ""
+
+msgid "Nothing found yet"
+msgstr ""
+
+msgid "Upload the Search Console exports, or wait for the daily index watch."
+msgstr ""
+
+#, php-format
+msgid "%d URLs"
+msgstr ""
+
+msgid "Nothing changes until you approve."
+msgstr ""
+
+msgid "Fix"
+msgstr ""
+
+msgid "From the exports and SEOlity’s own data (redirects, posts, changes)."
+msgstr ""
+
+msgid "Paste the whole e-mail from Search Console here (e.g. “New reasons prevent pages in a sitemap from being indexed…”)."
+msgstr ""
+
+msgid "The AI explanation arrives in a moment as a notification."
+msgstr ""
+
+msgid "Search Console messages"
+msgstr ""
+
+msgid "Google has no API for Search Console messages. Paste or forward the text and SEOlity explains it, connects it with your data and notifies you (also by e-mail). The daily index watch below finds most of these problems on its own."
+msgstr ""
+
+msgid "Read the message"
+msgstr ""
+
+msgid "Message stored — see Notifications."
+msgstr ""
+
+msgid "Daily index watch (Google URL Inspection)"
+msgstr ""
+
+#, php-format
+msgid "Every day SEOlity asks Google about %d of your pages in turn (Settings → Crawler) and notifies you when a new reason appears — like Search Console’s e-mails, often earlier. It also watches the sitemap and the redirect rules."
+msgstr ""
+
+#, php-format
+msgid "%d pages checked so far."
+msgstr ""
+
+#, php-format
+msgid "%d pages with a problem"
+msgstr ""
+
+msgid "Check now"
+msgstr ""
+
 msgid "Needs configuration"
 msgstr ""
 
@@ -7045,9 +7544,6 @@ msgid "Requests answered by"
 msgstr ""
 
 msgid "Last result"
-msgstr ""
-
-msgid "OK"
 msgstr ""
 
 msgid "Detected paths (administrators only)"
@@ -7826,7 +8322,26 @@ msgstr ""
 msgid "E-mail failed"
 msgstr ""
 
-msgid "SEOlity measures these pages and queries again on the date shown and sends you the result. Every applied change gets one automatically (after 28 days); the AI chat adds one whenever you ask it to check something later."
+msgid "Every applied change is measured on day 7, 14, 28 and once more later: the same number of days after the change against before it, corrected by the whole site’s trend. Clear early results and every main result are sent to you (also by e-mail); the AI explains the result and puts the next steps on the SEO roadmap."
+msgstr ""
+
+#, php-format
+msgid "Search Console data available until %s."
+msgstr ""
+
+msgid "What worked on this site"
+msgstr ""
+
+msgid "Change type"
+msgstr ""
+
+msgid "Clicks vs site trend"
+msgstr ""
+
+msgid "Position gain"
+msgstr ""
+
+msgid "The AI uses this record when it plans new changes."
 msgstr ""
 
 msgid "No follow-ups yet"
@@ -7835,31 +8350,48 @@ msgstr ""
 msgid "Ask the AI chat “check this again in a month”, or apply a change."
 msgstr ""
 
-msgid "Better"
-msgstr ""
-
-msgid "Worse"
-msgstr ""
-
 msgid "No clear change"
 msgstr ""
 
-msgid "Checked"
+msgid "Too little data"
+msgstr ""
+
+msgid "Not measured yet"
 msgstr ""
 
 #, php-format
-msgid "Check on %s"
+msgid "Day %d"
 msgstr ""
 
 #, php-format
-msgid "clicks %1$s → %2$s, position %3$s → %4$s"
+msgid "Clicks %1$s → %2$s (expected from the site trend %3$s, %4$s%%)"
+msgstr ""
+
+#, php-format
+msgid "Impressions %1$s → %2$s (%3$s%% vs site trend)"
+msgstr ""
+
+#, php-format
+msgid "Average position %1$s → %2$s"
+msgstr ""
+
+#, php-format
+msgid "Whole site: clicks %1$s%%, impressions %2$s%% · confidence: %3$s"
+msgstr ""
+
+#, php-format
+msgid "Changed on %s"
+msgstr ""
+
+#, php-format
+msgid "Next check %s"
 msgstr ""
 
 #, php-format
 msgid "Created %s"
 msgstr ""
 
-msgid "Check now"
+msgid "Measure now"
 msgstr ""
 
 msgid "Right away, one e-mail per notification"
@@ -7903,9 +8435,6 @@ msgid "Mark all as read"
 msgstr ""
 
 msgid "All"
-msgstr ""
-
-msgid "Follow-ups"
 msgstr ""
 
 msgid "E-mail"
@@ -7993,9 +8522,6 @@ msgid "Internal links in"
 msgstr ""
 
 msgid "Click depth"
-msgstr ""
-
-msgid "Check"
 msgstr ""
 
 msgid "Value"
@@ -8892,9 +9418,6 @@ msgstr ""
 msgid "Save credentials"
 msgstr ""
 
-msgid "Saved."
-msgstr ""
-
 msgid "Step 2 — Connect your Google account"
 msgstr ""
 
@@ -9541,9 +10064,6 @@ msgstr ""
 msgid "Run it to see what Google can index on this site."
 msgstr ""
 
-msgid "Findings"
-msgstr ""
-
 msgid "High severity"
 msgstr ""
 
@@ -10084,9 +10604,6 @@ msgstr ""
 msgid "Show"
 msgstr ""
 
-msgid "Fix"
-msgstr ""
-
 msgid "Checking experience, expertise, authority and trust signals…"
 msgstr ""
 
@@ -10165,6 +10682,9 @@ msgstr ""
 msgid "Noindex"
 msgstr ""
 
+msgid "Publish status"
+msgstr ""
+
 msgid "Nofollow"
 msgstr ""
 
@@ -10238,6 +10758,12 @@ msgid "Cache AI answers (hours)"
 msgstr ""
 
 msgid "Content language"
+msgstr ""
+
+msgid "SEO market (methods differ in Iran)"
+msgstr ""
+
+msgid "Daily Google URL Inspection (pages per day, 0 = off)"
 msgstr ""
 
 msgid "Brand voice & editorial rules"
@@ -10440,15 +10966,6 @@ msgid "fr"
 msgstr ""
 
 msgid "es"
-msgstr ""
-
-msgid "low"
-msgstr ""
-
-msgid "medium"
-msgstr ""
-
-msgid "high"
 msgstr ""
 
 msgid "xhigh"
@@ -10667,9 +11184,6 @@ msgstr ""
 msgid "Mobile"
 msgstr ""
 
-msgid "International"
-msgstr ""
-
 msgid "Gsc"
 msgstr ""
 
@@ -10680,6 +11194,15 @@ msgid "outofstock"
 msgstr ""
 
 msgid "onbackorder"
+msgstr ""
+
+msgid "iran"
+msgstr ""
+
+msgid "international"
+msgstr ""
+
+msgid "insufficient"
 msgstr ""
 
 #, php-format

@@ -39,9 +39,22 @@ final class KnowledgeBase {
 		$this->plugin = $plugin;
 	}
 
+	/**
+	 * The search market SEOlity works for: Settings → AI "SEO market" (iran / international);
+	 * "auto" = Iran for a .ir domain, a Persian site or Persian AI content, otherwise international.
+	 */
+	public function market() {
+		$m = (string) $this->plugin->settings->get( 'seo_market' );
+		if ( in_array( $m, array( 'iran', 'international' ), true ) ) {
+			return $m;
+		}
+		$host = (string) wp_parse_url( home_url(), PHP_URL_HOST );
+		return '.ir' === substr( $host, -3 ) || 0 === strpos( get_locale(), 'fa' ) || 'fa' === $this->plugin->settings->get( 'ai_content_language' ) ? 'iran' : 'international';
+	}
+
 	/** Parse optional YAML-ish front matter. */
 	public static function parse( $markdown, $path ) {
-		$meta = array( 'title' => '', 'lang' => '', 'topic' => '', 'tags' => '' );
+		$meta = array( 'title' => '', 'lang' => '', 'topic' => '', 'tags' => '', 'market' => '' );
 		if ( preg_match( '/^---\s*\n(.*?)\n---\s*\n/s', $markdown, $m ) ) {
 			foreach ( explode( "\n", $m[1] ) as $line ) {
 				if ( preg_match( '/^([a-z_]+)\s*:\s*(.+)$/i', trim( $line ), $kv ) ) {
@@ -62,6 +75,14 @@ final class KnowledgeBase {
 		if ( '' === $meta['topic'] ) {
 			$parts         = explode( '/', trim( $path, '/' ) );
 			$meta['topic'] = count( $parts ) > 1 ? $parts[ count( $parts ) - 2 ] : 'general';
+		}
+		// Market of the document (iran | international | all): stored as a tag "market-…".
+		$market = strtolower( trim( $meta['market'] ) );
+		if ( '' === $market && preg_match( '#(^|/)(iran|international)/#', $path, $mm ) ) {
+			$market = $mm[2];
+		}
+		if ( in_array( $market, array( 'iran', 'international' ), true ) ) {
+			$meta['tags'] = trim( 'market-' . $market . ', ' . $meta['tags'], ', ' );
 		}
 		return array( $meta, $markdown );
 	}
@@ -220,6 +241,7 @@ final class KnowledgeBase {
 			}
 		}
 		$terms     = array_keys( Text::term_frequencies( $query ) );
+		$market    = $this->market();
 		$content   = (string) $this->plugin->settings->get( 'ai_content_language' );
 		$site_lang = 'auto' !== $content && '' !== $content ? $content : ( '' !== trim( $query ) ? Text::lang( $query ) : ( 0 === strpos( get_locale(), 'fa' ) ? 'fa' : 'en' ) );
 		$site_lang = 'fa' === $site_lang ? 'fa' : 'en'; // Bundled knowledge exists in Persian and English.
@@ -235,6 +257,10 @@ final class KnowledgeBase {
 			$score += 0 === strpos( $r['path'], $site ) ? 2.5 : 0; // Knowledge about THIS site beats generic advice.
 			$score += $r['lang'] === $site_lang ? 1.5 : 0;
 			$score += 'github' === $r['source'] ? 0.3 : 0; // Fresher distilled knowledge.
+			// The chosen search market: its own methods first, the other market's documents only when nothing else fits.
+			if ( false !== strpos( $r['tags'], 'market-' ) ) {
+				$score += false !== strpos( $r['tags'], 'market-' . $market ) ? 3 : -4;
+			}
 			$hay    = Text::normalize( $r['title'] . ' ' . $r['tags'] . ' ' . $r['content'] );
 			$title  = Text::normalize( $r['title'] );
 			foreach ( $terms as $t ) {

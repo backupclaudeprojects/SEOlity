@@ -47,3 +47,7 @@ its `tags` matches.
 3. State guidance as rules an AI can follow ("Do… / Avoid… / Because…"), with concrete thresholds
    only when a primary source supports them.
 4. Keep each `##` section self-contained: it may be retrieved alone.
+
+
+## Market (1.16)
+Documents can declare `market: iran` or `market: international` in the front matter (or live in an `iran/` or `international/` folder). SEOlity prefers the market chosen in Settings → AI / Knowledge Base ("SEO market"); documents without a market apply to both.

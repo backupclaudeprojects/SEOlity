@@ -145,7 +145,7 @@ final class Settings {
 			'alert_email_enabled'  => array( 'bool', false ),
 			'alert_emails'         => array( 'string', '' ), // Several recipients, comma separated.
 			'alert_email_mode'     => array( 'enum', 'instant', array( 'instant', 'digest' ) ),
-			'alert_email_kinds'    => array( 'string', 'warning,result,ai' ),
+			'alert_email_kinds'    => array( 'string', 'warning,result,success,ai' ),
 			'alert_drop_percent'   => array( 'int', 25, array( 5, 90 ) ),
 			'report_frequency'     => array( 'enum', 'weekly', array( 'none', 'daily', 'weekly', 'monthly' ) ),
 			'report_recipients'    => array( 'list', array() ),
@@ -173,6 +173,10 @@ final class Settings {
 			'kb_branch'            => array( 'string', 'main' ),
 			'kb_path'              => array( 'string', 'seolity/knowledge' ),
 			'kb_auto_sync'         => array( 'bool', true ),
+			// Which search market the SEO knowledge and the AI work for (methods differ in Iran).
+			'seo_market'           => array( 'enum', 'auto', array( 'auto', 'iran', 'international' ) ),
+			// Daily Google URL Inspection of sitemap URLs (detects new indexing reasons like Search Console e-mails).
+			'index_watch_daily'    => array( 'int', 60, array( 0, 500 ) ),
 			'kb_contribute'        => array( 'bool', false ),
 			// GitHub data storage.
 			'storage_enabled'      => array( 'bool', true ),

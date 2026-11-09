@@ -135,6 +135,7 @@ final class Plugin {
 			'meta'            => Content\MetaStore::class,
 			'importance'      => Content\PageImportance::class,
 			'followups'       => Watch\FollowUps::class,
+			'coverage'        => GSC\Coverage::class,
 			'chat_actions'    => Chat\ChatActions::class,
 			'changes'         => Content\ChangeManager::class,
 			'optimizer'       => Content\Optimizer::class,

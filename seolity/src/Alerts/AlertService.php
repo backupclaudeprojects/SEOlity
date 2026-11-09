@@ -110,8 +110,12 @@ final class AlertService {
 	}
 
 	public function email_kinds() {
-		$k = array_intersect( array_map( 'trim', explode( ',', (string) $this->plugin->settings->get( 'alert_email_kinds' ) ) ), self::KINDS );
-		return $k ? array_values( $k ) : array( 'warning', 'result', 'ai' );
+		$raw = (string) $this->plugin->settings->get( 'alert_email_kinds' );
+		if ( 'warning,result,ai' === $raw ) {
+			$raw .= ',success'; // 1.14 default: positive results ("Good news") were never e-mailed.
+		}
+		$k = array_intersect( array_map( 'trim', explode( ',', $raw ) ), self::KINDS );
+		return $k ? array_values( $k ) : array( 'warning', 'result', 'success', 'ai' );
 	}
 
 	/**

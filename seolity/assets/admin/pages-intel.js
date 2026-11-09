@@ -650,32 +650,68 @@
 
 	function followUps( box ) {
 		App.load( box, SL.api( 'follow-ups' ), function ( r ) {
-			box.appendChild( h( 'p', { class: 'sl-muted', text: t( 'SEOlity measures these pages and queries again on the date shown and sends you the result. Every applied change gets one automatically (after 28 days); the AI chat adds one whenever you ask it to check something later.' ) } ) );
+			box.appendChild( h( 'p', { class: 'sl-muted', text: t( 'Every applied change is measured on day 7, 14, 28 and once more later: the same number of days after the change against before it, corrected by the whole site’s trend. Clear early results and every main result are sent to you (also by e-mail); the AI explains the result and puts the next steps on the SEO roadmap.' ) } ) );
+			if ( r.data_until ) {
+				box.appendChild( h( 'p', { class: 'sl-muted sl-small', text: t( 'Search Console data available until %s.', r.data_until ) } ) );
+			}
+			if ( ( r.learnings || [] ).length ) {
+				box.appendChild( App.card( t( 'What worked on this site' ), App.table( [ { label: t( 'Change type' ), key: 'kind' }, { label: t( 'Measured' ), key: 'measured' }, { label: t( 'Positive' ), render: function ( l ) {
+					return null === l.success_rate ? '—' : l.success_rate + '%';
+				} }, { label: t( 'Clicks vs site trend' ), render: function ( l ) {
+					return null === l.avg_lift ? '—' : ( l.avg_lift > 0 ? '+' : '' ) + l.avg_lift + '%';
+				} }, { label: t( 'Position gain' ), render: function ( l ) {
+					return null === l.avg_pos_gain ? '—' : l.avg_pos_gain;
+				} } ], r.learnings ), { icon: 'flask', sub: t( 'The AI uses this record when it plans new changes.' ) } ) );
+			}
 			if ( ! r.items.length ) {
 				box.appendChild( SL.empty( t( 'No follow-ups yet' ), t( 'Ask the AI chat “check this again in a month”, or apply a change.' ) ) );
 				return;
 			}
+			var VN = { positive: [ t( 'Positive' ), '#16a34a' ], negative: [ t( 'Negative' ), '#dc2626' ], neutral: [ t( 'No clear change' ), '#2563eb' ], insufficient: [ t( 'Too little data' ), '#64748b' ] };
+			var CONF = { high: t( 'high' ), medium: t( 'medium' ), low: t( 'low' ), insufficient: t( 'too little data' ) };
 			var list = h( 'div', { class: 'sl-mapcards' } );
 			r.items.forEach( function ( f ) {
 				var done = 'waiting' !== f.status;
-				var v = done && f.result ? f.result.verdict : '';
-				var col = done ? ( 'better' === v ? '#16a34a' : ( 'worse' === v ? '#dc2626' : '#2563eb' ) ) : '#f59e0b';
+				var cps = f.checkpoints || [];
+				var last = cps.length ? cps[ cps.length - 1 ] : null;
+				var dv = last ? last.verdict : null;
+				var col = dv ? VN[ dv.verdict ][ 1 ] : '#f59e0b';
+				var timeline = h( 'div', { class: 'sl-chips' }, ( f.checkpoints_due || [] ).map( function ( day ) {
+					var c = cps.filter( function ( x ) {
+						return x.day === day;
+					} )[ 0 ];
+					return h( 'span', { class: 'sl-chip' + ( c ? ( 'positive' === c.verdict.verdict ? ' sl-chip--good' : ( 'negative' === c.verdict.verdict ? ' sl-chip--bad' : '' ) ) : '' ), title: c ? VN[ c.verdict.verdict ][ 0 ] : t( 'Not measured yet' ), text: t( 'Day %d', day ) + ( c ? ' · ' + VN[ c.verdict.verdict ][ 0 ] : '' ) } );
+				} ) );
+				var nums = dv ? h( 'ul', { class: 'sl-notice__lines' },
+					h( 'li', { text: t( 'Clicks %1$s → %2$s (expected from the site trend %3$s, %4$s%%)', dv.clicks.before, dv.clicks.after, dv.clicks.expected, ( dv.clicks.lift > 0 ? '+' : '' ) + dv.clicks.lift ) } ),
+					h( 'li', { text: t( 'Impressions %1$s → %2$s (%3$s%% vs site trend)', dv.impressions.before, dv.impressions.after, ( dv.impressions.lift > 0 ? '+' : '' ) + dv.impressions.lift ) } ),
+					null !== dv.position.gain ? h( 'li', { text: t( 'Average position %1$s → %2$s', dv.position.before, dv.position.after ) } ) : null,
+					h( 'li', { class: 'sl-muted', text: t( 'Whole site: clicks %1$s%%, impressions %2$s%% · confidence: %3$s', ( dv.site_trend.clicks > 0 ? '+' : '' ) + dv.site_trend.clicks, ( dv.site_trend.impressions > 0 ? '+' : '' ) + dv.site_trend.impressions, CONF[ dv.confidence ] ) } )
+				) : null;
+				var ai = f.ai ? h( 'div', { class: 'sl-alert sl-alert--info' },
+					h( 'b', { text: t( 'AI analysis' ) } ),
+					h( 'p', { dir: 'auto', text: f.ai.summary } ),
+					( f.ai.next_actions || [] ).length ? h( 'ul', null, f.ai.next_actions.map( function ( a ) {
+						return h( 'li', { dir: 'auto', text: a.title } );
+					} ) ) : null,
+					f.ai.revert ? h( 'p', { class: 'sl-bad', text: t( 'The AI recommends undoing this change (AI Changes → Undo).' ) } ) : null
+				) : null;
 				list.appendChild( h( 'article', { class: 'sl-mapcard', style: '--c:' + col },
 					h( 'div', { class: 'sl-mapcard__head' },
-						h( 'span', { class: 'sl-mapcard__ic', 'aria-hidden': 'true' }, SL.icon( done ? 'chart' : 'calendar', 22 ) ),
-						h( 'div', { class: 'sl-mapcard__titles' }, h( 'b', { class: 'sl-mapcard__title', dir: 'auto', text: f.title } ), h( 'span', { class: 'sl-muted sl-small', dir: 'auto', text: f.goal || '' } ) ),
-						h( 'span', { class: 'sl-mapcard__status' }, h( 'b', { text: done ? ( { better: t( 'Better' ), worse: t( 'Worse' ), same: t( 'No clear change' ) }[ v ] || t( 'Checked' ) ) : t( 'Check on %s', f.check_at ) } ) )
+						h( 'span', { class: 'sl-mapcard__ic', 'aria-hidden': 'true' }, SL.icon( cps.length ? 'chart' : 'calendar', 22 ) ),
+						h( 'div', { class: 'sl-mapcard__titles' }, h( 'b', { class: 'sl-mapcard__title', dir: 'auto', text: f.title } ), h( 'span', { class: 'sl-muted sl-small', dir: 'auto', text: t( 'Changed on %s', f.change_date || SL.date( f.created_at ) ) + ( f.goal ? ' · ' + f.goal : '' ) } ) ),
+						h( 'span', { class: 'sl-mapcard__status' }, h( 'b', { text: dv ? VN[ dv.verdict ][ 0 ] : t( 'Next check %s', f.check_at ) } ) )
 					),
+					timeline,
 					h( 'div', { class: 'sl-chips' }, ( f.urls || [] ).map( function ( u ) {
 						return h( 'span', { class: 'sl-chip', dir: 'ltr', text: decodeURI( u.replace( /^https?:\/\/[^/]+/, '' ) ) } );
 					} ), ( f.queries || [] ).map( function ( q ) {
 						return h( 'span', { class: 'sl-chip', dir: 'auto', text: '«' + q + '»' } );
 					} ) ),
-					done && f.result ? h( 'ul', { class: 'sl-notice__lines' }, f.result.lines.map( function ( l ) {
-						return h( 'li', { dir: 'auto', text: ( 'pages' === l.kind ? decodeURI( l.key.replace( /^https?:\/\/[^/]+/, '' ) ) : '«' + l.key + '»' ) + ' — ' + t( 'clicks %1$s → %2$s, position %3$s → %4$s', l.before.clicks, l.after.clicks, null === l.before.position ? '—' : l.before.position, null === l.after.position ? '—' : l.after.position ) } );
-					} ) ) : null,
-					h( 'div', { class: 'sl-mapcard__foot' }, h( 'span', { class: 'sl-muted sl-small', text: t( 'Created %s', SL.date( f.created_at ) ) } ), h( 'div', { class: 'sl-mapcard__actions' },
-						! done ? App.abtn( t( 'Check now' ), function () {
+					nums,
+					ai,
+					h( 'div', { class: 'sl-mapcard__foot' }, h( 'span', { class: 'sl-muted sl-small', text: done ? t( 'Finished' ) : t( 'Created %s', SL.date( f.created_at ) ) } ), h( 'div', { class: 'sl-mapcard__actions' },
+						! done ? App.abtn( t( 'Measure now' ), function () {
 							return SL.api( 'follow-ups/' + f.id + '/check', { method: 'POST' } ).then( function () {
 								followUps( SL.clear( box ) );
 							} );
