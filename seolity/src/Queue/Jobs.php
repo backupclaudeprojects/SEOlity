@@ -33,6 +33,10 @@ final class Jobs {
 		$q->handler( 'coverage_review', static function ( $a ) use ( $p ) {
 			return $p->coverage->ai_review( isset( $a['message_id'] ) ? (string) $a['message_id'] : '' );
 		} );
+		$q->handler( 'site_brain_think', static function () use ( $p ) {
+			$p->learning->recompute();
+			return $p->brain->think(); // May throw Deferred: the queue waits for the answer.
+		} );
 		$q->handler( 'index_watch', static function () use ( $p ) {
 			$p->coverage->watch();
 			return true;
@@ -277,6 +281,11 @@ final class Jobs {
 		$q->push( 'alerts_check', array(), array( 'unique' => true, 'priority' => 5, 'delay' => 50 * MINUTE_IN_SECONDS ) );
 		// Follow-ups after the day's Search Console sync; the e-mail digest after everything else.
 		$q->push( 'follow_ups_check', array(), array( 'unique' => true, 'priority' => 9, 'delay' => 52 * MINUTE_IN_SECONDS ) );
+		// Weekly: the AI re-thinks what it has learned about the site.
+		if ( strtotime( (string) get_option( 'seolity_brain_last', '2000-01-01' ) ) < time() - 6 * DAY_IN_SECONDS ) {
+			update_option( 'seolity_brain_last', gmdate( 'Y-m-d H:i:s' ), false );
+			$q->push( 'site_brain_think', array(), array( 'unique' => true, 'priority' => 22, 'delay' => 80 * MINUTE_IN_SECONDS, 'max_attempts' => 3 ) );
+		}
 		// Google's own view of the sitemap URLs (URL Inspection) + redirect hygiene: new indexing reasons become notifications.
 		if ( $p->gsc_oauth->is_connected() ) {
 			$q->push( 'index_watch', array(), array( 'unique' => 'daily', 'priority' => 16, 'delay' => 35 * MINUTE_IN_SECONDS, 'max_attempts' => 1, 'timeout' => 900 ) );

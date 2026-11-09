@@ -22,7 +22,7 @@ DYNAMIC = ['manual', 'semi', 'autonomous', 'auto', 'on', 'off', 'fa', 'en', 'ar'
            'entity', 'positive', 'negative', 'neutral', 'inconclusive', 'post', 'term', 'user', 'attachment', 'site', 'publish', 'draft', 'future',
            'crawling', 'seeding', 'analyzing', 'missing_topic', 'missing_page', 'weak_page', 'noindex', 'redirect', 'canonicalized', 'error_404',
            'error_410', 'error_500', 'Indexation', 'Meta', 'Content', 'Links', 'Images', 'Schema', 'Performance', 'Security', 'Mobile',
-           'International', 'Technical', 'Gsc', 'Keywords', 'Competitors', 'Critical', 'High', 'Medium', 'Low', 'Info', 'instock', 'outofstock', 'onbackorder', 'iran', 'international', 'positive', 'negative', 'insufficient']
+           'International', 'Technical', 'Gsc', 'Keywords', 'Competitors', 'Critical', 'High', 'Medium', 'Low', 'Info', 'instock', 'outofstock', 'onbackorder', 'iran', 'international', 'teacher', 'friendly', 'professional', 'expert', 'positive', 'negative', 'insufficient']
 
 
 def js_strings():

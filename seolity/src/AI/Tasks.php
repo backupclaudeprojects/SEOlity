@@ -186,7 +186,7 @@ final class Tasks {
 				),
 			),
 			'seo_roadmap'        => array(
-				'version'      => 'seo_roadmap@1.1',
+				'version'      => 'seo_roadmap@1.2',
 				'max_tokens'   => 16000,
 				'topics'       => array( 'content', 'on-page', 'site-architecture', 'internal-linking', 'ctr', 'eeat', 'technical', 'indexing', 'content-strategy', 'topic-clusters', 'competitors', 'ecommerce' ),
 				'cache'        => false,
@@ -195,6 +195,8 @@ final class Tasks {
 					'2) items: return EVERY candidate (same key) plus at most 6 strategic tasks of your own (key "ai:" + short-slug, only when the data clearly supports them, e.g. a topic cluster, E-E-A-T pages, a content refresh plan). For each item: a clear title, priority (critical = blocks indexing/traffic now; high = big measurable gain; medium; low), phase (now = this week, week = next 2 weeks, month = this month, later), why (specific to this site, with numbers), expected_result, 3–6 concrete steps for THIS site (each with where = the exact WordPress / SEOlity menu path, e.g. "SEOLITY → Keywords & links → Internal Links" or "Posts → All Posts → Edit → Rank Math box"), done_when, impact and effort 1–100.' . "\n" .
 					'3) Stability: "previous_roadmap" is what the owner already follows. Keep each existing item’s priority and phase unless the facts changed materially (then set changed=true and explain in change_reason). Do not reword titles without reason. Items the owner marked done stay done unless the data shows the problem again. changes_note: one short paragraph on what changed since the previous roadmap (or "first roadmap").' . "\n" .
 					'4) problem_areas: facts.problem_areas scores every area of SEO (technical & indexing, on-page, internal links, content & cannibalization, speed, products, off-site) from the open issues. Rank the areas from where the site\'s problems mainly are to the least, and for each give a verdict of 1–2 sentences with the evidence (counts, affected URLs, the top problems) and what fixing it would bring. Off-site (backlinks, brand) is not measured — say what the competitor data suggests, marked as a hypothesis.' . "\n" .
+					'5) mission: the north star of this plugin is POSITION 1 on Google for the site\'s money queries. Pick 3–8 target queries from the facts (Search Console queries with business value, best near page 1), give the current position, who ranks first when the competitor / SERP data shows it (otherwise leave leader empty — never guess), the gap to close (content depth, links, CTR, intent, speed …) and the next move. goal: one motivating sentence. Order the roadmap so it leads to these positions.' . "\n" .
+					'6) wins: 3–8 specific, encouraging positives with numbers (growth, fixed problems, pages that already rank well, strengths competitors lack). Be meticulous and strict about problems, but always show the owner what is already going well.' . "\n" .
 					'Rules: white-hat only; never invent data, URLs or numbers that are not in the input; prefer fixing indexing and technical blockers before content; write in the site’s language.',
 				'schema'       => S::obj(
 					array(
@@ -203,6 +205,8 @@ final class Tasks {
 						'risks'         => S::arr( S::str() ),
 						'focus'         => S::arr( S::str() ),
 						'problem_areas' => S::arr( S::obj( array( 'area' => S::str(), 'rank' => S::int(), 'verdict' => S::str() ) ) ),
+						'mission'       => S::obj( array( 'goal' => S::str(), 'target_queries' => S::arr( S::obj( array( 'query' => S::str(), 'position' => S::num(), 'leader' => S::str(), 'gap' => S::str(), 'next_move' => S::str() ) ) ) ) ),
+						'wins'          => S::arr( S::str() ),
 						'items'         => S::arr(
 							S::obj(
 								array(
@@ -287,6 +291,23 @@ final class Tasks {
 						'next_actions' => S::arr( S::obj( array( 'title' => S::str(), 'why' => S::str(), 'category' => S::str(), 'impact' => S::int(), 'effort' => S::int() ) ) ),
 						'revert'       => S::bool(),
 						'lesson'       => S::str(),
+					)
+				),
+			),
+			'site_brain' => array(
+				'version'      => 'site_brain@1.0',
+				'max_tokens'   => 6000,
+				'topics'       => array( 'experiments', 'reporting', 'ctr', 'competitors', 'change-impact' ),
+				'cache'        => false,
+				'instructions' => 'You are the memory and judgement of this site\'s SEO. From the measured observations (each with a confidence) and your previous beliefs, write what you have LEARNED about what works on THIS site: beliefs with the evidence behind them and how sure you are (update or drop previous beliefs when the data changed); wins (what is going well — be generous but truthful); open_questions (what you are not sure about yet and what data would settle it); experiments to run next (idea, why, how to measure), all aimed at reaching position 1 for the money queries; and one strategy paragraph. Plain words for a non-technical owner. Never invent numbers that are not in the observations.',
+				'schema'       => S::obj(
+					array(
+						'summary'        => S::str(),
+						'beliefs'        => S::arr( S::obj( array( 'belief' => S::str(), 'evidence' => S::str(), 'confidence' => S::str( 'high | medium | low' ), 'implication' => S::str() ) ) ),
+						'wins'           => S::arr( S::str() ),
+						'open_questions' => S::arr( S::str() ),
+						'experiments'    => S::arr( S::obj( array( 'idea' => S::str(), 'why' => S::str(), 'measure' => S::str() ) ) ),
+						'strategy'       => S::str(),
 					)
 				),
 			),

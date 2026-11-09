@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEOlity 1.0.0\n"
-"POT-Creation-Date: 2026-11-09 13:45+0000\n"
+"POT-Creation-Date: 2026-11-09 14:27+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3030,7 +3030,86 @@ msgid "Experiment not found."
 msgstr ""
 
 #, php-format
-msgid "Changing %1$s on %2$s pages moved %3$s by %4$s on average (%5$d experiments, %6$d positive)."
+msgid "Changing %1$s on %2$s pages moved %3$s by %4$s on average (%5$d experiments, %6$d clearly positive)."
+msgstr ""
+
+#, php-format
+msgid "Last 28 days: %1$d clicks (%2$s%%) and %3$d impressions (%4$s%%) compared with the 28 days before."
+msgstr ""
+
+msgid "Sunday"
+msgstr ""
+
+msgid "Monday"
+msgstr ""
+
+msgid "Tuesday"
+msgstr ""
+
+msgid "Wednesday"
+msgstr ""
+
+msgid "Thursday"
+msgstr ""
+
+msgid "Friday"
+msgstr ""
+
+msgid "Saturday"
+msgstr ""
+
+#, php-format
+msgid "Most search clicks come on %1$s, fewest on %2$s — publish and post on social media a day before the busy day."
+msgstr ""
+
+#, php-format
+msgid "Titles and snippets attract more clicks than usual at positions %s — what you write in titles works."
+msgstr ""
+
+#, php-format
+msgid "Fewer clicks than usual at positions %s — rewrite titles and descriptions of those pages (CTR)."
+msgstr ""
+
+msgid "Question searches (what is, how to, benefits …)"
+msgstr ""
+
+msgid "Buying searches (buy, price …)"
+msgstr ""
+
+msgid "Brand searches"
+msgstr ""
+
+#, php-format
+msgid "%1$s: %2$d%% of impressions, %3$d clicks, CTR %4$s%%, average position %5$s."
+msgstr ""
+
+#, php-format
+msgid "Already position 1 for %1$d searches (%2$s) and top 3 for %3$d."
+msgstr ""
+
+#, php-format
+msgid "%1$d searches are on positions 4–15 with real demand — the shortest road to position 1: %2$s."
+msgstr ""
+
+#, php-format
+msgid "The 10 pages with the most clicks have about %1$d words and %3$d internal links each; the other pages about %2$d words and %4$d links."
+msgstr ""
+
+#, php-format
+msgid "%1$s %2$d%% (CTR %3$s%%, position %4$s)"
+msgstr ""
+
+#, php-format
+msgid "Applied changes of type “%1$s”: %2$d measured, %3$d%% positive, clicks %4$s%% vs the site trend."
+msgstr ""
+
+msgid "What SEOlity has learned about your site"
+msgstr ""
+
+msgid "Going well:"
+msgstr ""
+
+msgid "The site’s SEO brain"
 msgstr ""
 
 msgid "Frequently asked questions"
@@ -7883,28 +7962,74 @@ msgstr ""
 msgid "Analyze the edit history"
 msgstr ""
 
-msgid "Past edits (WordPress revisions) within your Search Console period are being measured in the background."
+msgid "Past edits (WordPress revisions) within your Search Console period are being measured — the list updates by itself."
 msgstr ""
 
 msgid "Evaluate now"
 msgstr ""
 
-msgid "Evaluation queued."
+msgid "Evaluating the due experiments — the list updates by itself."
+msgstr ""
+
+msgid "sure"
+msgstr ""
+
+msgid "fairly sure"
+msgstr ""
+
+msgid "early signal"
+msgstr ""
+
+msgid "Thinking…"
+msgstr ""
+
+msgid "Think again"
+msgstr ""
+
+msgid "The AI is thinking about everything it measured — the answer arrives here and as a notification."
+msgstr ""
+
+msgid "Going well"
+msgstr ""
+
+msgid "So:"
+msgstr ""
+
+msgid "Experiments worth running next"
+msgstr ""
+
+msgid "Not sure yet"
+msgstr ""
+
+msgid "Strategy to position 1:"
+msgstr ""
+
+#, php-format
+msgid "Thought on %s"
+msgstr ""
+
+msgid "The AI has not thought about these observations yet — press “Think again”."
+msgstr ""
+
+msgid "The site’s SEO brain — what it has learned"
+msgstr ""
+
+msgid "What the AI thinks"
+msgstr ""
+
+msgid "Measured from your own data"
+msgstr ""
+
+msgid "Not enough data yet"
+msgstr ""
+
+msgid "Connect Search Console and let it sync a few weeks."
+msgstr ""
+
+msgid "Strict about problems, generous about wins — everything here is used in every AI suggestion."
 msgstr ""
 
 msgid "Inconclusive"
-msgstr ""
-
-msgid "Site-Specific SEO Intelligence"
-msgstr ""
-
-msgid "win rate"
-msgstr ""
-
-msgid "Learning in progress"
-msgstr ""
-
-msgid "After a few experiments are evaluated, SEOlity learns which changes work best on your site and uses it in every AI suggestion."
 msgstr ""
 
 msgid "Edited in WordPress"
@@ -9001,102 +9126,119 @@ msgstr ""
 msgid "Studying the SEO knowledge base and writing the roadmap"
 msgstr ""
 
-msgid "Every problem on the site appears here once, in the order it should be fixed. Run a full analysis to update every section; each item can be done by AI (with a preview and your approval) or by hand, and gets a checkmark only after the result was verified on the site."
+msgid "Road to position 1"
 msgstr ""
 
-msgid "AI diagnosis and plan"
+msgid "One path from where your site is today to position 1 on Google. Every station is one area, in the order it should be done; click a station to see its tasks. Each task can be done by the AI (with a preview and your approval) or by hand, and is ticked only after the result was verified on the site."
 msgstr ""
 
-msgid "The last analysis failed:"
+msgid "Data & analysis"
 msgstr ""
 
-msgid "AI provider connected"
-msgstr ""
-
-msgid "Without AI the roadmap is still built from your data and the built-in guides."
-msgstr ""
-
-msgid "Needed for indexing, CTR, ranking and traffic tasks."
-msgstr ""
-
-msgid "Site audit done"
-msgstr ""
-
-msgid "Needed for technical and on-page tasks."
-msgstr ""
-
-msgid "Build your SEO roadmap"
-msgstr ""
-
-msgid "SEOlity will read all your data once, study the SEO knowledge base and write a prioritized plan — from new articles that still need indexing to technical fixes, content, links and products. Every task comes with the exact pages and a step-by-step guide in your dashboard."
-msgstr ""
-
-msgid "Analyze my site"
-msgstr ""
-
-msgid "Analyzing your site…"
-msgstr ""
-
-msgid "The AI is answering through GitHub — this page updates by itself."
+msgid "Position 1 on Google"
 msgstr ""
 
 #, php-format
-msgid "Elapsed: %s s · usually 1–3 minutes. You can leave this page; the analysis continues."
+msgid "%s: all clear"
 msgstr ""
 
-msgid "What changed since the previous analysis"
+msgid "of the way"
 msgstr ""
 
-msgid "New tasks:"
+msgid "Mission: position 1 on Google for your most valuable searches"
 msgstr ""
 
-msgid "Solved / gone:"
+#, php-format
+msgid "%1$s of %2$s stations cleared — keep going, every station brings you closer."
 msgstr ""
 
-msgid "No important changes since the previous analysis — the plan stays the same."
-msgstr ""
-
-msgid "Where the problems are (AI ranking)"
+msgid "What the AI guide says"
 msgstr ""
 
 msgid "Focus this week"
 msgstr ""
 
-msgid "Strengths"
-msgstr ""
-
 msgid "Risks"
 msgstr ""
 
-#, php-format
-msgid "%1$s of %2$s tasks done"
+msgid "Analysed"
+msgstr ""
+
+msgid "Run the full analysis"
+msgstr ""
+
+msgid "Reached — now defend it"
+msgstr ""
+
+msgid "The treasure"
+msgstr ""
+
+msgid "All clear"
 msgstr ""
 
 #, php-format
-msgid "Version %s"
+msgid "%s to do"
+msgstr ""
+
+msgid "Open the section"
+msgstr ""
+
+msgid "Everything in this station is done and verified. Great work — on to the next station."
+msgstr ""
+
+msgid "The AI’s strategy for this station"
+msgstr ""
+
+msgid "Nothing to do here"
+msgstr ""
+
+msgid "This area is clear."
+msgstr ""
+
+msgid "The journey starts with fresh data: SEOlity crawls the site, reads Search Console, finds every problem and the AI writes the plan. Run it again whenever you have made changes."
+msgstr ""
+
+msgid "Analysis running…"
+msgstr ""
+
+msgid "Run full-site analysis"
+msgstr ""
+
+msgid "Ask the AI to re-plan"
 msgstr ""
 
 #, php-format
-msgid "AI: %s"
+msgid "Last full analysis: %s"
 msgstr ""
 
-msgid "Built without AI"
+msgid "The last analysis failed:"
 msgstr ""
 
-#, php-format
-msgid "%1$s tasks · %2$s critical · %3$s high"
+msgid "The target: position 1 on Google for the searches that bring customers. The AI picks them from Search Console and checks who ranks above you."
 msgstr ""
 
-msgid "Re-analyze"
+msgid "Search"
 msgstr ""
 
-msgid "All categories"
+msgid "Now"
 msgstr ""
 
-msgid "Show done tasks"
+msgid "Who is #1"
 msgstr ""
 
-msgid "All tasks in this view are done. Press “Re-analyze” after your changes have been live for a while."
+msgid "Gap to close"
+msgstr ""
+
+msgid "Next move"
+msgstr ""
+
+msgid "No target searches yet"
+msgstr ""
+
+msgid "Run the full analysis — the AI then chooses the searches to win."
+msgstr ""
+
+msgid "Competitor details: "
 msgstr ""
 
 #, php-format
@@ -9104,15 +9246,6 @@ msgid "%s pages"
 msgstr ""
 
 msgid "AI strategy"
-msgstr ""
-
-msgid "Came back"
-msgstr ""
-
-msgid "In progress"
-msgstr ""
-
-msgid "Priority changed"
 msgstr ""
 
 msgid "Do it with AI"
@@ -9152,6 +9285,9 @@ msgstr ""
 msgid "To do"
 msgstr ""
 
+msgid "In progress"
+msgstr ""
+
 msgid "Resolved"
 msgstr ""
 
@@ -9164,14 +9300,19 @@ msgstr ""
 msgid "Gone after the last check"
 msgstr ""
 
-msgid "Analysis running…"
+msgid "AI recommendation:"
 msgstr ""
 
-msgid "Run full-site analysis"
+msgid "Result and verification"
 msgstr ""
 
-#, php-format
-msgid "Last full analysis: %s"
+msgid "View the change"
+msgstr ""
+
+msgid "Open in its section"
+msgstr ""
+
+msgid "Reopen"
 msgstr ""
 
 msgid "Crawl, Search Console, issues, indexability, duplicates, 404 targets and the AI plan — all sections updated in one run."
@@ -9194,26 +9335,8 @@ msgstr ""
 msgid "all clear"
 msgstr ""
 
-msgid "Open the section"
-msgstr ""
-
 #, php-format
 msgid "Step %s:"
-msgstr ""
-
-msgid "AI recommendation:"
-msgstr ""
-
-msgid "Result and verification"
-msgstr ""
-
-msgid "View the change"
-msgstr ""
-
-msgid "Open in its section"
-msgstr ""
-
-msgid "Reopen"
 msgstr ""
 
 #, php-format
@@ -9310,6 +9433,9 @@ msgid "Excluded (no data yet)"
 msgstr ""
 
 msgid "All severities"
+msgstr ""
+
+msgid "All categories"
 msgstr ""
 
 msgid "Fixed"
@@ -10760,6 +10886,9 @@ msgstr ""
 msgid "Content language"
 msgstr ""
 
+msgid "How the AI talks to you"
+msgstr ""
+
 msgid "SEO market (methods differ in Iran)"
 msgstr ""
 
@@ -11200,6 +11329,18 @@ msgid "iran"
 msgstr ""
 
 msgid "international"
+msgstr ""
+
+msgid "teacher"
+msgstr ""
+
+msgid "friendly"
+msgstr ""
+
+msgid "professional"
+msgstr ""
+
+msgid "expert"
 msgstr ""
 
 msgid "insufficient"

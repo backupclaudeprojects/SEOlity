@@ -166,6 +166,7 @@ final class Plugin {
 			'sitemap_map'     => Technical\SiteMap::class,
 			'experiments'     => Experiments\ExperimentService::class,
 			'learning'        => Experiments\Learning::class,
+			'brain'           => Experiments\SiteBrain::class,
 			'health'          => Health\HealthScore::class,
 			'alerts'          => Alerts\AlertService::class,
 			'briefing'        => Briefing\DailyBriefing::class,

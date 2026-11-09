@@ -117,6 +117,8 @@ final class Settings {
 			'ai_monthly_budget'    => array( 'float', 0.0, array( 0, 100000 ) ),
 			'ai_cache_hours'       => array( 'int', 72, array( 0, 2160 ) ),
 			'ai_content_language'  => array( 'enum', 'auto', array( 'auto', 'fa', 'en', 'ar', 'tr', 'de', 'fr', 'es' ) ),
+			// How the AI talks to the owner (chat, diagnoses, notifications) — not the tone of site content.
+			'ai_tone'              => array( 'enum', 'teacher', array( 'teacher', 'friendly', 'professional', 'expert' ) ),
 			'ai_brand_voice'       => array( 'text', '' ),
 			'ai_use_knowledge'     => array( 'bool', true ),
 			'ai_media_on_upload'   => array( 'bool', false ),
