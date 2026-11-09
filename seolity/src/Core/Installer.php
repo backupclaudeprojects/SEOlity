@@ -77,6 +77,8 @@ final class Installer {
 			update_option( 'seolity_plugin_version', SEOLITY_VERSION, false );
 			// New worker / runner code ships with updates: redeploy the worker and re-measure routes.
 			if ( function_exists( 'seolity' ) ) {
+				// The bundled SEO knowledge grows with every version: load the new documents.
+				seolity()->queue->push( 'knowledge_sync', array( 'bundled_only' => true ), array( 'unique' => true, 'priority' => 3 ) );
 				seolity()->queue->push( 'route_probe', array(), array( 'unique' => true, 'priority' => 6, 'delay' => 60 ) );
 			}
 		}

@@ -274,6 +274,37 @@ final class Tasks {
 					)
 				),
 			),
+			'change_impact_review' => array(
+				'version'      => 'change_impact_review@1.0',
+				'max_tokens'   => 4000,
+				'topics'       => array( 'experiments', 'reporting', 'change-impact' ),
+				'cache'        => false,
+				'instructions' => 'You review the measured result of a change applied to this site. The checkpoints compare equal windows before and after the change and correct for the site-wide trend (expected = before × site after / site before); the verdict has a confidence from the data volume. Explain in plain words for a non-technical owner what happened and why (consider: was there enough data, did the change type usually work on this site according to the learnings, seasonality, merged or redirected URLs whose traffic moved to the destination, indexing delays, query mix). Then plan the next steps as concrete actions with a category (indexability, technical, 404, duplicates, onpage, links, content, products, offpage, other), impact and effort 1-100. Recommend undoing the change only when the negative result is clear (medium/high confidence) and plausibly caused by the change. Give one short lesson for this site. Never invent numbers.',
+				'schema'       => S::obj(
+					array(
+						'summary'      => S::str(),
+						'causes'       => S::arr( S::str() ),
+						'next_actions' => S::arr( S::obj( array( 'title' => S::str(), 'why' => S::str(), 'category' => S::str(), 'impact' => S::int(), 'effort' => S::int() ) ) ),
+						'revert'       => S::bool(),
+						'lesson'       => S::str(),
+					)
+				),
+			),
+			'coverage_review' => array(
+				'version'      => 'coverage_review@1.0',
+				'max_tokens'   => 6000,
+				'topics'       => array( 'indexing', 'gsc-coverage', 'redirects', 'site-architecture' ),
+				'cache'        => true,
+				'instructions' => 'You analyse the Google Search Console page indexing data of this site (summary per reason, the URL lists per reason, the timeline of indexed / not indexed pages, the findings SEOlity already derived from its own data: published posts whose address redirects, redirect chains and wrong targets, slug variants, intentional exclusions) and, when given, a Search Console message. Explain for a non-technical owner, reason by reason, what is intentional and harmless versus a real problem, how important it is (impact on traffic), and what caused jumps in the timeline (relate them to the change events given). Then give a prioritised fix plan with concrete steps. Never recommend removing intentional exclusions (cart, checkout, account, feeds, add-to-cart, internal search, author/tag archives that are noindex). Never invent URLs or numbers.',
+				'schema'       => S::obj(
+					array(
+						'summary'  => S::str(),
+						'reasons'  => S::arr( S::obj( array( 'reason' => S::str(), 'status' => S::str( 'ok | check | problem' ), 'explanation' => S::str(), 'impact' => S::str() ) ) ),
+						'timeline' => S::str(),
+						'plan'     => S::arr( S::obj( array( 'title' => S::str(), 'why' => S::str(), 'category' => S::str(), 'priority' => S::str( 'critical | high | medium | low' ) ) ) ),
+					)
+				),
+			),
 			'ctr_rewrite'        => array(
 				'version'      => 'ctr_rewrite@1.1',
 				'max_tokens'   => 3000,

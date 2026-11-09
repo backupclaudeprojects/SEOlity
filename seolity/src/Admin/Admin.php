@@ -36,6 +36,7 @@ final class Admin {
 			'duplicates'  => array( __( 'Duplicate & similar articles', 'seolity' ), Capabilities::VIEW ),
 			'redirects'   => array( __( 'Redirects', 'seolity' ), Capabilities::VIEW ),
 			'404'         => array( __( '404 Monitor', 'seolity' ), Capabilities::VIEW ),
+			'coverage'    => array( __( 'Index coverage', 'seolity' ), Capabilities::VIEW ),
 			'indexability' => array( __( 'Indexability & crawl budget', 'seolity' ), Capabilities::VIEW ),
 			'schema'      => array( __( 'Schema', 'seolity' ), Capabilities::VIEW ),
 			'sitemap'     => array( __( 'Sitemap', 'seolity' ), Capabilities::VIEW ),
@@ -72,7 +73,7 @@ final class Admin {
 			array( 'data', __( 'Data collection', 'seolity' ), array( 'audit', 'gsc', 'competitors', 'knowledge' ) ),
 			array( 'content', __( 'Content', 'seolity' ), array( 'content', 'duplicates', 'products', 'images' ) ),
 			array( 'keywords', __( 'Keywords & links', 'seolity' ), array( 'keywords', 'rankmath', 'links' ) ),
-			array( 'technical', __( 'Technical SEO', 'seolity' ), array( 'redirects', '404', 'indexability', 'schema', 'sitemap', 'robots' ) ),
+			array( 'technical', __( 'Technical SEO', 'seolity' ), array( 'coverage', 'redirects', '404', 'indexability', 'schema', 'sitemap', 'robots' ) ),
 			array( 'connections', __( 'Connections', 'seolity' ), array( 'engines', 'subscription', 'github', 'cloudflare', 'network', 'guide' ) ),
 			array( 'settings', __( 'Settings', 'seolity' ), array( 'settings', 'settings-ai', 'settings-crawler', 'settings-reports', 'settings-technical', 'settings-schema', 'settings-privacy', 'automation' ) ),
 		);
@@ -160,7 +161,7 @@ final class Admin {
 		wp_enqueue_script( 'seolity-charts', SEOLITY_URL . 'assets/admin/charts.js', array(), SEOLITY_VERSION, true );
 		wp_enqueue_script( 'seolity-ui', SEOLITY_URL . 'assets/admin/ui.js', array( 'seolity-charts' ), SEOLITY_VERSION, true );
 		wp_enqueue_script( 'seolity-app', SEOLITY_URL . 'assets/admin/app.js', array( 'seolity-ui' ), SEOLITY_VERSION, true );
-		foreach ( array( 'pages-seo', 'pages-intel', 'pages-admin', 'pages-focus', 'pages-guide', 'pages-connect', 'pages-network', 'pages-roadmap', 'pages-chat', 'pages-activity', 'pages-ai', 'pages-ops', 'pages-tech', 'pages-comp', 'pages-map', 'pages-engines' ) as $module ) {
+		foreach ( array( 'pages-seo', 'pages-intel', 'pages-admin', 'pages-focus', 'pages-guide', 'pages-connect', 'pages-network', 'pages-roadmap', 'pages-chat', 'pages-activity', 'pages-ai', 'pages-ops', 'pages-tech', 'pages-comp', 'pages-map', 'pages-engines', 'pages-coverage' ) as $module ) {
 			wp_enqueue_script( 'seolity-' . $module, SEOLITY_URL . 'assets/admin/' . $module . '.js', array( 'seolity-app' ), SEOLITY_VERSION, true );
 		}
 		wp_localize_script( 'seolity-ui', 'SEOLITY', $this->js_config( $route ) );

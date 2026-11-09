@@ -347,12 +347,19 @@ final class Engine {
 			'- Locale: ' . get_locale(),
 			'- E-commerce: ' . ( class_exists( 'WooCommerce' ) ? 'WooCommerce store' : 'no' ),
 			'- Output language: ' . $language,
+			'- SEO market: ' . ( 'iran' === $this->plugin->knowledge->market() ? 'IRAN — the audience searches in Iran (Persian queries, Google dominant, Iranian marketplaces such as Torob, Digikala, Basalam and Emalls, eNamad trust badge, Toman prices, local hosting/CDN limits, reportage backlinks). Apply the Iran-market SEO knowledge first.' : 'INTERNATIONAL — global SEO practices (Google Search Central, Merchant Center, Business Profile, digital PR).' ),
 		);
 		$voice = trim( (string) $s->get( 'ai_brand_voice' ) );
 		if ( '' !== $voice ) {
 			$parts[] = '- Brand voice / editorial rules: ' . $voice;
 		}
 		$insights = $this->plugin->learning->prompt_insights();
+		foreach ( array_slice( $this->plugin->followups->learnings(), 0, 6 ) as $l ) {
+			if ( $l['measured'] >= 2 && null !== $l['success_rate'] ) {
+				/* Measured impact of applied changes, by type (Watch\FollowUps). */
+				$insights[] = sprintf( 'Changes of type "%s": %d measured, %d%% positive, average click lift vs site trend %s%%, average position gain %s.', $l['kind'], $l['measured'], $l['success_rate'], null === $l['avg_lift'] ? 'n/a' : $l['avg_lift'], null === $l['avg_pos_gain'] ? 'n/a' : $l['avg_pos_gain'] );
+			}
+		}
 		if ( $insights ) {
 			$parts[] = '';
 			$parts[] = 'SITE-SPECIFIC LEARNINGS (from measured SEO experiments on this site — prefer what worked here):';

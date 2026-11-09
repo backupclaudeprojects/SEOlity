@@ -42,10 +42,11 @@ final class Objects {
 		'noindex'          => 'high',
 		'nofollow'         => 'high',
 		'robots_txt'       => 'high',
+		'post_status'      => 'high',
 	);
 
 	const FIELDS_BY_TYPE = array(
-		'post'       => array( 'post_title', 'post_content', 'post_excerpt', 'post_name', 'meta_title', 'meta_description', 'focus_keyword', 'focus_keywords', 'pillar_content', 'social_title', 'social_description', 'canonical', 'noindex', 'nofollow', 'faq_schema', 'product_tags' ),
+		'post'       => array( 'post_title', 'post_content', 'post_excerpt', 'post_name', 'meta_title', 'meta_description', 'focus_keyword', 'focus_keywords', 'pillar_content', 'social_title', 'social_description', 'canonical', 'noindex', 'nofollow', 'faq_schema', 'product_tags', 'post_status' ),
 		'term'       => array( 'term_name', 'term_description', 'meta_title', 'meta_description', 'focus_keyword', 'focus_keywords', 'social_title', 'social_description', 'canonical', 'noindex' ),
 		'user'       => array( 'user_description' ),
 		'attachment' => array( 'alt', 'image_title', 'caption' ),
@@ -73,7 +74,7 @@ final class Objects {
 				if ( ! $post ) {
 					return null;
 				}
-				if ( in_array( $field, array( 'post_title', 'post_content', 'post_excerpt', 'post_name' ), true ) ) {
+				if ( in_array( $field, array( 'post_title', 'post_content', 'post_excerpt', 'post_name', 'post_status' ), true ) ) {
 					return (string) $post->$field;
 				}
 				if ( 'faq_schema' === $field ) {
@@ -128,6 +129,15 @@ final class Objects {
 		$value = (string) $value;
 		switch ( $type ) {
 			case 'post':
+				if ( 'post_status' === $field ) {
+					// Only publish <-> draft: used to take a merged (already redirected) article out of
+					// the sitemap and the WordPress lists without deleting it; undo publishes it again.
+					if ( ! in_array( $value, array( 'publish', 'draft' ), true ) ) {
+						return new \WP_Error( 'seolity_status', __( 'Only “publish” and “draft” can be set.', 'seolity' ) );
+					}
+					$res = wp_update_post( array( 'ID' => $id, 'post_status' => $value ), true );
+					return is_wp_error( $res ) ? $res : true;
+				}
 				if ( in_array( $field, array( 'post_title', 'post_content', 'post_excerpt', 'post_name' ), true ) ) {
 					$old_url = get_permalink( $id );
 					$data    = array( 'ID' => $id );

@@ -414,6 +414,15 @@ final class Operations {
 				$v      = $this->verifier->change( $this->plugin->changes->get( (int) $it['id'] ) );
 				return array( 'ok' => $v['ok'] && false !== $v['effective'], 'detail' => $v['detail'], 'verify' => $v );
 			case 'redirect':
+				if ( ! empty( $it['replace_id'] ) ) {
+					// Correct an existing rule (e.g. wrong target): remove it by id (also from Rank Math),
+					// remember it so undo puts it back exactly as it was.
+					$old = $this->plugin->db->row( 'SELECT * FROM {redirects} WHERE id = %d', array( (int) $it['replace_id'] ) );
+					if ( $old ) {
+						$roll[] = array( 'kind' => 'redirect_restore', 'source' => $old['source'], 'target' => $old['target'], 'type' => (int) $old['type'], 'origin' => $old['origin'] );
+						$this->plugin->redirects->delete( (int) $old['id'] );
+					}
+				}
 				$rid = $this->plugin->redirects->create( $it['source'], $it['target'], isset( $it['type'] ) ? (int) $it['type'] : 301, false, isset( $it['origin'] ) ? $it['origin'] : 'ai' );
 				if ( is_wp_error( $rid ) ) {
 					return array( 'ok' => false, 'detail' => $rid->get_error_message() );
@@ -534,6 +543,8 @@ final class Operations {
 					// The URL is a 404 again: back to the open list.
 					$this->plugin->db->update( 'not_found', array( 'status' => 'open' ), array( 'id' => (int) $r['not_found_id'] ) );
 				}
+			} elseif ( 'redirect_restore' === $r['kind'] ) {
+				$res = $this->plugin->redirects->create( $r['source'], $r['target'], (int) $r['type'], false, $r['origin'] );
 			} elseif ( 'nf_status' === $r['kind'] ) {
 				$this->plugin->db->update( 'not_found', array( 'status' => $r['before'] ), array( 'id' => (int) $r['id'] ) );
 				$res = true;

@@ -1087,7 +1087,53 @@ final class Router {
 			return $p->alerts->test_email();
 		} );
 		$this->route( 'GET', '/follow-ups', 'view', function () use ( $p ) {
-			return array( 'items' => $p->followups->all() );
+			return array( 'items' => $p->followups->all(), 'learnings' => $p->followups->learnings(), 'data_until' => $p->followups->data_until() );
+		} );
+		// Index coverage: Search Console "Pages" exports, Search Console messages, URL Inspection watch, redirect hygiene.
+		$this->route( 'GET', '/coverage', 'view', function () use ( $p ) {
+			$s = $p->coverage->state();
+			foreach ( $s['drilldowns'] as $k => $d ) {
+				$s['drilldowns'][ $k ]['urls'] = array_slice( $d['urls'], 0, 300 );
+			}
+			return $s + array( 'findings' => $p->coverage->analyze(), 'watch' => $p->coverage->watch_view() );
+		} );
+		$this->route( 'POST', '/coverage/import', 'manage', function ( Req $r ) use ( $p ) {
+			$files = array();
+			foreach ( (array) $r->get_file_params() as $f ) {
+				foreach ( (array) ( is_array( $f['name'] ) ? array_keys( $f['name'] ) : array( null ) ) as $i ) {
+					$name = null === $i ? $f['name'] : $f['name'][ $i ];
+					$tmp  = null === $i ? $f['tmp_name'] : $f['tmp_name'][ $i ];
+					$size = null === $i ? $f['size'] : $f['size'][ $i ];
+					if ( $tmp && is_uploaded_file( $tmp ) && $size < 20 * MB_IN_BYTES ) {
+						$files[] = array( 'name' => sanitize_file_name( $name ), 'path' => $tmp );
+					}
+				}
+			}
+			if ( ! $files ) {
+				return new \WP_Error( 'seolity_coverage', __( 'Choose the ZIP files exported from Search Console.', 'seolity' ), array( 'status' => 400 ) );
+			}
+			return $p->coverage->import( $files );
+		} );
+		$this->route( 'POST', '/coverage/message', 'ai', function ( Req $r ) use ( $p ) {
+			return $p->coverage->add_message( (string) $r->get_param( 'text' ) );
+		} );
+		$this->route( 'POST', '/coverage/ai', 'ai', function () use ( $p ) {
+			$job = $p->queue->push( 'coverage_review', array( 'message_id' => '' ), array( 'unique' => true, 'priority' => 3, 'max_attempts' => 3 ) );
+			\SEOlity\Activity\AiJobs::run_after_response( $p );
+			return array( 'queued' => (bool) $job );
+		} );
+		$this->route( 'POST', '/coverage/fix', 'manage', function ( Req $r ) use ( $p ) {
+			return $p->coverage->fix( self::str( $r, 'id' ) );
+		} );
+		$this->route( 'POST', '/coverage/trace', 'manage', function ( Req $r ) use ( $p ) {
+			return $p->coverage->trace( esc_url_raw( (string) $r->get_param( 'url' ) ) );
+		} );
+		$this->route( 'POST', '/coverage/watch', 'manage', function () use ( $p ) {
+			$p->coverage->watch();
+			return $p->coverage->watch_view();
+		} );
+		$this->route( 'DELETE', '/coverage', 'manage', function () use ( $p ) {
+			return array( 'ok' => $p->coverage->reset() );
 		} );
 		$this->route( 'POST', '/follow-ups', 'ai', function ( Req $r ) use ( $p ) {
 			return $p->followups->add( array( 'title' => self::str( $r, 'title' ), 'goal' => self::str( $r, 'goal' ), 'urls' => (array) $r->get_param( 'urls' ), 'queries' => (array) $r->get_param( 'queries' ), 'days' => (int) $r->get_param( 'days' ), 'source' => 'manual' ) );

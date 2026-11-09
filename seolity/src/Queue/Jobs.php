@@ -27,6 +27,16 @@ final class Jobs {
 			$p->followups->check();
 			return true;
 		} );
+		$q->handler( 'follow_up_review', static function ( $a ) use ( $p ) {
+			return $p->followups->ai_review( (string) $a['id'] ); // May throw Deferred: the queue waits for the answer.
+		} );
+		$q->handler( 'coverage_review', static function ( $a ) use ( $p ) {
+			return $p->coverage->ai_review( isset( $a['message_id'] ) ? (string) $a['message_id'] : '' );
+		} );
+		$q->handler( 'index_watch', static function () use ( $p ) {
+			$p->coverage->watch();
+			return true;
+		} );
 		$q->handler( 'alerts_digest', static function () use ( $p ) {
 			$p->alerts->digest();
 			return true;
@@ -267,6 +277,10 @@ final class Jobs {
 		$q->push( 'alerts_check', array(), array( 'unique' => true, 'priority' => 5, 'delay' => 50 * MINUTE_IN_SECONDS ) );
 		// Follow-ups after the day's Search Console sync; the e-mail digest after everything else.
 		$q->push( 'follow_ups_check', array(), array( 'unique' => true, 'priority' => 9, 'delay' => 52 * MINUTE_IN_SECONDS ) );
+		// Google's own view of the sitemap URLs (URL Inspection) + redirect hygiene: new indexing reasons become notifications.
+		if ( $p->gsc_oauth->is_connected() ) {
+			$q->push( 'index_watch', array(), array( 'unique' => 'daily', 'priority' => 16, 'delay' => 35 * MINUTE_IN_SECONDS, 'max_attempts' => 1, 'timeout' => 900 ) );
+		}
 		$q->push( 'alerts_digest', array(), array( 'unique' => true, 'priority' => 30, 'delay' => 100 * MINUTE_IN_SECONDS ) );
 		$q->push( 'health_snapshot', array(), array( 'unique' => true, 'priority' => 15, 'delay' => 55 * MINUTE_IN_SECONDS ) );
 		$q->push( 'briefing_generate', array( 'date' => gmdate( 'Y-m-d' ) ), array( 'unique' => true, 'priority' => 8, 'delay' => HOUR_IN_SECONDS ) );

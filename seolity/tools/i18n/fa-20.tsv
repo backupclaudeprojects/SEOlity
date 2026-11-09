@@ -1,0 +1,171 @@
+Index coverage	پوشش ایندکس
+Choose the ZIP files exported from Search Console.	فایل‌های ZIP خروجی سرچ کنسول را انتخاب کنید.
+Merged and redirected: unpublished so it leaves the sitemap (kept as a draft, not deleted).	ادغام و ریدایرکت شد: از انتشار خارج شد تا از نقشه سایت بیرون برود (به‌صورت پیش‌نویس می‌ماند، حذف نمی‌شود).
+Only “publish” and “draft” can be set.	فقط «منتشرشده» و «پیش‌نویس» قابل تنظیم است.
+Not a Search Console “Pages” export.	این فایل خروجی بخش «Pages» سرچ کنسول نیست.
+Search Console indexing exports imported	خروجی‌های ایندکس سرچ کنسول وارد شد
+%d files	%d فایل
+This server cannot open ZIP files (PHP zip extension). Unzip and upload the CSV files instead.	این سرور نمی‌تواند فایل ZIP باز کند (افزونه zip در PHP). فایل را از حالت فشرده خارج کنید و فایل‌های CSV را بارگذاری کنید.
+The ZIP file could not be opened.	فایل ZIP باز نشد.
+No Search Console CSV found in this file.	در این فایل هیچ CSV سرچ کنسول پیدا نشد.
+%1$d of these URLs are excluded on purpose (%2$s) — this is correct, nothing to fix.	%1$d آدرس از این‌ها عمداً بیرون از ایندکس‌اند (%2$s) — درست است و اصلاح لازم ندارد.
+Feeds, cart / checkout / account, add-to-cart links, tracking parameters, theme internals and internal search should stay out of Google. Do not press “Validate fix” for them.	فیدها، سبد خرید / تسویه / حساب کاربری، لینک‌های افزودن به سبد، پارامترهای ردیابی، صفحه‌های داخلی قالب و جست‌وجوی داخلی باید بیرون از گوگل بمانند. برای این‌ها «Validate fix» نزنید.
+%d pages have noindex but do not look like system pages — check whether they should be in Google.	%d صفحه noindex دارند ولی صفحه سیستمی به نظر نمی‌رسند — بررسی کنید که آیا باید در گوگل باشند.
+Landing pages or category pages with noindex cannot rank. If a page redirects anyway, take it out of the menus and links instead.	صفحه فرود یا دسته‌ای که noindex دارد نمی‌تواند رتبه بگیرد. اگر صفحه به‌هرحال ریدایرکت می‌شود، به‌جایش آن را از منوها و لینک‌ها بردارید.
+%d real pages are not indexed yet — Google did not find them valuable or important enough.	%d صفحه واقعی هنوز ایندکس نشده‌اند — گوگل آن‌ها را به اندازه کافی ارزشمند یا مهم ندیده است.
+Improve them (unique depth, answer the query better, E-E-A-T), link to them from strong pages and the menu, check they are in the sitemap, then request indexing in URL Inspection.	آن‌ها را بهتر کنید (عمق یکتا، پاسخ بهتر به جست‌وجو، E-E-A-T)، از صفحه‌های قوی و منو به آن‌ها لینک دهید، مطمئن شوید در نقشه سایت هستند و بعد در URL Inspection درخواست ایندکس بدهید.
+Google cannot crawl them. Remove the matching Disallow rule (Robots.txt page) unless they are meant to be private.	گوگل نمی‌تواند آن‌ها را بخزد. قانون Disallow مربوط را (صفحه Robots.txt) بردارید، مگر اینکه قرار است خصوصی بمانند.
+%d pages are seen by Google as duplicates of another page.	گوگل %d صفحه را تکراری یک صفحه دیگر می‌بیند.
+Usually two articles on the same topic (cannibalization) or URL variants. See “Duplicate & similar articles”: merge, differentiate or set a canonical.	معمولاً دو مقاله هم‌موضوع (هم‌نوع‌خواری) یا نسخه‌های مختلف یک آدرس. بخش «مقالات تکراری و شبه تکراری» را ببینید: ادغام، تفکیک یا کانونیکال.
+Validation of “%s” failed.	اعتبارسنجی «%s» ناموفق بود.
+Validation fails when some URLs still have the reason — normal for intentional exclusions (noindex system pages, junk 404s). Only validate after fixing the real pages listed here.	اعتبارسنجی وقتی شکست می‌خورد که هنوز آدرس‌هایی همان دلیل را دارند — برای موارد عمدی (صفحه‌های سیستمی noindex و ۴۰۴های بی‌ارزش) طبیعی است. فقط بعد از اصلاح صفحه‌های واقعی این فهرست اعتبارسنجی بزنید.
+feeds	فیدها
+cart, checkout, account pages	صفحه‌های سبد خرید، تسویه و حساب کاربری
+add-to-cart links	لینک‌های افزودن به سبد
+tracking parameters	پارامترهای ردیابی
+comment reply links	لینک‌های پاسخ به دیدگاه
+theme / builder internals	صفحه‌های داخلی قالب / صفحه‌ساز
+WordPress system URLs	آدرس‌های سیستمی وردپرس
+internal search	جست‌وجوی داخلی
+author / tag / paged archives	آرشیو نویسنده / برچسب / صفحه‌بندی
+robots.txt patterns read as URLs	الگوهای robots.txt که به‌عنوان آدرس خوانده شده‌اند
+Published article “%s” redirects to another page	مقاله منتشرشده «%s» به صفحه دیگری ریدایرکت می‌شود
+Its own address redirects (after a merge), but it is still published, so it stays in the sitemap and Search Console reports it. Make it a draft: visitors keep being redirected, it leaves the sitemap, nothing is deleted.	آدرس خودش (بعد از ادغام) ریدایرکت می‌شود ولی هنوز منتشرشده است؛ پس در نقشه سایت می‌ماند و سرچ کنسول گزارشش می‌کند. پیش‌نویسش کنید: بازدیدکننده‌ها همچنان ریدایرکت می‌شوند، از نقشه سایت خارج می‌شود و چیزی حذف نمی‌شود.
+Unpublish (keep the redirect)	خارج کردن از انتشار (ریدایرکت می‌ماند)
+The redirect error is gone now — press “Validate fix” in Search Console.	خطای ریدایرکت الان برطرف شده — در سرچ کنسول «Validate fix» را بزنید.
+Redirect chain of %d steps — point the first URL straight at the last one.	زنجیره ریدایرکت %d مرحله‌ای — آدرس اول را مستقیم به آخری بفرستید.
+The redirect ends on an error page (HTTP %d).	ریدایرکت به صفحه خطا ختم می‌شود (HTTP %d).
+The server answers with a redirect without a destination.	سرور ریدایرکتی بدون مقصد برمی‌گرداند.
+Redirect loop: the URLs send visitors in a circle. Fix the rules so the old URL points at the live article.	حلقه ریدایرکت: آدرس‌ها بازدیدکننده را دور خودشان می‌چرخانند. قانون‌ها را طوری اصلاح کنید که آدرس قدیم به مقاله فعال برسد.
+More than 8 redirects — Google stops following.	بیش از ۸ ریدایرکت — گوگل دنبال کردن را متوقف می‌کند.
+404 that probably belongs to “%s”	۴۰۴ای که احتمالاً مال «%s» است
+A 301 to the closest live page keeps its links and visitors. Check the suggestion before approving.	ریدایرکت ۳۰۱ به نزدیک‌ترین صفحه فعال، لینک‌ها و بازدیدکننده‌هایش را نگه می‌دارد. پیشنهاد را قبل از تأیید بررسی کنید.
+%d broken links contain a cut-off character (�)	%d لینک خراب یک حرف بریده‌شده (�) دارند
+Somewhere a link to an article was cut in the middle of a Persian letter. Find the link (Internal Links) and fix it, or redirect the broken address to the article.	جایی لینک یک مقاله وسط یک حرف فارسی بریده شده است. لینک را (بخش لینک داخلی) پیدا و اصلاح کنید، یا آدرس خراب را به مقاله ریدایرکت کنید.
+Its own address redirects, but it is still published: it stays in the sitemap and Search Console reports “Page with redirect” or “Redirect error”. Make it a draft (the redirect keeps working, nothing is deleted) — or delete the rule if the article should be live.	آدرس خودش ریدایرکت می‌شود ولی هنوز منتشرشده است: در نقشه سایت می‌ماند و سرچ کنسول «Page with redirect» یا «Redirect error» گزارش می‌کند. پیش‌نویسش کنید (ریدایرکت کار می‌کند و چیزی حذف نمی‌شود) — یا اگر مقاله باید فعال باشد، قانون را حذف کنید.
+Redirect chain	زنجیره ریدایرکت
+Point straight at the final page	مستقیم به صفحه نهایی
+Redirect probably points to the wrong article	ریدایرکت احتمالاً به مقاله اشتباه می‌رود
+%1$s matches “%2$s” much better than the current destination.	%1$s با «%2$s» خیلی بیشتر از مقصد فعلی جور است.
+Point to the matching article	فرستادن به مقاله مطابق
+%1$s: indexed %2$d → %3$d, not indexed %4$d → %5$d	%1$s: ایندکس‌شده %2$d ← %3$d، ایندکس‌نشده %4$d ← %5$d
+Timeline	روند زمانی
+Changes on the site in the days before:	تغییرات سایت در روزهای قبل از آن:
+No SEOlity-recorded change in the days before (a theme, plugin or permalink change outside SEOlity, or Google re-evaluating).	در روزهای قبل تغییری در SEOlity ثبت نشده (تغییر قالب، افزونه یا پیوند یکتا بیرون از SEOlity، یا ارزیابی دوباره گوگل).
+%d redirects created	%d ریدایرکت ساخته شد
+%d slugs changed	نامک %d صفحه عوض شد
+This finding has no automatic fix.	این مورد اصلاح خودکار ندارد.
+Its address redirects to another page: unpublished so it leaves the sitemap (kept as a draft).	آدرسش به صفحه دیگری ریدایرکت می‌شود: از انتشار خارج شد تا از نقشه سایت بیرون برود (پیش‌نویس می‌ماند).
+Paste the whole message text.	متن کامل پیام را بچسبانید.
+Search Console message	پیام سرچ کنسول
+Redirect error: Google followed a redirect that ended in a loop, a too-long chain, an empty or broken destination. Usually after changing article addresses twice or merging. Open Index coverage → the URL is traced live and the rule is fixed with your approval; then “Validate fix”.	خطای ریدایرکت: گوگل ریدایرکتی را دنبال کرده که به حلقه، زنجیره خیلی طولانی یا مقصد خالی و خراب رسیده است. معمولاً بعد از دو بار تغییر آدرس مقاله‌ها یا ادغام. «پوشش ایندکس» را باز کنید → آدرس زنده ردیابی و قانون با تأیید شما اصلاح می‌شود؛ بعد «Validate fix».
+Page with redirect: the URL redirects — fine for old addresses, a problem only when it is a published page or still in the sitemap.	صفحه دارای ریدایرکت: آدرس ریدایرکت می‌شود — برای آدرس‌های قدیمی درست است؛ فقط وقتی مشکل است که صفحه منتشرشده باشد یا هنوز در نقشه سایت باشد.
+Not found (404): deleted or mistyped URLs. Redirect the valuable ones (links, traffic) to the closest page; ignore junk.	پیدا نشد (۴۰۴): آدرس‌های حذف‌شده یا اشتباه. آدرس‌های ارزشمند (لینک، ترافیک) را به نزدیک‌ترین صفحه ریدایرکت کنید و آدرس‌های بی‌ارزش را نادیده بگیرید.
+Soft 404: the page answers 200 but looks empty / not found to Google (empty category, out-of-stock template). Add content or return a real 404/410.	سافت ۴۰۴: صفحه کد ۲۰۰ می‌دهد ولی برای گوگل خالی یا «پیدا نشد» به نظر می‌رسد (دسته خالی، قالب ناموجود). محتوا اضافه کنید یا ۴۰۴/۴۱۰ واقعی برگردانید.
+Excluded by noindex: correct for cart, account and archives; check landing and category pages.	بیرون به‌خاطر noindex: برای سبد، حساب کاربری و آرشیوها درست است؛ صفحه‌های فرود و دسته را بررسی کنید.
+Blocked by robots.txt: correct for add-to-cart, feeds and system URLs; a problem only for real pages.	مسدود با robots.txt: برای افزودن به سبد، فیدها و آدرس‌های سیستمی درست است؛ فقط برای صفحه‌های واقعی مشکل است.
+Crawled – currently not indexed: Google saw the page and decided not to index it yet (quality, duplication, weak internal links). Feeds in this list are normal.	خزیده‌شده ولی فعلاً ایندکس‌نشده: گوگل صفحه را دیده و هنوز ایندکسش نکرده (کیفیت، تکراری بودن، لینک داخلی ضعیف). فیدها در این فهرست طبیعی‌اند.
+Discovered – currently not indexed: Google knows the URL but has not crawled it (crawl budget, weak links, slow server).	کشف‌شده ولی فعلاً ایندکس‌نشده: گوگل آدرس را می‌شناسد ولی هنوز نخزیده (بودجه خزش، لینک ضعیف، سرور کند).
+Server error (5xx): the server failed while Google crawled — check hosting limits, firewall and uptime first.	خطای سرور (5xx): سرور هنگام خزش گوگل خطا داده — اول محدودیت‌های هاست، فایروال و پایداری را بررسی کنید.
+Google chose a different canonical: two pages look the same to Google — merge or differentiate them.	گوگل کانونیکال دیگری انتخاب کرده: دو صفحه برای گوگل یکسان‌اند — ادغام یا متمایزشان کنید.
+Upload the export of this reason (Search Console → Pages → the reason → Export → Download ZIP) on the Index coverage page so SEOlity can see the URLs.	خروجی همین دلیل را (سرچ کنسول ← Pages ← دلیل ← Export ← Download ZIP) در صفحه «پوشش ایندکس» بارگذاری کنید تا SEOlity آدرس‌ها را ببیند.
+A manual action is a penalty by a Google reviewer — the most serious message. Open Search Console → Security & Manual actions, fix every listed issue, then request a review.	اقدام دستی جریمه‌ای از طرف بازبین گوگل است — جدی‌ترین پیام. در سرچ کنسول ← Security & Manual actions همه موارد را اصلاح و بعد درخواست بازبینی کنید.
+Security issue: the site may be hacked. Scan files and users, update everything, then request a review in Search Console.	مشکل امنیتی: ممکن است سایت هک شده باشد. فایل‌ها و کاربران را بررسی و همه چیز را به‌روز کنید، بعد در سرچ کنسول درخواست بازبینی بدهید.
+Core Web Vitals: real visitors find some pages slow or jumpy. See Site Audit → Core Web Vitals and Server & speed.	معیارهای حیاتی وب: بازدیدکننده‌های واقعی بعضی صفحه‌ها را کند یا ناپایدار می‌بینند. ممیزی سایت ← Core Web Vitals و «سرور و سرعت» را ببینید.
+Structured data issue: some rich-result markup is invalid or incomplete. See Schema.	مشکل داده ساختاریافته: بخشی از نشانه‌گذاری نتایج غنی نامعتبر یا ناقص است. بخش اسکیما را ببینید.
+Sitemap problem: Google could not read a sitemap. Check Sitemap (address, errors, size).	مشکل نقشه سایت: گوگل نتوانسته نقشه سایت را بخواند. بخش نقشه سایت را بررسی کنید (آدرس، خطاها، حجم).
+SEOlity stored the message; the AI explains it in a moment.	SEOlity پیام را ذخیره کرد؛ هوش مصنوعی تا لحظاتی دیگر توضیحش می‌دهد.
+AI explanation of the Search Console message	توضیح هوش مصنوعی درباره پیام سرچ کنسول
+AI analysis of index coverage	تحلیل هوش مصنوعی از پوشش ایندکس
+Plan (added to the SEO roadmap):	برنامه (به مسیر راه اضافه شد):
+New reason prevents pages from being indexed: %s	دلیل جدیدی مانع ایندکس صفحه‌ها شده: %s
+Found by SEOlity’s daily Google URL Inspection of your own pages (before Search Console e-mails about it):	با بررسی روزانه URL Inspection گوگل روی صفحه‌های خودتان پیدا شد (قبل از اینکه سرچ کنسول ایمیل بزند):
+Google reports %2$d errors in sitemap %1$s	گوگل در نقشه سایت %1$s تعداد %2$d خطا گزارش می‌کند
+Open Sitemap and Search Console → Sitemaps to see which entries Google could not use.	بخش نقشه سایت و سرچ کنسول ← Sitemaps را باز کنید تا ببینید گوگل کدام ورودی‌ها را نتوانسته استفاده کند.
+%d new redirect problems	%d مشکل جدید ریدایرکت
+Positive: it worked.	مثبت: جواب داد.
+Negative: it got worse — worth a look.	منفی: بدتر شد — ارزش بررسی دارد.
+Not enough Search Console data to judge yet.	هنوز داده سرچ کنسول برای قضاوت کافی نیست.
+too little data	داده خیلی کم
+(confidence: %s)	(اطمینان: %s)
+Compared %1$d days after the change with the same %1$d days before it (%2$s → %3$s).	%1$d روز بعد از تغییر با همان %1$d روز قبل از آن مقایسه شد (%2$s تا %3$s).
+Partial: Search Console data is not complete yet.	جزئی: داده سرچ کنسول هنوز کامل نیست.
+Clicks: %1$d → %2$d (expected from the site trend: %3$s, difference %4$s%%)	کلیک: %1$d ← %2$d (مورد انتظار از روند سایت: %3$s، اختلاف %4$s٪)
+Impressions: %1$d → %2$d (difference to the site trend %3$s%%)	نمایش: %1$d ← %2$d (اختلاف با روند سایت %3$s٪)
+Average position: %1$s → %2$s	میانگین رتبه: %1$s ← %2$s
+Whole site in the same time: clicks %1$s%%, impressions %2$s%%	کل سایت در همین مدت: کلیک %1$s٪، نمایش %2$s٪
+This is an early warning: if the drop continues at the next check, consider undoing the change (AI Changes → Undo).	این یک هشدار زودهنگام است: اگر افت در بررسی بعدی هم ادامه داشت، برگرداندن تغییر را در نظر بگیرید (تغییرات هوش مصنوعی ← برگرداندن).
+Day %1$d result of “%2$s”	نتیجه روز %1$d «%2$s»
+The change (undo possible)	این تغییر (قابل برگرداندن)
+Why:	چرا:
+Next steps (added to the SEO roadmap):	قدم‌های بعدی (به مسیر راه اضافه شد):
+The AI recommends undoing this change (AI Changes → Undo).	هوش مصنوعی پیشنهاد می‌کند این تغییر برگردانده شود (تغییرات هوش مصنوعی ← برگرداندن).
+Lesson for this site:	درس برای این سایت:
+AI analysis of “%s”	تحلیل هوش مصنوعی «%s»
+Automatic (Iran for a .ir / Persian site)	خودکار (برای سایت .ir یا فارسی: ایران)
+Iran — Iranian search market	ایران — بازار جست‌وجوی ایران
+SEO market	بازار سئو
+SEO in Iran works differently (Persian language issues, Torob / Digikala / Basalam, eNamad, reportage links, hosting and filtering limits, Iranian seasons). With “Iran” the AI uses the Iranian knowledge first; with “International” the global documents.	سئو در ایران متفاوت است (مسائل زبان فارسی، ترب / دیجی‌کالا / باسلام، اینماد، رپورتاژ، محدودیت‌های هاست و فیلترینگ، فصل‌های ایرانی). با «ایران» هوش مصنوعی اول از دانش سئوی ایران استفاده می‌کند؛ با «بین‌المللی» از اسناد جهانی.
+Why Google does or does not index your pages: Search Console exports and messages, Google’s own URL Inspection, redirects — explained, with fixes you approve.	چرا گوگل صفحه‌هایتان را ایندکس می‌کند یا نمی‌کند: خروجی‌ها و پیام‌های سرچ کنسول، بررسی URL خود گوگل و ریدایرکت‌ها — با توضیح و اصلاح‌هایی که خودتان تأیید می‌کنید.
+AI analysis	تحلیل هوش مصنوعی
+The AI is analysing the indexing data — the result arrives as a notification and here.	هوش مصنوعی در حال تحلیل داده ایندکس است — نتیجه به‌صورت اعلان و همین‌جا می‌رسد.
+Search Console exports	خروجی‌های سرچ کنسول
+Search Console → Indexing → Pages → Export (top right) → Download ZIP. This is the summary with the timeline.	سرچ کنسول ← Indexing ← Pages ← Export (بالا سمت راست) ← Download ZIP. این خلاصه همراه با نمودار است.
+Click each reason in the list “Why pages aren’t indexed” → Export → Download ZIP. These contain the URLs.	روی هر دلیل در فهرست «Why pages aren’t indexed» کلیک کنید ← Export ← Download ZIP. آدرس‌ها در این فایل‌هاست.
+Choose all ZIP files here at once. Re-upload whenever Search Console e-mails you.	همه فایل‌های ZIP را یک‌جا اینجا انتخاب کنید. هر بار سرچ کنسول ایمیل زد، دوباره بارگذاری کنید.
+Upload & analyse	بارگذاری و تحلیل
+Imported. %d findings.	وارد شد. %d مورد پیدا شد.
+Last summary: %s	آخرین خلاصه: %s
+Google offers no API for this report, so SEOlity reads the exports you download.	گوگل برای این گزارش API ندارد؛ برای همین SEOlity خروجی‌هایی را می‌خواند که دانلود می‌کنید.
+Indexed vs not indexed	ایندکس‌شده در برابر ایندکس‌نشده
+Indexed	ایندکس‌شده
+Not indexed	ایندکس‌نشده
+Validation: %s	اعتبارسنجی: %s
+Needs attention — see the findings below.	نیاز به رسیدگی — موارد پایین را ببینید.
+Checked: nothing harmful found.	بررسی شد: مورد مضری پیدا نشد.
+Export this reason too to see its URLs.	خروجی این دلیل را هم بگیرید تا آدرس‌هایش دیده شود.
+Why pages aren’t indexed	چرا صفحه‌ها ایندکس نشده‌اند
+Problem	مشکل
+Plan (added to the SEO roadmap)	برنامه (به مسیر راه اضافه شد)
+Nothing found yet	هنوز چیزی پیدا نشده
+Upload the Search Console exports, or wait for the daily index watch.	خروجی‌های سرچ کنسول را بارگذاری کنید یا منتظر پایش روزانه ایندکس بمانید.
+%d URLs	%d آدرس
+Nothing changes until you approve.	تا تأیید نکنید چیزی تغییر نمی‌کند.
+From the exports and SEOlity’s own data (redirects, posts, changes).	از روی خروجی‌ها و داده خود SEOlity (ریدایرکت‌ها، نوشته‌ها، تغییرات).
+Paste the whole e-mail from Search Console here (e.g. “New reasons prevent pages in a sitemap from being indexed…”).	متن کامل ایمیل سرچ کنسول را اینجا بچسبانید (مثلاً «New reasons prevent pages in a sitemap from being indexed…»).
+The AI explanation arrives in a moment as a notification.	توضیح هوش مصنوعی تا لحظاتی دیگر به‌صورت اعلان می‌رسد.
+Search Console messages	پیام‌های سرچ کنسول
+Google has no API for Search Console messages. Paste or forward the text and SEOlity explains it, connects it with your data and notifies you (also by e-mail). The daily index watch below finds most of these problems on its own.	گوگل برای پیام‌های سرچ کنسول API ندارد. متن را بچسبانید تا SEOlity توضیحش دهد، با داده سایت تطبیقش دهد و به شما اعلان (و ایمیل) بفرستد. پایش روزانه ایندکس در پایین بیشتر این مشکلات را خودش پیدا می‌کند.
+Read the message	خواندن پیام
+Message stored — see Notifications.	پیام ذخیره شد — اعلان‌ها را ببینید.
+Daily index watch (Google URL Inspection)	پایش روزانه ایندکس (URL Inspection گوگل)
+Every day SEOlity asks Google about %d of your pages in turn (Settings → Crawler) and notifies you when a new reason appears — like Search Console’s e-mails, often earlier. It also watches the sitemap and the redirect rules.	SEOlity هر روز به نوبت وضعیت %d صفحه از سایت را از گوگل می‌پرسد (تنظیمات ← خزنده) و هر وقت دلیل تازه‌ای پیدا شد خبرتان می‌کند — مثل ایمیل‌های سرچ کنسول و اغلب زودتر. نقشه سایت و قانون‌های ریدایرکت را هم زیر نظر دارد.
+%d pages checked so far.	تا الان %d صفحه بررسی شده.
+%d pages with a problem	%d صفحه دارای مشکل
+Every applied change is measured on day 7, 14, 28 and once more later: the same number of days after the change against before it, corrected by the whole site’s trend. Clear early results and every main result are sent to you (also by e-mail); the AI explains the result and puts the next steps on the SEO roadmap.	هر تغییر اعمال‌شده در روزهای ۷، ۱۴، ۲۸ و یک بار دیرتر اندازه گرفته می‌شود: همان تعداد روز بعد از تغییر در برابر قبل از آن، با در نظر گرفتن روند کل سایت. نتیجه‌های زودهنگامِ روشن و همه نتیجه‌های اصلی برایتان فرستاده می‌شود (ایمیل هم)؛ هوش مصنوعی نتیجه را توضیح می‌دهد و قدم‌های بعدی را در مسیر راه می‌گذارد.
+Search Console data available until %s.	داده سرچ کنسول تا %s موجود است.
+What worked on this site	چه چیزی در این سایت جواب داده
+Change type	نوع تغییر
+Clicks vs site trend	کلیک در برابر روند سایت
+Position gain	بهبود رتبه
+The AI uses this record when it plans new changes.	هوش مصنوعی هنگام برنامه‌ریزی تغییرات جدید از این سابقه استفاده می‌کند.
+Too little data	داده خیلی کم
+Not measured yet	هنوز اندازه‌گیری نشده
+Day %d	روز %d
+Clicks %1$s → %2$s (expected from the site trend %3$s, %4$s%%)	کلیک %1$s ← %2$s (مورد انتظار از روند سایت %3$s، %4$s٪)
+Impressions %1$s → %2$s (%3$s%% vs site trend)	نمایش %1$s ← %2$s (%3$s٪ نسبت به روند سایت)
+Average position %1$s → %2$s	میانگین رتبه %1$s ← %2$s
+Whole site: clicks %1$s%%, impressions %2$s%% · confidence: %3$s	کل سایت: کلیک %1$s٪، نمایش %2$s٪ · اطمینان: %3$s
+Changed on %s	تغییر در %s
+Next check %s	بررسی بعدی %s
+Measure now	الان اندازه بگیر
+Publish status	وضعیت انتشار
+SEO market (methods differ in Iran)	بازار سئو (روش‌ها در ایران فرق دارد)
+Daily Google URL Inspection (pages per day, 0 = off)	بررسی روزانه URL Inspection گوگل (صفحه در روز، ۰ = خاموش)
+iran	ایران
+international	بین‌المللی
+insufficient	ناکافی
+positive	مثبت
+negative	منفی
+%d deleted files are still linked	%d فایل حذف‌شده هنوز لینک دارند
+A PDF or image was removed from the media library but a page or menu still links to it. Upload it again or remove the link.	یک PDF یا تصویر از کتابخانه رسانه حذف شده ولی هنوز صفحه یا منویی به آن لینک دارد. دوباره بارگذاری‌اش کنید یا لینک را بردارید.

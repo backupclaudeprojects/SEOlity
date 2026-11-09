@@ -6,7 +6,8 @@
 - هوش مصنوعی: API (Anthropic/OpenAI/Gemini/…)، اشتراک Claude/ChatGPT از طریق CLI روی همین سرور یا اجراکننده GitHub Actions، رله Cloudflare.
 
 ## 2. وضعیت فعلی
-- نسخه **1.15.0** (`seolity/seolity.php:6`)، DB schema **1.7.0** (`seolity.php:23`). شاخه کامل و مستقل: `seolity-complete` (در مخزن اصلی `benlifoodaiwriter/aria-ai-runner` کار روی `claude/beautiful-ride-7ilxpf` انجام شد).
+- نسخه **1.16.0** (`seolity/seolity.php:6`)، DB schema **1.7.0** (`seolity.php:23`). شاخه کامل و مستقل: `seolity-complete` (در مخزن اصلی `benlifoodaiwriter/aria-ai-runner` کار روی `claude/beautiful-ride-7ilxpf` انجام شد).
+- 1.16.0: صفحه «پوشش ایندکس» (`GSC/Coverage.php`، `pages-coverage.js`): خروجی‌های Pages سرچ کنسول، پیام‌های سرچ کنسول، پایش روزانه URL Inspection، بازرسی ریدایرکت‌ها؛ «اثر تغییرات ۲.۰» (`Watch/FollowUps.php`: روز ۷/۱۴/۲۸/بلندمدت، کنترل روند کل سایت، اطمینان، تحلیل AI و درس‌ها)؛ بازار سئو ایران/بین‌المللی + ۱۴ سند دانش جدید (`knowledge/fa/iran/`).
 - ناوبری 1.15.0 مثل AI Writer: هر صفحه یک آیتم جدا در منوی وردپرس و سایدبار، زیر عنوان گروه؛ بدون «تب بخش» بالای صفحه. چت و نقشه راه دو کاشی بزرگ بالای سایدبار. تنظیمات به ۷ صفحه جدا (`settings`، `settings-ai`، …) شکسته شد.
 - کار می‌کند (با آزمایش در سایت آزمایشی؛ با حساب واقعی کاربر تأیید نشده):
   - CLIهای محلی: کشف Node.js، اجراکننده مرکزی، طبقه‌بندی خطا، ورود Codex با کد دستگاه، نصب Codex بدون npm، صفحه «موتورهای هوش مصنوعی» (#/engines) با انتخاب مدل.
@@ -38,7 +39,8 @@
 | `src/Chat/ChatService.php` (370) | پاسخ چت؛ اجرای proposals | answer:60 created:102 with_tools:219 |
 | `src/Chat/Toolbox.php` (372) | ابزارهای داده چت + مسیریابی کلمات | page_importance:35 gsc_opportunities:156/281 by_keywords:348 |
 | `src/Chat/ChatActions.php` (207) | proposals → کار/تغییر/پیگیری/پیام | apply:39 task:89 change:119 follow_up:183 |
-| `src/Watch/FollowUps.php` (215) | پیگیری‌ها (option `seolity_follow_ups`) | add:58 check:89 metrics:115 report:154 from_operation:183 |
+| `src/Watch/FollowUps.php` | اثر تغییرات ۲.۰ (option `seolity_follow_ups`، درس‌ها `seolity_impact_learnings`) | add, check, evaluate, verdict (static), after_checkpoint, window, learn, learnings, ai_review, from_operation |
+| `src/GSC/Coverage.php` | پوشش ایندکس (option `seolity_coverage`، پایش `seolity_index_watch`) | import, analyze, redirect_audit, trace, fix, add_message, ai_review, watch |
 | `src/Alerts/AlertService.php` (317) | اعلان‌ها + ایمیل | message:62 kind_of:70 recipients:94 send:123 digest:177 test_email:197 query:273 |
 | `src/Content/PageImportance.php` (244) | اهمیت صفحه | of:44 resolve:187 in_menu:218 template_used:224 |
 | `src/Recommendations/Engine.php` (1092) | نقشه راه (recommendations) | add:275 (گیت اهمیت + category override)، ORDER:826 (offpage)، category_route:841 |
@@ -48,7 +50,7 @@
 | `assets/admin/pages-map.js` | نقشه سایت (کارت بزرگ) | App.pages.sitemap:421 |
 | `assets/admin/app.js` | پوسته: shell() سایدبار (navTile/navItem)، route() (نگاشت `settings?tab=x` ← `settings-x`)، engines() متن زیر کاشی‌ها | — |
 | `assets/admin/app.css` | همه استایل‌ها (.sl-mapcard الگوی کارت بزرگ، .sl-nav__tile کاشی سایدبار) | — |
-| `tools/i18n/fa-*.tsv` + `build.py` | ترجمه فارسی | آخرین: fa-19.tsv |
+| `tools/i18n/fa-*.tsv` + `build.py` | ترجمه فارسی | آخرین: fa-20.tsv |
 | `docs/ARCHITECTURE.md` | معماری؛ بخش‌های 15b (CLI) و 15c (چت/اعلان) | — |
 | `readme.txt` | changelog | — |
 | `runner/runner.mjs` | کد اجراکننده گیت‌هاب (رمزنگاری AES-GCM) | — |
@@ -82,6 +84,7 @@
 - ناوبری: هیچ تب بخش (hub/subtabs) نباشد؛ صفحه جدید = route در `Admin::routes()` + جای آن در `Admin::nav()`. تب‌های فیلتر داخل خود صفحه (یک سطح) مجاز است. ظاهر = کپی AI Writer (کاربر فایل `ARIAGH-AIWRITER-1.9.1` را مرجع داد).
 
 ## 6. راه‌های امتحان‌شده و شکست‌خورده
+- مقایسه پیگیری با «۲۸ روز آخر» در زمان ایجاد و زمان بررسی، بدون کنترل روند سایت ← همه چیز «بهتر» دیده می‌شد و برای ادغام‌ها گمراه‌کننده بود؛ در 1.16 جایگزین شد.
 - `npm install @openai/codex` زیر سقف ۱GB حافظه مجازی ← heap out of memory.
 - اجرای Codex با ۵۱۲ و ۷۶۸MB ← «memory allocation failed»؛ حداقل ~۱GB لازم است. TOKIO_WORKER_THREADS کمکی نکرد.
 - poll کامل صفحه هر ۵ ثانیه حین نصب ← اجرای مکرر CLI و پر شدن حافظه (حالا فقط `cli/status`).

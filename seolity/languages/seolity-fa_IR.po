@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEOlity 1.0.0\n"
-"POT-Creation-Date: 2026-11-07 12:33+0000\n"
+"POT-Creation-Date: 2026-11-09 13:45+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1244,6 +1244,9 @@ msgstr "ریدایرکت‌ها"
 msgid "404 Monitor"
 msgstr "پایشگر ۴۰۴"
 
+msgid "Index coverage"
+msgstr "پوشش ایندکس"
+
 msgid "Indexability & crawl budget"
 msgstr "ایندکس‌پذیری و بودجه خزش"
 
@@ -2022,6 +2025,9 @@ msgstr "ریدایرکت %d آدرس خراب به صفحات پیشنهادی"
 msgid "Not a valid e-mail address: %s"
 msgstr "آدرس ایمیل معتبر نیست: %s"
 
+msgid "Choose the ZIP files exported from Search Console."
+msgstr "فایل‌های ZIP خروجی سرچ کنسول را انتخاب کنید."
+
 msgid "Unknown secret."
 msgstr "کلید محرمانه ناشناخته."
 
@@ -2301,6 +2307,9 @@ msgstr "مقاله ادغام‌شده آماده نشد."
 msgid "Merged into the primary article: keep it out of the index and the sitemap (it is not deleted)."
 msgstr "در مقاله اصلی ادغام شد: از ایندکس و نقشه سایت خارج می‌شود (حذف نمی‌شود)."
 
+msgid "Merged and redirected: unpublished so it leaves the sitemap (kept as a draft, not deleted)."
+msgstr "ادغام و ریدایرکت شد: از انتشار خارج شد تا از نقشه سایت بیرون برود (به‌صورت پیش‌نویس می‌ماند، حذف نمی‌شود)."
+
 msgid "Internal link now points straight at the merged article."
 msgstr "لینک داخلی اکنون مستقیم به مقاله ادغام‌شده اشاره می‌کند."
 
@@ -2313,6 +2322,9 @@ msgstr "کنار گذاشته شد:"
 
 msgid "Order: merged article first; the old articles get noindex, a 301 and updated internal links only after the merge was saved and verified. Nothing is deleted and every edit keeps a WordPress revision."
 msgstr "ترتیب: اول مقاله ادغام‌شده؛ مقالات قدیمی فقط بعد از ذخیره و تأیید ادغام، noindex، ریدایرکت ۳۰۱ و لینک‌های داخلی به‌روز می‌گیرند. هیچ چیز حذف نمی‌شود و هر ویرایش یک نسخه بازبینی وردپرس دارد."
+
+msgid "Only “publish” and “draft” can be set."
+msgstr "فقط «منتشرشده» و «پیش‌نویس» قابل تنظیم است."
 
 msgid "FAQ must be valid JSON."
 msgstr "سؤالات متداول باید JSON معتبر باشد."
@@ -3024,6 +3036,281 @@ msgstr "تغییر %1$s در صفحات %2$s به‌طور میانگین %3$s �
 
 msgid "Frequently asked questions"
 msgstr "سؤالات متداول"
+
+msgid "Not a Search Console “Pages” export."
+msgstr "این فایل خروجی بخش «Pages» سرچ کنسول نیست."
+
+msgid "Search Console indexing exports imported"
+msgstr "خروجی‌های ایندکس سرچ کنسول وارد شد"
+
+#, php-format
+msgid "%d files"
+msgstr "%d فایل"
+
+msgid "This server cannot open ZIP files (PHP zip extension). Unzip and upload the CSV files instead."
+msgstr "این سرور نمی‌تواند فایل ZIP باز کند (افزونه zip در PHP). فایل را از حالت فشرده خارج کنید و فایل‌های CSV را بارگذاری کنید."
+
+msgid "The ZIP file could not be opened."
+msgstr "فایل ZIP باز نشد."
+
+msgid "No Search Console CSV found in this file."
+msgstr "در این فایل هیچ CSV سرچ کنسول پیدا نشد."
+
+#, php-format
+msgid "%1$d of these URLs are excluded on purpose (%2$s) — this is correct, nothing to fix."
+msgstr "%1$d آدرس از این‌ها عمداً بیرون از ایندکس‌اند (%2$s) — درست است و اصلاح لازم ندارد."
+
+msgid "Feeds, cart / checkout / account, add-to-cart links, tracking parameters, theme internals and internal search should stay out of Google. Do not press “Validate fix” for them."
+msgstr "فیدها، سبد خرید / تسویه / حساب کاربری، لینک‌های افزودن به سبد، پارامترهای ردیابی، صفحه‌های داخلی قالب و جست‌وجوی داخلی باید بیرون از گوگل بمانند. برای این‌ها «Validate fix» نزنید."
+
+#, php-format
+msgid "%d pages have noindex but do not look like system pages — check whether they should be in Google."
+msgstr "%d صفحه noindex دارند ولی صفحه سیستمی به نظر نمی‌رسند — بررسی کنید که آیا باید در گوگل باشند."
+
+msgid "Landing pages or category pages with noindex cannot rank. If a page redirects anyway, take it out of the menus and links instead."
+msgstr "صفحه فرود یا دسته‌ای که noindex دارد نمی‌تواند رتبه بگیرد. اگر صفحه به‌هرحال ریدایرکت می‌شود، به‌جایش آن را از منوها و لینک‌ها بردارید."
+
+#, php-format
+msgid "%d real pages are not indexed yet — Google did not find them valuable or important enough."
+msgstr "%d صفحه واقعی هنوز ایندکس نشده‌اند — گوگل آن‌ها را به اندازه کافی ارزشمند یا مهم ندیده است."
+
+msgid "Improve them (unique depth, answer the query better, E-E-A-T), link to them from strong pages and the menu, check they are in the sitemap, then request indexing in URL Inspection."
+msgstr "آن‌ها را بهتر کنید (عمق یکتا، پاسخ بهتر به جست‌وجو، E-E-A-T)، از صفحه‌های قوی و منو به آن‌ها لینک دهید، مطمئن شوید در نقشه سایت هستند و بعد در URL Inspection درخواست ایندکس بدهید."
+
+#, php-format
+msgid "%d published pages are blocked by robots.txt."
+msgstr "%d صفحه منتشرشده توسط robots.txt مسدود هستند."
+
+msgid "Google cannot crawl them. Remove the matching Disallow rule (Robots.txt page) unless they are meant to be private."
+msgstr "گوگل نمی‌تواند آن‌ها را بخزد. قانون Disallow مربوط را (صفحه Robots.txt) بردارید، مگر اینکه قرار است خصوصی بمانند."
+
+#, php-format
+msgid "%d pages are seen by Google as duplicates of another page."
+msgstr "گوگل %d صفحه را تکراری یک صفحه دیگر می‌بیند."
+
+msgid "Usually two articles on the same topic (cannibalization) or URL variants. See “Duplicate & similar articles”: merge, differentiate or set a canonical."
+msgstr "معمولاً دو مقاله هم‌موضوع (هم‌نوع‌خواری) یا نسخه‌های مختلف یک آدرس. بخش «مقالات تکراری و شبه تکراری» را ببینید: ادغام، تفکیک یا کانونیکال."
+
+#, php-format
+msgid "Validation of “%s” failed."
+msgstr "اعتبارسنجی «%s» ناموفق بود."
+
+msgid "Validation fails when some URLs still have the reason — normal for intentional exclusions (noindex system pages, junk 404s). Only validate after fixing the real pages listed here."
+msgstr "اعتبارسنجی وقتی شکست می‌خورد که هنوز آدرس‌هایی همان دلیل را دارند — برای موارد عمدی (صفحه‌های سیستمی noindex و ۴۰۴های بی‌ارزش) طبیعی است. فقط بعد از اصلاح صفحه‌های واقعی این فهرست اعتبارسنجی بزنید."
+
+msgid "feeds"
+msgstr "فیدها"
+
+msgid "cart, checkout, account pages"
+msgstr "صفحه‌های سبد خرید، تسویه و حساب کاربری"
+
+msgid "add-to-cart links"
+msgstr "لینک‌های افزودن به سبد"
+
+msgid "tracking parameters"
+msgstr "پارامترهای ردیابی"
+
+msgid "comment reply links"
+msgstr "لینک‌های پاسخ به دیدگاه"
+
+msgid "theme / builder internals"
+msgstr "صفحه‌های داخلی قالب / صفحه‌ساز"
+
+msgid "WordPress system URLs"
+msgstr "آدرس‌های سیستمی وردپرس"
+
+msgid "internal search"
+msgstr "جست‌وجوی داخلی"
+
+msgid "author / tag / paged archives"
+msgstr "آرشیو نویسنده / برچسب / صفحه‌بندی"
+
+msgid "robots.txt patterns read as URLs"
+msgstr "الگوهای robots.txt که به‌عنوان آدرس خوانده شده‌اند"
+
+#, php-format
+msgid "Published article “%s” redirects to another page"
+msgstr "مقاله منتشرشده «%s» به صفحه دیگری ریدایرکت می‌شود"
+
+msgid "Its own address redirects (after a merge), but it is still published, so it stays in the sitemap and Search Console reports it. Make it a draft: visitors keep being redirected, it leaves the sitemap, nothing is deleted."
+msgstr "آدرس خودش (بعد از ادغام) ریدایرکت می‌شود ولی هنوز منتشرشده است؛ پس در نقشه سایت می‌ماند و سرچ کنسول گزارشش می‌کند. پیش‌نویسش کنید: بازدیدکننده‌ها همچنان ریدایرکت می‌شوند، از نقشه سایت خارج می‌شود و چیزی حذف نمی‌شود."
+
+msgid "Unpublish (keep the redirect)"
+msgstr "خارج کردن از انتشار (ریدایرکت می‌ماند)"
+
+msgid "The redirect error is gone now — press “Validate fix” in Search Console."
+msgstr "خطای ریدایرکت الان برطرف شده — در سرچ کنسول «Validate fix» را بزنید."
+
+#, php-format
+msgid "Redirect chain of %d steps — point the first URL straight at the last one."
+msgstr "زنجیره ریدایرکت %d مرحله‌ای — آدرس اول را مستقیم به آخری بفرستید."
+
+#, php-format
+msgid "The redirect ends on an error page (HTTP %d)."
+msgstr "ریدایرکت به صفحه خطا ختم می‌شود (HTTP %d)."
+
+msgid "The server answers with a redirect without a destination."
+msgstr "سرور ریدایرکتی بدون مقصد برمی‌گرداند."
+
+msgid "Redirect loop: the URLs send visitors in a circle. Fix the rules so the old URL points at the live article."
+msgstr "حلقه ریدایرکت: آدرس‌ها بازدیدکننده را دور خودشان می‌چرخانند. قانون‌ها را طوری اصلاح کنید که آدرس قدیم به مقاله فعال برسد."
+
+msgid "More than 8 redirects — Google stops following."
+msgstr "بیش از ۸ ریدایرکت — گوگل دنبال کردن را متوقف می‌کند."
+
+#, php-format
+msgid "404 that probably belongs to “%s”"
+msgstr "۴۰۴ای که احتمالاً مال «%s» است"
+
+msgid "A 301 to the closest live page keeps its links and visitors. Check the suggestion before approving."
+msgstr "ریدایرکت ۳۰۱ به نزدیک‌ترین صفحه فعال، لینک‌ها و بازدیدکننده‌هایش را نگه می‌دارد. پیشنهاد را قبل از تأیید بررسی کنید."
+
+msgid "Create 301 redirect"
+msgstr "ایجاد ریدایرکت ۳۰۱"
+
+#, php-format
+msgid "%d deleted files are still linked"
+msgstr "%d فایل حذف‌شده هنوز لینک دارند"
+
+msgid "A PDF or image was removed from the media library but a page or menu still links to it. Upload it again or remove the link."
+msgstr "یک PDF یا تصویر از کتابخانه رسانه حذف شده ولی هنوز صفحه یا منویی به آن لینک دارد. دوباره بارگذاری‌اش کنید یا لینک را بردارید."
+
+#, php-format
+msgid "%d broken links contain a cut-off character (�)"
+msgstr "%d لینک خراب یک حرف بریده‌شده (�) دارند"
+
+msgid "Somewhere a link to an article was cut in the middle of a Persian letter. Find the link (Internal Links) and fix it, or redirect the broken address to the article."
+msgstr "جایی لینک یک مقاله وسط یک حرف فارسی بریده شده است. لینک را (بخش لینک داخلی) پیدا و اصلاح کنید، یا آدرس خراب را به مقاله ریدایرکت کنید."
+
+msgid "Its own address redirects, but it is still published: it stays in the sitemap and Search Console reports “Page with redirect” or “Redirect error”. Make it a draft (the redirect keeps working, nothing is deleted) — or delete the rule if the article should be live."
+msgstr "آدرس خودش ریدایرکت می‌شود ولی هنوز منتشرشده است: در نقشه سایت می‌ماند و سرچ کنسول «Page with redirect» یا «Redirect error» گزارش می‌کند. پیش‌نویسش کنید (ریدایرکت کار می‌کند و چیزی حذف نمی‌شود) — یا اگر مقاله باید فعال باشد، قانون را حذف کنید."
+
+msgid "Redirect chain"
+msgstr "زنجیره ریدایرکت"
+
+msgid "Point straight at the final page"
+msgstr "مستقیم به صفحه نهایی"
+
+msgid "Redirect probably points to the wrong article"
+msgstr "ریدایرکت احتمالاً به مقاله اشتباه می‌رود"
+
+#, php-format
+msgid "%1$s matches “%2$s” much better than the current destination."
+msgstr "%1$s با «%2$s» خیلی بیشتر از مقصد فعلی جور است."
+
+msgid "Point to the matching article"
+msgstr "فرستادن به مقاله مطابق"
+
+#, php-format
+msgid "%1$s: indexed %2$d → %3$d, not indexed %4$d → %5$d"
+msgstr "%1$s: ایندکس‌شده %2$d ← %3$d، ایندکس‌نشده %4$d ← %5$d"
+
+msgid "Timeline"
+msgstr "روند زمانی"
+
+msgid "Changes on the site in the days before:"
+msgstr "تغییرات سایت در روزهای قبل از آن:"
+
+msgid "No SEOlity-recorded change in the days before (a theme, plugin or permalink change outside SEOlity, or Google re-evaluating)."
+msgstr "در روزهای قبل تغییری در SEOlity ثبت نشده (تغییر قالب، افزونه یا پیوند یکتا بیرون از SEOlity، یا ارزیابی دوباره گوگل)."
+
+#, php-format
+msgid "%d redirects created"
+msgstr "%d ریدایرکت ساخته شد"
+
+#, php-format
+msgid "%d slugs changed"
+msgstr "نامک %d صفحه عوض شد"
+
+msgid "This finding has no automatic fix."
+msgstr "این مورد اصلاح خودکار ندارد."
+
+msgid "Its address redirects to another page: unpublished so it leaves the sitemap (kept as a draft)."
+msgstr "آدرسش به صفحه دیگری ریدایرکت می‌شود: از انتشار خارج شد تا از نقشه سایت بیرون برود (پیش‌نویس می‌ماند)."
+
+msgid "Paste the whole message text."
+msgstr "متن کامل پیام را بچسبانید."
+
+msgid "Search Console message"
+msgstr "پیام سرچ کنسول"
+
+msgid "Redirect error: Google followed a redirect that ended in a loop, a too-long chain, an empty or broken destination. Usually after changing article addresses twice or merging. Open Index coverage → the URL is traced live and the rule is fixed with your approval; then “Validate fix”."
+msgstr "خطای ریدایرکت: گوگل ریدایرکتی را دنبال کرده که به حلقه، زنجیره خیلی طولانی یا مقصد خالی و خراب رسیده است. معمولاً بعد از دو بار تغییر آدرس مقاله‌ها یا ادغام. «پوشش ایندکس» را باز کنید → آدرس زنده ردیابی و قانون با تأیید شما اصلاح می‌شود؛ بعد «Validate fix»."
+
+msgid "Page with redirect: the URL redirects — fine for old addresses, a problem only when it is a published page or still in the sitemap."
+msgstr "صفحه دارای ریدایرکت: آدرس ریدایرکت می‌شود — برای آدرس‌های قدیمی درست است؛ فقط وقتی مشکل است که صفحه منتشرشده باشد یا هنوز در نقشه سایت باشد."
+
+msgid "Not found (404): deleted or mistyped URLs. Redirect the valuable ones (links, traffic) to the closest page; ignore junk."
+msgstr "پیدا نشد (۴۰۴): آدرس‌های حذف‌شده یا اشتباه. آدرس‌های ارزشمند (لینک، ترافیک) را به نزدیک‌ترین صفحه ریدایرکت کنید و آدرس‌های بی‌ارزش را نادیده بگیرید."
+
+msgid "Soft 404: the page answers 200 but looks empty / not found to Google (empty category, out-of-stock template). Add content or return a real 404/410."
+msgstr "سافت ۴۰۴: صفحه کد ۲۰۰ می‌دهد ولی برای گوگل خالی یا «پیدا نشد» به نظر می‌رسد (دسته خالی، قالب ناموجود). محتوا اضافه کنید یا ۴۰۴/۴۱۰ واقعی برگردانید."
+
+msgid "Excluded by noindex: correct for cart, account and archives; check landing and category pages."
+msgstr "بیرون به‌خاطر noindex: برای سبد، حساب کاربری و آرشیوها درست است؛ صفحه‌های فرود و دسته را بررسی کنید."
+
+msgid "Blocked by robots.txt: correct for add-to-cart, feeds and system URLs; a problem only for real pages."
+msgstr "مسدود با robots.txt: برای افزودن به سبد، فیدها و آدرس‌های سیستمی درست است؛ فقط برای صفحه‌های واقعی مشکل است."
+
+msgid "Crawled – currently not indexed: Google saw the page and decided not to index it yet (quality, duplication, weak internal links). Feeds in this list are normal."
+msgstr "خزیده‌شده ولی فعلاً ایندکس‌نشده: گوگل صفحه را دیده و هنوز ایندکسش نکرده (کیفیت، تکراری بودن، لینک داخلی ضعیف). فیدها در این فهرست طبیعی‌اند."
+
+msgid "Discovered – currently not indexed: Google knows the URL but has not crawled it (crawl budget, weak links, slow server)."
+msgstr "کشف‌شده ولی فعلاً ایندکس‌نشده: گوگل آدرس را می‌شناسد ولی هنوز نخزیده (بودجه خزش، لینک ضعیف، سرور کند)."
+
+msgid "Server error (5xx): the server failed while Google crawled — check hosting limits, firewall and uptime first."
+msgstr "خطای سرور (5xx): سرور هنگام خزش گوگل خطا داده — اول محدودیت‌های هاست، فایروال و پایداری را بررسی کنید."
+
+msgid "Google chose a different canonical: two pages look the same to Google — merge or differentiate them."
+msgstr "گوگل کانونیکال دیگری انتخاب کرده: دو صفحه برای گوگل یکسان‌اند — ادغام یا متمایزشان کنید."
+
+msgid "Upload the export of this reason (Search Console → Pages → the reason → Export → Download ZIP) on the Index coverage page so SEOlity can see the URLs."
+msgstr "خروجی همین دلیل را (سرچ کنسول ← Pages ← دلیل ← Export ← Download ZIP) در صفحه «پوشش ایندکس» بارگذاری کنید تا SEOlity آدرس‌ها را ببیند."
+
+msgid "A manual action is a penalty by a Google reviewer — the most serious message. Open Search Console → Security & Manual actions, fix every listed issue, then request a review."
+msgstr "اقدام دستی جریمه‌ای از طرف بازبین گوگل است — جدی‌ترین پیام. در سرچ کنسول ← Security & Manual actions همه موارد را اصلاح و بعد درخواست بازبینی کنید."
+
+msgid "Security issue: the site may be hacked. Scan files and users, update everything, then request a review in Search Console."
+msgstr "مشکل امنیتی: ممکن است سایت هک شده باشد. فایل‌ها و کاربران را بررسی و همه چیز را به‌روز کنید، بعد در سرچ کنسول درخواست بازبینی بدهید."
+
+msgid "Core Web Vitals: real visitors find some pages slow or jumpy. See Site Audit → Core Web Vitals and Server & speed."
+msgstr "معیارهای حیاتی وب: بازدیدکننده‌های واقعی بعضی صفحه‌ها را کند یا ناپایدار می‌بینند. ممیزی سایت ← Core Web Vitals و «سرور و سرعت» را ببینید."
+
+msgid "Structured data issue: some rich-result markup is invalid or incomplete. See Schema."
+msgstr "مشکل داده ساختاریافته: بخشی از نشانه‌گذاری نتایج غنی نامعتبر یا ناقص است. بخش اسکیما را ببینید."
+
+msgid "Sitemap problem: Google could not read a sitemap. Check Sitemap (address, errors, size)."
+msgstr "مشکل نقشه سایت: گوگل نتوانسته نقشه سایت را بخواند. بخش نقشه سایت را بررسی کنید (آدرس، خطاها، حجم)."
+
+msgid "SEOlity stored the message; the AI explains it in a moment."
+msgstr "SEOlity پیام را ذخیره کرد؛ هوش مصنوعی تا لحظاتی دیگر توضیحش می‌دهد."
+
+msgid "AI explanation of the Search Console message"
+msgstr "توضیح هوش مصنوعی درباره پیام سرچ کنسول"
+
+msgid "AI analysis of index coverage"
+msgstr "تحلیل هوش مصنوعی از پوشش ایندکس"
+
+msgid "Plan (added to the SEO roadmap):"
+msgstr "برنامه (به مسیر راه اضافه شد):"
+
+#, php-format
+msgid "New reason prevents pages from being indexed: %s"
+msgstr "دلیل جدیدی مانع ایندکس صفحه‌ها شده: %s"
+
+msgid "Found by SEOlity’s daily Google URL Inspection of your own pages (before Search Console e-mails about it):"
+msgstr "با بررسی روزانه URL Inspection گوگل روی صفحه‌های خودتان پیدا شد (قبل از اینکه سرچ کنسول ایمیل بزند):"
+
+#, php-format
+msgid "Google reports %2$d errors in sitemap %1$s"
+msgstr "گوگل در نقشه سایت %1$s تعداد %2$d خطا گزارش می‌کند"
+
+msgid "Open Sitemap and Search Console → Sitemaps to see which entries Google could not use."
+msgstr "بخش نقشه سایت و سرچ کنسول ← Sitemaps را باز کنید تا ببینید گوگل کدام ورودی‌ها را نتوانسته استفاده کند."
+
+#, php-format
+msgid "%d new redirect problems"
+msgstr "%d مشکل جدید ریدایرکت"
 
 msgid "Enter your Google OAuth Client ID and Client Secret first."
 msgstr "ابتدا Client ID و Client Secret مربوط به OAuth گوگل را وارد کنید."
@@ -4992,28 +5279,95 @@ msgstr "نقشه سایت %s بیش از ۵۰٬۰۰۰ URL دارد و رد خو�
 msgid "Follow-up"
 msgstr "پیگیری"
 
-#, php-format
-msgid "%1$s: clicks %2$d → %3$d, position %4$s → %5$s"
-msgstr "%1$s: کلیک %2$d ← %3$d، جایگاه %4$s ← %5$s"
+msgid "Positive: it worked."
+msgstr "مثبت: جواب داد."
 
-msgid "It got better."
-msgstr "بهتر شد."
-
-msgid "It got worse — worth a look."
-msgstr "بدتر شد — ارزش بررسی دارد."
+msgid "Negative: it got worse — worth a look."
+msgstr "منفی: بدتر شد — ارزش بررسی دارد."
 
 msgid "No clear change yet."
 msgstr "هنوز تغییر روشنی دیده نمی‌شود."
 
+msgid "Not enough Search Console data to judge yet."
+msgstr "هنوز داده سرچ کنسول برای قضاوت کافی نیست."
+
+msgid "high"
+msgstr "زیاد"
+
+msgid "medium"
+msgstr "متوسط"
+
+msgid "low"
+msgstr "کم"
+
+msgid "too little data"
+msgstr "داده خیلی کم"
+
 #, php-format
-msgid "Result of “%2$s” (since %1$s)"
-msgstr "نتیجه «%2$s» (از %1$s)"
+msgid "(confidence: %s)"
+msgstr "(اطمینان: %s)"
+
+#, php-format
+msgid "Compared %1$d days after the change with the same %1$d days before it (%2$s → %3$s)."
+msgstr "%1$d روز بعد از تغییر با همان %1$d روز قبل از آن مقایسه شد (%2$s تا %3$s)."
+
+msgid "Partial: Search Console data is not complete yet."
+msgstr "جزئی: داده سرچ کنسول هنوز کامل نیست."
+
+#, php-format
+msgid "Clicks: %1$d → %2$d (expected from the site trend: %3$s, difference %4$s%%)"
+msgstr "کلیک: %1$d ← %2$d (مورد انتظار از روند سایت: %3$s، اختلاف %4$s٪)"
+
+#, php-format
+msgid "Impressions: %1$d → %2$d (difference to the site trend %3$s%%)"
+msgstr "نمایش: %1$d ← %2$d (اختلاف با روند سایت %3$s٪)"
+
+#, php-format
+msgid "Average position: %1$s → %2$s"
+msgstr "میانگین رتبه: %1$s ← %2$s"
+
+#, php-format
+msgid "Whole site in the same time: clicks %1$s%%, impressions %2$s%%"
+msgstr "کل سایت در همین مدت: کلیک %1$s٪، نمایش %2$s٪"
+
+#, php-format
+msgid "%1$s: clicks %2$d → %3$d, position %4$s → %5$s"
+msgstr "%1$s: کلیک %2$d ← %3$d، جایگاه %4$s ← %5$s"
+
+msgid "This is an early warning: if the drop continues at the next check, consider undoing the change (AI Changes → Undo)."
+msgstr "این یک هشدار زودهنگام است: اگر افت در بررسی بعدی هم ادامه داشت، برگرداندن تغییر را در نظر بگیرید (تغییرات هوش مصنوعی ← برگرداندن)."
+
+#, php-format
+msgid "Day %1$d result of “%2$s”"
+msgstr "نتیجه روز %1$d «%2$s»"
+
+msgid "Follow-ups"
+msgstr "پیگیری‌ها"
+
+msgid "Ask the AI what to do next"
+msgstr "از هوش مصنوعی بپرسید قدم بعدی چیست"
+
+msgid "The change (undo possible)"
+msgstr "این تغییر (قابل برگرداندن)"
 
 msgid "Goal:"
 msgstr "هدف:"
 
-msgid "Ask the AI what to do next"
-msgstr "از هوش مصنوعی بپرسید قدم بعدی چیست"
+msgid "Why:"
+msgstr "چرا:"
+
+msgid "Next steps (added to the SEO roadmap):"
+msgstr "قدم‌های بعدی (به مسیر راه اضافه شد):"
+
+msgid "The AI recommends undoing this change (AI Changes → Undo)."
+msgstr "هوش مصنوعی پیشنهاد می‌کند این تغییر برگردانده شود (تغییرات هوش مصنوعی ← برگرداندن)."
+
+msgid "Lesson for this site:"
+msgstr "درس برای این سایت:"
+
+#, php-format
+msgid "AI analysis of “%s”"
+msgstr "تحلیل هوش مصنوعی «%s»"
 
 msgid "Applied change"
 msgstr "تغییر اعمال‌شده"
@@ -5073,9 +5427,6 @@ msgstr "به"
 
 msgid "Cancel"
 msgstr "انصراف"
-
-msgid "Create 301 redirect"
-msgstr "ایجاد ریدایرکت ۳۰۱"
 
 msgid "Redirect created."
 msgstr "ریدایرکت ایجاد شد."
@@ -6037,6 +6388,24 @@ msgstr "همگام‌سازی از گیت‌هاب"
 msgid "Synced: %1$s bundled, %2$s from GitHub."
 msgstr "همگام شد: %1$s داخلی، %2$s از گیت‌هاب."
 
+msgid "Automatic (Iran for a .ir / Persian site)"
+msgstr "خودکار (برای سایت .ir یا فارسی: ایران)"
+
+msgid "Iran — Iranian search market"
+msgstr "ایران — بازار جست‌وجوی ایران"
+
+msgid "International"
+msgstr "بین‌المللی"
+
+msgid "Saved."
+msgstr "ذخیره شد."
+
+msgid "SEO market"
+msgstr "بازار سئو"
+
+msgid "SEO in Iran works differently (Persian language issues, Torob / Digikala / Basalam, eNamad, reportage links, hosting and filtering limits, Iranian seasons). With “Iran” the AI uses the Iranian knowledge first; with “International” the global documents."
+msgstr "سئو در ایران متفاوت است (مسائل زبان فارسی، ترب / دیجی‌کالا / باسلام، اینماد، رپورتاژ، محدودیت‌های هاست و فیلترینگ، فصل‌های ایرانی). با «ایران» هوش مصنوعی اول از دانش سئوی ایران استفاده می‌کند؛ با «بین‌المللی» از اسناد جهانی."
+
 msgid "Collect knowledge for this site"
 msgstr "جمع‌آوری دانش برای این سایت"
 
@@ -6940,6 +7309,136 @@ msgstr "در صفحه رقبا «تحلیل همین حالا» را بزنید 
 msgid "Connected"
 msgstr "متصل"
 
+msgid "Why Google does or does not index your pages: Search Console exports and messages, Google’s own URL Inspection, redirects — explained, with fixes you approve."
+msgstr "چرا گوگل صفحه‌هایتان را ایندکس می‌کند یا نمی‌کند: خروجی‌ها و پیام‌های سرچ کنسول، بررسی URL خود گوگل و ریدایرکت‌ها — با توضیح و اصلاح‌هایی که خودتان تأیید می‌کنید."
+
+msgid "AI analysis"
+msgstr "تحلیل هوش مصنوعی"
+
+msgid "The AI is analysing the indexing data — the result arrives as a notification and here."
+msgstr "هوش مصنوعی در حال تحلیل داده ایندکس است — نتیجه به‌صورت اعلان و همین‌جا می‌رسد."
+
+msgid "Search Console exports"
+msgstr "خروجی‌های سرچ کنسول"
+
+msgid "Search Console → Indexing → Pages → Export (top right) → Download ZIP. This is the summary with the timeline."
+msgstr "سرچ کنسول ← Indexing ← Pages ← Export (بالا سمت راست) ← Download ZIP. این خلاصه همراه با نمودار است."
+
+msgid "Click each reason in the list “Why pages aren’t indexed” → Export → Download ZIP. These contain the URLs."
+msgstr "روی هر دلیل در فهرست «Why pages aren’t indexed» کلیک کنید ← Export ← Download ZIP. آدرس‌ها در این فایل‌هاست."
+
+msgid "Choose all ZIP files here at once. Re-upload whenever Search Console e-mails you."
+msgstr "همه فایل‌های ZIP را یک‌جا اینجا انتخاب کنید. هر بار سرچ کنسول ایمیل زد، دوباره بارگذاری کنید."
+
+msgid "Upload & analyse"
+msgstr "بارگذاری و تحلیل"
+
+#, php-format
+msgid "Imported. %d findings."
+msgstr "وارد شد. %d مورد پیدا شد."
+
+#, php-format
+msgid "Last summary: %s"
+msgstr "آخرین خلاصه: %s"
+
+msgid "Google offers no API for this report, so SEOlity reads the exports you download."
+msgstr "گوگل برای این گزارش API ندارد؛ برای همین SEOlity خروجی‌هایی را می‌خواند که دانلود می‌کنید."
+
+msgid "Indexed vs not indexed"
+msgstr "ایندکس‌شده در برابر ایندکس‌نشده"
+
+msgid "Indexed"
+msgstr "ایندکس‌شده"
+
+msgid "Not indexed"
+msgstr "ایندکس‌نشده"
+
+#, php-format
+msgid "Validation: %s"
+msgstr "اعتبارسنجی: %s"
+
+msgid "Needs attention — see the findings below."
+msgstr "نیاز به رسیدگی — موارد پایین را ببینید."
+
+msgid "Checked: nothing harmful found."
+msgstr "بررسی شد: مورد مضری پیدا نشد."
+
+msgid "Export this reason too to see its URLs."
+msgstr "خروجی این دلیل را هم بگیرید تا آدرس‌هایش دیده شود."
+
+msgid "Why pages aren’t indexed"
+msgstr "چرا صفحه‌ها ایندکس نشده‌اند"
+
+msgid "Problem"
+msgstr "مشکل"
+
+msgid "Check"
+msgstr "بررسی"
+
+msgid "OK"
+msgstr "موفق"
+
+msgid "Plan (added to the SEO roadmap)"
+msgstr "برنامه (به مسیر راه اضافه شد)"
+
+msgid "Findings"
+msgstr "یافته‌ها"
+
+msgid "Nothing found yet"
+msgstr "هنوز چیزی پیدا نشده"
+
+msgid "Upload the Search Console exports, or wait for the daily index watch."
+msgstr "خروجی‌های سرچ کنسول را بارگذاری کنید یا منتظر پایش روزانه ایندکس بمانید."
+
+#, php-format
+msgid "%d URLs"
+msgstr "%d آدرس"
+
+msgid "Nothing changes until you approve."
+msgstr "تا تأیید نکنید چیزی تغییر نمی‌کند."
+
+msgid "Fix"
+msgstr "رفع"
+
+msgid "From the exports and SEOlity’s own data (redirects, posts, changes)."
+msgstr "از روی خروجی‌ها و داده خود SEOlity (ریدایرکت‌ها، نوشته‌ها، تغییرات)."
+
+msgid "Paste the whole e-mail from Search Console here (e.g. “New reasons prevent pages in a sitemap from being indexed…”)."
+msgstr "متن کامل ایمیل سرچ کنسول را اینجا بچسبانید (مثلاً «New reasons prevent pages in a sitemap from being indexed…»)."
+
+msgid "The AI explanation arrives in a moment as a notification."
+msgstr "توضیح هوش مصنوعی تا لحظاتی دیگر به‌صورت اعلان می‌رسد."
+
+msgid "Search Console messages"
+msgstr "پیام‌های سرچ کنسول"
+
+msgid "Google has no API for Search Console messages. Paste or forward the text and SEOlity explains it, connects it with your data and notifies you (also by e-mail). The daily index watch below finds most of these problems on its own."
+msgstr "گوگل برای پیام‌های سرچ کنسول API ندارد. متن را بچسبانید تا SEOlity توضیحش دهد، با داده سایت تطبیقش دهد و به شما اعلان (و ایمیل) بفرستد. پایش روزانه ایندکس در پایین بیشتر این مشکلات را خودش پیدا می‌کند."
+
+msgid "Read the message"
+msgstr "خواندن پیام"
+
+msgid "Message stored — see Notifications."
+msgstr "پیام ذخیره شد — اعلان‌ها را ببینید."
+
+msgid "Daily index watch (Google URL Inspection)"
+msgstr "پایش روزانه ایندکس (URL Inspection گوگل)"
+
+#, php-format
+msgid "Every day SEOlity asks Google about %d of your pages in turn (Settings → Crawler) and notifies you when a new reason appears — like Search Console’s e-mails, often earlier. It also watches the sitemap and the redirect rules."
+msgstr "SEOlity هر روز به نوبت وضعیت %d صفحه از سایت را از گوگل می‌پرسد (تنظیمات ← خزنده) و هر وقت دلیل تازه‌ای پیدا شد خبرتان می‌کند — مثل ایمیل‌های سرچ کنسول و اغلب زودتر. نقشه سایت و قانون‌های ریدایرکت را هم زیر نظر دارد."
+
+#, php-format
+msgid "%d pages checked so far."
+msgstr "تا الان %d صفحه بررسی شده."
+
+#, php-format
+msgid "%d pages with a problem"
+msgstr "%d صفحه دارای مشکل"
+
+msgid "Check now"
+msgstr "همین حالا بررسی کن"
+
 msgid "Needs configuration"
 msgstr "نیاز به تنظیم"
 
@@ -7047,9 +7546,6 @@ msgstr "پاسخ درخواست‌ها از"
 
 msgid "Last result"
 msgstr "آخرین نتیجه"
-
-msgid "OK"
-msgstr "موفق"
 
 msgid "Detected paths (administrators only)"
 msgstr "مسیرهای پیداشده (فقط مدیران)"
@@ -7827,8 +8323,27 @@ msgstr "با ایمیل ارسال شد"
 msgid "E-mail failed"
 msgstr "ایمیل ارسال نشد"
 
-msgid "SEOlity measures these pages and queries again on the date shown and sends you the result. Every applied change gets one automatically (after 28 days); the AI chat adds one whenever you ask it to check something later."
-msgstr "SEOlity در تاریخ نوشته‌شده این صفحه‌ها و کوئری‌ها را دوباره می‌سنجد و نتیجه را برایتان می‌فرستد. هر تغییر اعمال‌شده خودکار یک پیگیری می‌گیرد (۲۸ روز بعد) و هر وقت از چت بخواهید چیزی را بعداً بررسی کند، یک پیگیری اضافه می‌کند."
+msgid "Every applied change is measured on day 7, 14, 28 and once more later: the same number of days after the change against before it, corrected by the whole site’s trend. Clear early results and every main result are sent to you (also by e-mail); the AI explains the result and puts the next steps on the SEO roadmap."
+msgstr "هر تغییر اعمال‌شده در روزهای ۷، ۱۴، ۲۸ و یک بار دیرتر اندازه گرفته می‌شود: همان تعداد روز بعد از تغییر در برابر قبل از آن، با در نظر گرفتن روند کل سایت. نتیجه‌های زودهنگامِ روشن و همه نتیجه‌های اصلی برایتان فرستاده می‌شود (ایمیل هم)؛ هوش مصنوعی نتیجه را توضیح می‌دهد و قدم‌های بعدی را در مسیر راه می‌گذارد."
+
+#, php-format
+msgid "Search Console data available until %s."
+msgstr "داده سرچ کنسول تا %s موجود است."
+
+msgid "What worked on this site"
+msgstr "چه چیزی در این سایت جواب داده"
+
+msgid "Change type"
+msgstr "نوع تغییر"
+
+msgid "Clicks vs site trend"
+msgstr "کلیک در برابر روند سایت"
+
+msgid "Position gain"
+msgstr "بهبود رتبه"
+
+msgid "The AI uses this record when it plans new changes."
+msgstr "هوش مصنوعی هنگام برنامه‌ریزی تغییرات جدید از این سابقه استفاده می‌کند."
 
 msgid "No follow-ups yet"
 msgstr "هنوز پیگیری‌ای نیست"
@@ -7836,32 +8351,49 @@ msgstr "هنوز پیگیری‌ای نیست"
 msgid "Ask the AI chat “check this again in a month”, or apply a change."
 msgstr "به چت بگویید «یک ماه دیگر این را دوباره بررسی کن»، یا یک تغییر اعمال کنید."
 
-msgid "Better"
-msgstr "بهتر"
-
-msgid "Worse"
-msgstr "بدتر"
-
 msgid "No clear change"
 msgstr "بدون تغییر روشن"
 
-msgid "Checked"
-msgstr "بررسی شد"
+msgid "Too little data"
+msgstr "داده خیلی کم"
+
+msgid "Not measured yet"
+msgstr "هنوز اندازه‌گیری نشده"
 
 #, php-format
-msgid "Check on %s"
-msgstr "بررسی در %s"
+msgid "Day %d"
+msgstr "روز %d"
 
 #, php-format
-msgid "clicks %1$s → %2$s, position %3$s → %4$s"
-msgstr "کلیک %1$s ← %2$s، جایگاه %3$s ← %4$s"
+msgid "Clicks %1$s → %2$s (expected from the site trend %3$s, %4$s%%)"
+msgstr "کلیک %1$s ← %2$s (مورد انتظار از روند سایت %3$s، %4$s٪)"
+
+#, php-format
+msgid "Impressions %1$s → %2$s (%3$s%% vs site trend)"
+msgstr "نمایش %1$s ← %2$s (%3$s٪ نسبت به روند سایت)"
+
+#, php-format
+msgid "Average position %1$s → %2$s"
+msgstr "میانگین رتبه %1$s ← %2$s"
+
+#, php-format
+msgid "Whole site: clicks %1$s%%, impressions %2$s%% · confidence: %3$s"
+msgstr "کل سایت: کلیک %1$s٪، نمایش %2$s٪ · اطمینان: %3$s"
+
+#, php-format
+msgid "Changed on %s"
+msgstr "تغییر در %s"
+
+#, php-format
+msgid "Next check %s"
+msgstr "بررسی بعدی %s"
 
 #, php-format
 msgid "Created %s"
 msgstr "ساخته‌شده در %s"
 
-msgid "Check now"
-msgstr "همین حالا بررسی کن"
+msgid "Measure now"
+msgstr "الان اندازه بگیر"
 
 msgid "Right away, one e-mail per notification"
 msgstr "فوری، یک ایمیل برای هر اعلان"
@@ -7905,9 +8437,6 @@ msgstr "علامت‌گذاری همه به‌عنوان خوانده‌شده"
 
 msgid "All"
 msgstr "همه"
-
-msgid "Follow-ups"
-msgstr "پیگیری‌ها"
 
 msgid "E-mail"
 msgstr "ایمیل"
@@ -7995,9 +8524,6 @@ msgstr "لینک داخلی ورودی"
 
 msgid "Click depth"
 msgstr "عمق کلیک"
-
-msgid "Check"
-msgstr "بررسی"
 
 msgid "Value"
 msgstr "مقدار"
@@ -8893,9 +9419,6 @@ msgstr "رمزنگاری‌شده ذخیره می‌شود. دیگر نمایش 
 msgid "Save credentials"
 msgstr "ذخیره اطلاعات اتصال"
 
-msgid "Saved."
-msgstr "ذخیره شد."
-
 msgid "Step 2 — Connect your Google account"
 msgstr "مرحله ۲ — اتصال حساب گوگل"
 
@@ -9542,9 +10065,6 @@ msgstr "ممیزی در حال اجراست — نتایج خودکار به‌�
 msgid "Run it to see what Google can index on this site."
 msgstr "آن را اجرا کنید تا ببینید گوگل چه چیزهایی از این سایت را می‌تواند ایندکس کند."
 
-msgid "Findings"
-msgstr "یافته‌ها"
-
 msgid "High severity"
 msgstr "شدت بالا"
 
@@ -10085,9 +10605,6 @@ msgstr "کلمات کلیدی کانونی ذخیره شد."
 msgid "Show"
 msgstr "نمایش"
 
-msgid "Fix"
-msgstr "رفع"
-
 msgid "Checking experience, expertise, authority and trust signals…"
 msgstr "در حال بررسی سیگنال‌های تجربه، تخصص، اعتبار و اعتماد…"
 
@@ -10166,6 +10683,9 @@ msgstr "زندگی‌نامه نویسنده"
 msgid "Noindex"
 msgstr "نوایندکس"
 
+msgid "Publish status"
+msgstr "وضعیت انتشار"
+
 msgid "Nofollow"
 msgstr "نوفالو"
 
@@ -10240,6 +10760,12 @@ msgstr "کش پاسخ‌های هوش مصنوعی (ساعت)"
 
 msgid "Content language"
 msgstr "زبان محتوا"
+
+msgid "SEO market (methods differ in Iran)"
+msgstr "بازار سئو (روش‌ها در ایران فرق دارد)"
+
+msgid "Daily Google URL Inspection (pages per day, 0 = off)"
+msgstr "بررسی روزانه URL Inspection گوگل (صفحه در روز، ۰ = خاموش)"
 
 msgid "Brand voice & editorial rules"
 msgstr "لحن برند و قوانین نگارشی"
@@ -10442,15 +10968,6 @@ msgstr "فرانسوی"
 
 msgid "es"
 msgstr "اسپانیایی"
-
-msgid "low"
-msgstr "کم"
-
-msgid "medium"
-msgstr "متوسط"
-
-msgid "high"
-msgstr "زیاد"
 
 msgid "xhigh"
 msgstr "خیلی زیاد"
@@ -10668,9 +11185,6 @@ msgstr "امنیت"
 msgid "Mobile"
 msgstr "موبایل"
 
-msgid "International"
-msgstr "بین‌المللی"
-
 msgid "Gsc"
 msgstr "سرچ کنسول"
 
@@ -10682,6 +11196,15 @@ msgstr "ناموجود"
 
 msgid "onbackorder"
 msgstr "پیش‌سفارش"
+
+msgid "iran"
+msgstr "ایران"
+
+msgid "international"
+msgstr "بین‌المللی"
+
+msgid "insufficient"
+msgstr "ناکافی"
 
 #, php-format
 msgid "%d change prepared — review it and approve to apply it on the site."
