@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEOlity 1.0.0\n"
-"POT-Creation-Date: 2026-11-10 12:39+0000\n"
+"POT-Creation-Date: 2026-11-10 13:00+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -7292,6 +7292,15 @@ msgstr ""
 msgid "Google results database"
 msgstr ""
 
+msgid "SEOlity: Google is showing a security check (CAPTCHA). Solve it, wait for the results, then click the bookmark again. With a VPN this happens more often."
+msgstr ""
+
+msgid "SEOlity: this is not a Google results page. Search something first, then click the bookmark on the results."
+msgstr ""
+
+msgid "SEOlity: no results were found on this page. Scroll once so all results load and click again; if it still fails, take a screenshot of the page for support."
+msgstr ""
+
 msgid "No-key source: your own browser"
 msgstr ""
 
@@ -7302,6 +7311,9 @@ msgid "Open google.com in an incognito window and search a query (set the countr
 msgstr ""
 
 msgid "Click the bookmark on the results page: the results open here and are saved with one click."
+msgstr ""
+
+msgid "Version 2 (reads the new Google layouts). If you added the bookmark before, delete the old one and drag this one again."
 msgstr ""
 
 msgid "Drag the button to the bookmarks bar, then use it on a Google results page."

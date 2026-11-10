@@ -121,9 +121,95 @@
 	App.serpBookmarklet = function () {
 		return bookmarklet();
 	};
+	/**
+	 * Runs on the Google results page the owner opened (not in SEOlity): reads the organic results
+	 * and opens SEOlity's import page. Self-contained — it only receives cfg. Google changes its
+	 * markup often, so it tries the result titles first and falls back to the result links; ads
+	 * are skipped; a CAPTCHA page or a page without a search gets a clear message.
+	 */
+	function readGoogle( cfg ) {
+		var loc = window.location;
+		if ( 0 === loc.pathname.indexOf( '/sorry' ) || document.querySelector( '#captcha-form, form[action*="sorry"], iframe[src*="recaptcha"]' ) ) {
+			alert( cfg.captcha );
+			return;
+		}
+		var q = new URLSearchParams( loc.search ).get( 'q' ) || ( document.querySelector( '[name=q]' ) || {} ).value || '';
+		if ( ! q ) {
+			alert( cfg.nosearch );
+			return;
+		}
+		var root = document.querySelector( '#rso' ) || document.querySelector( '#search' ) || document.querySelector( '[role=main]' ) || document.body;
+		var seen = {};
+		var res = [];
+		function clean( u ) {
+			try {
+				var x = new URL( u, loc.href );
+				if ( '/url' === x.pathname ) {
+					u = x.searchParams.get( 'q' ) || x.searchParams.get( 'url' ) || '';
+					x = new URL( u );
+				}
+				if ( ! /^https?:$/.test( x.protocol ) || /(^|\.)(google|googleusercontent|gstatic|youtube\.com\/redirect)\./.test( x.hostname ) ) {
+					return '';
+				}
+				return x.href;
+			} catch ( e ) {
+				return '';
+			}
+		}
+		function isAd( el ) {
+			return !! el.closest( '#tads, #tadsb, #bottomads, [data-text-ad], [aria-label="Ads"], [aria-label="Sponsored"]' );
+		}
+		function add( a, titleEl ) {
+			if ( ! a || isAd( a ) ) {
+				return;
+			}
+			var u = clean( a.getAttribute( 'href' ) || '' );
+			var title = ( ( titleEl || a ).innerText || '' ).trim().split( '\n' )[ 0 ];
+			if ( ! u || title.length < 3 ) {
+				return;
+			}
+			var key = u.replace( /[#?].*$/, '' ).replace( /\/$/, '' );
+			if ( seen[ key ] ) {
+				return;
+			}
+			seen[ key ] = 1;
+			var block = a.closest( '[data-hveid], .g, [data-sokoban-container], [jscontroller]' ) || a.parentElement;
+			res.push( { title: title, url: u, snippet: block ? ( block.innerText || '' ).replace( title, '' ).trim().slice( 0, 300 ) : '' } );
+		}
+		root.querySelectorAll( 'a h3, a [role=heading]' ).forEach( function ( h ) {
+			add( h.closest( 'a' ), h );
+		} );
+		if ( res.length < 3 ) {
+			// Fallback: the visible outgoing links of the results area, in page order.
+			root.querySelectorAll( 'a[href]' ).forEach( function ( a ) {
+				if ( res.length < 30 && ( a.offsetWidth || a.offsetHeight ) && ! a.closest( 'header, nav, footer, [role=navigation], g-scrolling-carousel' ) ) {
+					add( a, a.querySelector( 'h3, [role=heading], span' ) );
+				}
+			} );
+		}
+		var qs = [].slice.call( document.querySelectorAll( '[data-q]' ) ).map( function ( e ) {
+			return e.getAttribute( 'data-q' );
+		} ).slice( 0, 10 );
+		if ( ! res.length ) {
+			alert( cfg.noresults );
+			return;
+		}
+		window.open( cfg.target + '#/serp-import?d=' + encodeURIComponent( JSON.stringify( { query: q, results: res.slice( 0, 50 ), questions: qs } ) ), '_blank' );
+	}
+	App.readGoogle = readGoogle; // For tests.
+
+	/** Bookmarklet: sends the Google results page the user opened to this site (no key, no account). */
+	App.serpBookmarklet = function () {
+		return bookmarklet();
+	};
 	function bookmarklet() {
-		var target = location.origin + location.pathname + '?page=seolity';
-		var code = "javascript:(()=>{const S=" + JSON.stringify( target ) + ";const q=new URLSearchParams(location.search).get('q')||(document.querySelector('[name=q]')||{}).value||'';const seen=new Set(),res=[];document.querySelectorAll('a h3').forEach(h=>{const a=h.closest('a');if(!a)return;let u=a.href;try{const x=new URL(u);if(x.pathname==='/url')u=x.searchParams.get('q')||x.searchParams.get('url')||u;if(/(^|\.)google\./.test(new URL(u).hostname))return;}catch(e){return}if(!/^https?:/.test(u)||seen.has(u))return;seen.add(u);const b=a.closest('[data-hveid]')||a.parentElement;res.push({title:h.innerText,url:u,snippet:b?(b.innerText||'').replace(h.innerText,'').trim().slice(0,300):''})});const qs=[...document.querySelectorAll('[data-q]')].map(e=>e.getAttribute('data-q')).slice(0,10);if(!res.length){alert('SEOlity: no results found on this page.');return}window.open(S+'#/serp-import?d='+encodeURIComponent(JSON.stringify({query:q,results:res.slice(0,50),questions:qs})),'_blank')})()";
+		var cfg = {
+			target: location.origin + location.pathname + '?page=seolity',
+			captcha: t( 'SEOlity: Google is showing a security check (CAPTCHA). Solve it, wait for the results, then click the bookmark again. With a VPN this happens more often.' ),
+			nosearch: t( 'SEOlity: this is not a Google results page. Search something first, then click the bookmark on the results.' ),
+			noresults: t( 'SEOlity: no results were found on this page. Scroll once so all results load and click again; if it still fails, take a screenshot of the page for support.' ),
+		};
+		var code = 'javascript:' + encodeURIComponent( '(' + readGoogle.toString() + ')(' + JSON.stringify( cfg ) + ')' );
 		return h( 'div', { class: 'sl-alert sl-alert--info sl-stack' },
 			h( 'b', { text: t( 'No-key source: your own browser' ) } ),
 			h( 'ol', { class: 'sl-small' },
@@ -131,10 +217,11 @@
 				h( 'li', { text: t( 'Open google.com in an incognito window and search a query (set the country/language you target).' ) } ),
 				h( 'li', { text: t( 'Click the bookmark on the results page: the results open here and are saved with one click.' ) } )
 			),
+			h( 'p', { class: 'sl-small', text: t( 'Version 2 (reads the new Google layouts). If you added the bookmark before, delete the old one and drag this one again.' ) } ),
 			h( 'div', {}, h( 'a', { class: 'sl-btn sl-btn--primary', href: code, onClick: function ( e ) {
 				e.preventDefault();
 				SL.toast( t( 'Drag the button to the bookmarks bar, then use it on a Google results page.' ) );
-			}, text: t( 'SEOlity: send Google results' ) } ) )
+			}, text: t( 'SEOlity: send Google results' ) + ' (v2)' } ) )
 		);
 	}
 

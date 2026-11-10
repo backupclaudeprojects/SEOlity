@@ -140,3 +140,7 @@ chain_fix	اصلاح زنجیره
 review_404s	بررسی ۴۰۴‌ها
 A loop has no end: let the AI choose which real page answers.	حلقه انتهایی ندارد؛ بگذارید هوش مصنوعی انتخاب کند کدام صفحه واقعی جواب بدهد.
 Send the Google results to SEOlity (free, no key)	فرستادن نتایج گوگل به سئولیتی (رایگان، بدون کلید)
+SEOlity: Google is showing a security check (CAPTCHA). Solve it, wait for the results, then click the bookmark again. With a VPN this happens more often.	سئولیتی: گوگل یک بررسی امنیتی (کپچا) نشان می‌دهد. آن را حل کنید، صبر کنید نتایج بیاید و دوباره روی بوکمارک بزنید. با VPN این بیشتر پیش می‌آید.
+SEOlity: this is not a Google results page. Search something first, then click the bookmark on the results.	سئولیتی: این صفحه، صفحه نتایج گوگل نیست. اول چیزی جست‌وجو کنید، بعد روی صفحه نتایج بوکمارک را بزنید.
+SEOlity: no results were found on this page. Scroll once so all results load and click again; if it still fails, take a screenshot of the page for support.	سئولیتی: در این صفحه نتیجه‌ای پیدا نشد. یک بار صفحه را پایین بکشید تا همه نتایج بیاید و دوباره بزنید؛ اگر باز نشد، از صفحه عکس بگیرید و بفرستید.
+Version 2 (reads the new Google layouts). If you added the bookmark before, delete the old one and drag this one again.	نسخه ۲ (ظاهرهای جدید گوگل را هم می‌خواند). اگر قبلاً بوکمارک را اضافه کرده‌اید، قبلی را پاک کنید و این را دوباره بکشید.
