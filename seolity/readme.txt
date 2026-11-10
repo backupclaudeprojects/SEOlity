@@ -4,7 +4,7 @@ Tags: seo, ai, search console, woocommerce, schema
 Requires at least: 6.2
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.19.0
+Stable tag: 1.19.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,9 @@ Yes. The interface is fully translated and RTL-native, text analysis understands
 Enable "Delete all data on uninstall" in Settings → Privacy, then delete the plugin.
 
 == Changelog ==
+
+= 1.19.1 =
+* Fix: Google results sent with the free "your browser" bookmark were saved for the competitor pages only; "Road to #1" and its AI plan now read them too (the newest of the results API cache and the stored results). The bookmark button is also on the "Road to #1" page, and an import of the focused search returns there. Live checks are kept in the results history.
 
 = 1.19.0 =
 * Road to #1 (new page): every search the site appears for, with its real Google position (Search Console), an honest chance of #1 (already #1 / very close / realistic / hard / long shot — from the numbers, not hope) and what #1 would bring (marked as an estimate). Focus on ONE search: the AI compares the page with the result that ranks first and gives an honest verdict, a realistic time frame, the gaps, the few steps that move this search (each prepared for review with one click) and what is not worth the time. Progress and wins are shown only from Search Console data after the focus started. Live check: the configured Google results source, or "Open in Google" for a private window (scraping Google from the server is deliberately not done).

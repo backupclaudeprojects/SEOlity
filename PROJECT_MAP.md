@@ -6,7 +6,7 @@
 - هوش مصنوعی: API (Anthropic/OpenAI/Gemini/…)، اشتراک Claude/ChatGPT از طریق CLI روی همین سرور یا اجراکننده GitHub Actions، رله Cloudflare.
 
 ## 2. وضعیت فعلی
-- نسخه **1.19.0** (`seolity/seolity.php:6`)، DB schema **1.8.0** (`seolity.php:23`). شاخه کامل و مستقل: `seolity-complete` (در مخزن اصلی `benlifoodaiwriter/aria-ai-runner` کار روی `claude/beautiful-ride-7ilxpf` انجام شد).
+- نسخه **1.19.1** (`seolity/seolity.php:6`)، DB schema **1.8.0** (`seolity.php:23`). شاخه کامل و مستقل: `seolity-complete` (در مخزن اصلی `benlifoodaiwriter/aria-ai-runner` کار روی `claude/beautiful-ride-7ilxpf` انجام شد).
 - 1.19.0: صفحه «مسیر رتبه ۱» (`Rank/RankOne.php`، `pages-rank1.js`: هر کوئری جدا، شانس صادقانه، برنامه هوش مصنوعی در برابر رتبه اول، پیشرفت فقط با داده سرچ کنسول)؛ ۴۰۴: دسته‌بندی با شواهد واقعی و پنهان‌کردن کاوش‌های اسکنر (`NotFoundTriage::classify`، ستون‌های verdict)، انتخاب و ارسال بسته به چت (`review_404s`)؛ زنجیره ریدایرکت گرافیکی + اصلاح با تأیید (`Redirects/Chains.php`، شامل قوانین رنک‌مث).
 - 1.18.0: «بهینه‌سازی با هوش مصنوعی سئولیتی» کل صفحه را یکجا می‌سازد: محتوا (یا نوشتن از صفر)، عنوان سئو، توضیحات متا، کلمه کلیدی Rank Math/Yoast و H1 اختیاری؛ دستور پیش‌فرض (`ai_optimize_prompt`) + دستور کاربر؛ رفع اعمال‌نشدن در صفحه دسته‌بندی (`editor.js`: `termDescriptionAdapter`).
 - 1.17.1: رفع «OAuth token revoked» بعد از خروج از همه دستگاه‌ها: ذخیره ورود جدید، Secret را در مخزن اجراکننده و مخزن دانش جایگزین و اجرای قدیمی را لغو می‌کند (`SubscriptionRunner::sync_secret`، `GitHubClient::cancel_run`).

@@ -961,3 +961,5 @@ button.sl-segcard { cursor: pointer; }
 .sl-r1__posc.is-up { color: var(--sl-good, #16a34a); font-weight: 700; }
 .sl-r1__posc.is-down { color: #d97706; }
 @media (max-width: 640px) { .sl-r1__pos { gap: 6px; } .sl-r1__pos > div { min-width: 56px; padding: 6px; } .sl-r1__step { flex-direction: column; } }
+.sl-r1__bm { margin: 8px 0; }
+.sl-r1__bm summary { cursor: pointer; font-weight: 600; font-size: 13px; }

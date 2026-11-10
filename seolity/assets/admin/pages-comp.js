@@ -118,6 +118,9 @@
 	};
 
 	/** Bookmarklet: sends the Google results page the user opened to this site (no key, no account). */
+	App.serpBookmarklet = function () {
+		return bookmarklet();
+	};
 	function bookmarklet() {
 		var target = location.origin + location.pathname + '?page=seolity';
 		var code = "javascript:(()=>{const S=" + JSON.stringify( target ) + ";const q=new URLSearchParams(location.search).get('q')||(document.querySelector('[name=q]')||{}).value||'';const seen=new Set(),res=[];document.querySelectorAll('a h3').forEach(h=>{const a=h.closest('a');if(!a)return;let u=a.href;try{const x=new URL(u);if(x.pathname==='/url')u=x.searchParams.get('q')||x.searchParams.get('url')||u;if(/(^|\.)google\./.test(new URL(u).hostname))return;}catch(e){return}if(!/^https?:/.test(u)||seen.has(u))return;seen.add(u);const b=a.closest('[data-hveid]')||a.parentElement;res.push({title:h.innerText,url:u,snippet:b?(b.innerText||'').replace(h.innerText,'').trim().slice(0,300):''})});const qs=[...document.querySelectorAll('[data-q]')].map(e=>e.getAttribute('data-q')).slice(0,10);if(!res.length){alert('SEOlity: no results found on this page.');return}window.open(S+'#/serp-import?d='+encodeURIComponent(JSON.stringify({query:q,results:res.slice(0,50),questions:qs})),'_blank')})()";
@@ -299,7 +302,11 @@
 		v.appendChild( h( 'div', { class: 'sl-row' }, App.abtn( t( 'Save to the Google results database' ), function () {
 			return SL.api( 'serp/import', { body: data } ).then( function ( r ) {
 				SL.toast( t( '%s results saved.', r.results ), 'success' );
-				location.hash = '#/competitors';
+				var focus = '';
+				try {
+					focus = w.localStorage.getItem( 'seolity_rank1_focus' ) || '';
+				} catch ( e ) {}
+				location.hash = focus && focus === data.query ? '#/rank1' : '#/competitors';
 			} );
 		}, 'primary' ) ) );
 	};

@@ -1329,6 +1329,7 @@ final class I18n {
 			'#1 is %s' => __( '#1 is %s', 'seolity' ),
 			'Checked in Google.' => __( 'Checked in Google.', 'seolity' ),
 			'Open in Google' => __( 'Open in Google', 'seolity' ),
+			'Send the Google results to SEOlity (free, no key)' => __( 'Send the Google results to SEOlity (free, no key)', 'seolity' ),
 			'Search Console is the real average; “Check Google now” shows today’s results from your results source (one search of its quota).' => __( 'Search Console is the real average; “Check Google now” shows today’s results from your results source (one search of its quota).', 'seolity' ),
 			'Open it in a private (incognito) window so your own history does not change the results. To let the AI see the page that ranks first, use the free “your browser” Google source (Competitors page) — one click on its bookmark sends the results to SEOlity.' => __( 'Open it in a private (incognito) window so your own history does not change the results. To let the AI see the page that ranks first, use the free “your browser” Google source (Competitors page) — one click on its bookmark sends the results to SEOlity.', 'seolity' ),
 			'Done — next search' => __( 'Done — next search', 'seolity' ),

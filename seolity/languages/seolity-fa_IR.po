@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEOlity 1.0.0\n"
-"POT-Creation-Date: 2026-11-10 11:42+0000\n"
+"POT-Creation-Date: 2026-11-10 12:39+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -9406,6 +9406,9 @@ msgstr "در گوگل بررسی شد."
 
 msgid "Open in Google"
 msgstr "باز کردن در گوگل"
+
+msgid "Send the Google results to SEOlity (free, no key)"
+msgstr "فرستادن نتایج گوگل به سئولیتی (رایگان، بدون کلید)"
 
 msgid "Search Console is the real average; “Check Google now” shows today’s results from your results source (one search of its quota)."
 msgstr "سرچ کنسول میانگین واقعی است؛ «بررسی در گوگل همین حالا» نتایج امروز را از منبع نتایج شما نشان می‌دهد (یک جست‌وجو از سهمیه‌اش)."
