@@ -4,7 +4,7 @@ Tags: seo, ai, search console, woocommerce, schema
 Requires at least: 6.2
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.17.1
+Stable tag: 1.18.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,12 @@ Yes. The interface is fully translated and RTL-native, text analysis understands
 Enable "Delete all data on uninstall" in Settings → Privacy, then delete the plugin.
 
 == Changelog ==
+
+= 1.18.0 =
+* "Optimize with SEOlity AI" now optimizes the whole page in one go: the content from top to bottom (or writes it when it is empty, e.g. a new category), the SEO title, the meta description and the focus keyword for Rank Math / Yoast / SEOPress / AIOSEO, plus — opt-in — a better page title (H1). Rank Math's secondary keywords are kept.
+* Default instruction + your own: every run uses a default instruction (built-in, or your own in Settings → AI → "Default instruction for Optimize with SEOlity AI"); the window has a box for an extra instruction for this page, which wins over the default.
+* Fix: on category, tag and product-category screens "Apply to editor" changed nothing — it looked for the post editor. The result now goes into the category description (plain field or Rank Math's rich editor, every copy), and the SEO plugin's own fields on the screen are filled too, so its "Update" does not write the old title, description or keyword back.
+* Fix: a category's text was sent as "post_content", so no reviewable change was recorded for it; it is now the category description.
 
 = 1.17.1 =
 * Fix: after "log out of all devices" in Claude (every token revoked) a new token saved in SEOlity did not reach every place the old one was kept, so runs kept failing with "OAuth token revoked". Saving a login now replaces the copy in the runner repository AND in the site's own knowledge repository, and stops runner runs that started with the old login (a GitHub run keeps the secrets it started with).

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEOlity 1.0.0\n"
-"POT-Creation-Date: 2026-11-10 09:09+0000\n"
+"POT-Creation-Date: 2026-11-10 09:29+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2334,6 +2334,9 @@ msgstr "دسته/برچسب پیدا نشد."
 
 msgid "There is no content to optimize yet. Write a draft or use \"Generate\"."
 msgstr "هنوز محتوایی برای بهینه‌سازی وجود ندارد. یک پیش‌نویس بنویسید یا از «تولید» استفاده کنید."
+
+msgid "Optimize the whole page for position 1 on Google for its main search intent, from top to bottom: an opening that answers the searcher at once, a clear H2/H3 structure, every question and sub-topic a complete answer covers, natural use of the focus keyword and related terms, useful lists or tables, internal links where they help and a clear next step for the reader. Use the real Search Console queries of the page. Then write the SEO title, the meta description and the focus keyword for the SEO plugin. Keep every fact, price and link; never invent anything."
+msgstr "کل صفحه را از اول تا آخر برای رتبه ۱ گوگل در نیت اصلی جست‌وجوی آن بهینه کن: شروعی که همان اول جواب جست‌وجوگر را بدهد، ساختار روشن H2/H3، همه سؤال‌ها و زیرموضوع‌هایی که یک جواب کامل پوشش می‌دهد، استفاده طبیعی از کلمه کلیدی اصلی و کلمات مرتبط، فهرست یا جدول هر جا مفید است، لینک داخلی هر جا کمک می‌کند و یک قدم بعدی روشن برای خواننده. از کوئری‌های واقعی سرچ کنسول همین صفحه استفاده کن. بعد عنوان سئو، توضیحات متا و کلمه کلیدی اصلی را برای افزونه سئو بنویس. همه واقعیت‌ها، قیمت‌ها و لینک‌ها را نگه دار و هیچ چیزی از خودت نساز."
 
 msgid "Unknown bulk task."
 msgstr "عملیات گروهی ناشناخته."
@@ -5958,6 +5961,9 @@ msgstr "اعمال همه"
 
 msgid "All changes applied."
 msgstr "همه تغییرات اعمال شد."
+
+msgid "Description"
+msgstr "توضیحات"
 
 msgid "Save the item first."
 msgstr "ابتدا مورد را ذخیره کنید."
@@ -10500,14 +10506,23 @@ msgstr "آنچه قبلاً در این سایت جواب داده است"
 msgid "Focus keyword (optional — SEOlity can pick it from Search Console)"
 msgstr "کلمه کلیدی کانونی (اختیاری — سئولیتی می‌تواند آن را از سرچ کنسول انتخاب کند)"
 
-msgid "Goal (optional), e.g. rank for “buy espresso machine”, improve conversions…"
-msgstr "هدف (اختیاری)، مثلاً رتبه گرفتن برای «خرید اسپرسوساز»، افزایش نرخ تبدیل…"
+msgid "Your instruction for this page (optional, added to the default instruction), e.g. write a complete intro for this category, mention fast delivery in Tehran, add an FAQ…"
+msgstr "دستور شما برای این صفحه (اختیاری، به دستور پیش‌فرض اضافه می‌شود)؛ مثلاً: یک معرفی کامل برای این دسته بنویس، ارسال سریع در تهران را بگو، سؤالات متداول اضافه کن…"
 
-msgid "Analyze & optimize"
-msgstr "تحلیل و بهینه‌سازی"
+msgid "Optimize the whole page"
+msgstr "بهینه‌سازی کل صفحه"
 
-msgid "SEOlity analyzes your text, the real queries you rank for and SEO best practices, then proposes an improved version. Nothing changes until you apply it."
-msgstr "سئولیتی متن شما، کوئری‌های واقعی که برایشان رتبه دارید و بهترین روش‌های سئو را تحلیل می‌کند و نسخه بهبودیافته‌ای پیشنهاد می‌دهد. تا زمانی که اعمال نکنید، چیزی تغییر نمی‌کند."
+msgid "Default instruction (always used)"
+msgstr "دستور پیش‌فرض (همیشه استفاده می‌شود)"
+
+msgid "Change it in SEOlity → Settings → AI."
+msgstr "از «سئولیتی ← تنظیمات ← هوش مصنوعی» قابل تغییر است."
+
+msgid "SEOlity rewrites the whole page from top to bottom (or writes it when it is empty) and also writes the SEO title, the meta description and the focus keyword for your SEO plugin — from the real search queries, the SEO knowledge base and your instruction. Nothing changes until you review and apply it."
+msgstr "سئولیتی کل صفحه را از اول تا آخر بازنویسی می‌کند (یا اگر خالی است، از اول می‌نویسد) و عنوان سئو، توضیحات متا و کلمه کلیدی اصلی را هم برای افزونه سئوی شما می‌نویسد؛ بر اساس جست‌وجوهای واقعی، پایگاه دانش سئو و دستور شما. تا خودتان بررسی و اعمال نکنید، چیزی عوض نمی‌شود."
+
+msgid "Your instruction"
+msgstr "دستور شما"
 
 msgid "Selected text"
 msgstr "متن انتخاب‌شده"
@@ -10530,8 +10545,11 @@ msgstr "ارزش اطلاعاتی افزوده"
 msgid "Please review:"
 msgstr "لطفاً بررسی کنید:"
 
-msgid "Also suggested"
-msgstr "همچنین پیشنهاد می‌شود"
+msgid "Page title (H1)"
+msgstr "عنوان صفحه (H1)"
+
+msgid "Also update on this page"
+msgstr "این‌ها هم در همین صفحه به‌روز شوند"
 
 msgid "AI Suggested"
 msgstr "پیشنهاد هوش مصنوعی"
@@ -10554,6 +10572,9 @@ msgstr "پیشنهاد رد شد"
 msgid "Applied. Undo anytime from version history."
 msgstr "اعمال شد. هر زمان از تاریخچه نسخه‌ها قابل بازگشت است."
 
+msgid "Everything is on the page. Press Update / Save to keep it."
+msgstr "همه‌چیز در صفحه قرار گرفت. برای ماندگاری، «به‌روزرسانی» یا «ذخیره» را بزنید."
+
 msgid "Applied to the editor — save the page to keep it"
 msgstr "در ویرایشگر اعمال شد — برای ماندگاری صفحه را ذخیره کنید"
 
@@ -10563,14 +10584,17 @@ msgstr "اعمال شد (از تاریخچه نسخه‌ها قابل بازگش
 msgid "Copied. Open the page in its editor — the card there inserts the text with one click."
 msgstr "کپی شد. صفحه را در ویرایشگرش باز کنید — کارت آنجا متن را با یک کلیک درج می‌کند."
 
-msgid "Apply to editor"
-msgstr "اعمال در ویرایشگر"
+msgid "Apply to the page"
+msgstr "اعمال در صفحه"
 
 msgid "Apply changes"
 msgstr "اعمال تغییرات"
 
 msgid "Copy & open the editor"
 msgstr "کپی و باز کردن ویرایشگر"
+
+msgid "Then press Update / Save on the page."
+msgstr "بعد در صفحه «به‌روزرسانی» یا «ذخیره» را بزنید."
 
 msgid "SEOlity tasks"
 msgstr "کارهای SEOlity"
@@ -10908,6 +10932,9 @@ msgstr "بررسی روزانه URL Inspection گوگل (صفحه در روز، 
 
 msgid "Brand voice & editorial rules"
 msgstr "لحن برند و قوانین نگارشی"
+
+msgid "Default instruction for “Optimize with SEOlity AI” (empty = built-in)"
+msgstr "دستور پیش‌فرض «بهینه‌سازی با هوش مصنوعی سئولیتی» (خالی = دستور داخلی)"
 
 msgid "Use the SEO knowledge base in prompts"
 msgstr "استفاده از پایگاه دانش سئو در پرامپت‌ها"

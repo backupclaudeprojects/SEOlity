@@ -847,9 +847,14 @@
 		// opts: object_type, object_id, field, getContent(), setContent(html) [optional, editor mode], title, focus_keyword
 		var m = SL.modal( { title: t( 'Optimize with SEOlity AI' ), wide: true } );
 		var kw = h( 'input', { class: 'sl-input', type: 'text', placeholder: t( 'Focus keyword (optional — SEOlity can pick it from Search Console)' ), value: opts.focus_keyword || '' } );
-		var goal = h( 'input', { class: 'sl-input', type: 'text', placeholder: t( 'Goal (optional), e.g. rank for “buy espresso machine”, improve conversions…' ) } );
-		var start = h( 'button', { class: 'sl-btn sl-btn--primary sl-btn--lg', onClick: run }, SL.il( 'sparkles', t( 'Analyze & optimize' ), 18 ) );
-		m.body.appendChild( h( 'div', { class: 'sl-stack' }, h( 'p', { class: 'sl-muted', text: t( 'SEOlity analyzes your text, the real queries you rank for and SEO best practices, then proposes an improved version. Nothing changes until you apply it.' ) } ), kw, goal, start ) );
+		var own = h( 'textarea', { class: 'sl-input', rows: 4, dir: 'auto', placeholder: t( 'Your instruction for this page (optional, added to the default instruction), e.g. write a complete intro for this category, mention fast delivery in Tehran, add an FAQ…' ) } );
+		var start = h( 'button', { class: 'sl-btn sl-btn--primary sl-btn--lg', onClick: run }, SL.il( 'sparkles', t( 'Optimize the whole page' ), 18 ) );
+		var def = C.optimizeDefault ? h( 'details', { class: 'sl-opt__default' }, h( 'summary', { text: t( 'Default instruction (always used)' ) } ), h( 'p', { class: 'sl-small', dir: 'auto', text: C.optimizeDefault } ), h( 'p', { class: 'sl-muted sl-small', text: t( 'Change it in SEOlity → Settings → AI.' ) } ) ) : null;
+		m.body.appendChild( h( 'div', { class: 'sl-stack' },
+			h( 'p', { class: 'sl-muted', text: t( 'SEOlity rewrites the whole page from top to bottom (or writes it when it is empty) and also writes the SEO title, the meta description and the focus keyword for your SEO plugin — from the real search queries, the SEO knowledge base and your instruction. Nothing changes until you review and apply it.' ) } ),
+			h( 'label', { class: 'sl-field__label', text: t( 'Focus keyword' ) } ), kw,
+			h( 'label', { class: 'sl-field__label', text: t( 'Your instruction' ) } ), own,
+			def, start ) );
 
 		function run() {
 			var content = opts.getContent ? opts.getContent() : null;
@@ -862,7 +867,7 @@
 				content: content,
 				title: docTitle,
 				focus_keyword: kw.value,
-				goal: goal.value,
+				instructions: own.value,
 				label: opts.label || ( opts.field === 'custom' ? t( 'Selected text' ) : SL.fieldLabel( opts.field ) ),
 				element_id: opts.elementId || '',
 			} } } ).then( SL.dock.track ).catch( SL.fail );
@@ -916,14 +921,21 @@
 			} ) ) ) : null;
 			var metaBox = null;
 			var metaChecks = {};
-			if ( res.changes && ( res.changes.meta_title || res.changes.meta_description ) ) {
-				metaBox = h( 'div', { class: 'sl-panel' }, h( 'div', { class: 'sl-panel__title', text: t( 'Also suggested' ) } ) );
-				[ [ 'meta_title', ai.suggested_title, t( 'SEO title' ) ], [ 'meta_description', ai.suggested_meta_description, t( 'Meta description' ) ], [ 'focus_keyword', ai.focus_keyword, t( 'Focus keyword' ) ] ].forEach( function ( x ) {
-					if ( res.changes[ x[ 0 ] ] ) {
-						var cb = h( 'input', { type: 'checkbox', checked: true } );
-						metaChecks[ x[ 0 ] ] = cb;
-						metaBox.appendChild( h( 'label', { class: 'sl-check' }, cb, h( 'span', null, h( 'strong', { text: x[ 2 ] + ': ' } ), x[ 1 ] ) ) );
-					}
+			var h1Field = res.changes && res.changes.term_name ? 'term_name' : 'post_title';
+			var pageFields = [
+				[ 'meta_title', ai.suggested_title, t( 'SEO title' ), true ],
+				[ 'meta_description', ai.suggested_meta_description, t( 'Meta description' ), true ],
+				[ 'focus_keyword', ai.focus_keyword, t( 'Focus keyword' ) + ( C.engine && C.engine !== 'seolity' ? ' (' + ( { rankmath: 'Rank Math', yoast: 'Yoast SEO', seopress: 'SEOPress', aioseo: 'All in One SEO' }[ C.engine ] || C.engine ) + ')' : '' ), true ],
+				[ h1Field, ai.suggested_h1, t( 'Page title (H1)' ), false ],
+			].filter( function ( x ) {
+				return res.changes && res.changes[ x[ 0 ] ];
+			} );
+			if ( pageFields.length ) {
+				metaBox = h( 'div', { class: 'sl-panel' }, h( 'div', { class: 'sl-panel__title', text: t( 'Also update on this page' ) } ) );
+				pageFields.forEach( function ( x ) {
+					var cb = h( 'input', { type: 'checkbox', checked: x[ 3 ] } );
+					metaChecks[ x[ 0 ] ] = cb;
+					metaBox.appendChild( h( 'label', { class: 'sl-check' }, cb, h( 'span', { dir: 'auto' }, h( 'strong', { text: x[ 2 ] + ': ' } ), x[ 1 ] ) ) );
 				} );
 			}
 			var main = h( 'div', { class: 'sl-opt__main' }, warn, SL.tabs( [
@@ -944,12 +956,30 @@
 			m.body.appendChild( h( 'p', { class: 'sl-muted sl-small', text: t( 'Model' ) + ': ' + res.meta.model + ' · ' + res.meta.prompt_version + ( res.meta.knowledge_refs && res.meta.knowledge_refs.length ? ' · ' + t( 'Knowledge' ) + ': ' + res.meta.knowledge_refs.join( ', ' ) : '' ) } ) );
 
 			var cid = res.changes && res.changes.content;
+			function picked( k ) {
+				return metaChecks[ k ] && metaChecks[ k ].checked;
+			}
 			function applyMeta() {
-				return Promise.all( Object.keys( metaChecks ).filter( function ( k ) {
-					return metaChecks[ k ].checked;
-				} ).map( function ( k ) {
+				var editorTitle = opts.setContent && opts.setTitle && picked( h1Field );
+				return Promise.all( Object.keys( metaChecks ).filter( picked ).map( function ( k ) {
+					if ( k === h1Field && editorTitle ) {
+						// The page title is a field of the open form: fill it; it is saved with the page.
+						opts.setTitle( ai.suggested_h1 );
+						return SL.api( 'changes/' + res.changes[ k ] + '/editor-applied', { method: 'POST' } );
+					}
 					return SL.api( 'changes/' + res.changes[ k ] + '/apply', { method: 'POST' } );
-				} ) );
+				} ) ).then( function ( r ) {
+					// The SEO plugin's own fields on this screen must show the new values too, or its
+					// "Update" would write the old ones back.
+					if ( opts.setContent ) {
+						SL.seoSync( {
+							keywords: picked( 'focus_keyword' ) ? SL.withPrimaryKeyword( ai.focus_keyword ) : undefined,
+							title: picked( 'meta_title' ) ? ai.suggested_title : '',
+							description: picked( 'meta_description' ) ? ai.suggested_meta_description : '',
+						} );
+					}
+					return r;
+				} );
 			}
 			m.foot.appendChild( h( 'button', { class: 'sl-btn', onClick: function () {
 				var p = cid ? SL.api( 'changes/' + cid + '/reject', { method: 'POST' } ) : Promise.resolve();
@@ -973,6 +1003,9 @@
 				var value = editor.value;
 				var done = function () {
 					SL.toast( t( 'Applied. Undo anytime from version history.' ), 'success' );
+					if ( opts.setContent ) {
+						SL.toast( t( 'Everything is on the page. Press Update / Save to keep it.' ), 'success' );
+					}
 					if ( task ) {
 						task.note( opts.setContent ? t( 'Applied to the editor — save the page to keep it' ) : t( 'Applied (undo anytime from version history)' ) );
 					}
@@ -1005,7 +1038,10 @@
 						w.open( item.meta.edit_url, '_blank' );
 					}
 				}
-			} }, opts.setContent ? t( 'Apply to editor' ) : cid ? t( 'Apply changes' ) : t( 'Copy & open the editor' ) ) );
+			} }, opts.setContent ? t( 'Apply to the page' ) : cid ? t( 'Apply changes' ) : t( 'Copy & open the editor' ) ) );
+			if ( opts.setContent ) {
+				m.foot.insertBefore( h( 'span', { class: 'sl-muted sl-small sl-opt__hint', text: t( 'Then press Update / Save on the page.' ) } ), m.foot.firstChild );
+			}
 		}
 	};
 
@@ -1237,7 +1273,8 @@
 	};
 	SL.dock.opener( 'optimize', function ( res, item ) {
 		var editor = SL.resolveEditor ? SL.resolveEditor( item.meta.params ) : null;
-		SL.optimizerResult( res, editor ? { setContent: editor.set } : {}, item );
+		var title = editor && SL.titleAdapter ? SL.titleAdapter() : null;
+		SL.optimizerResult( res, editor ? { setContent: editor.set, setTitle: title ? title.set : null } : {}, item );
 	} );
 	SL.dock.opener( 'meta', function ( res, item, extra ) {
 		SL.metaResult( res, extra && extra.onDone, item );
@@ -1411,6 +1448,29 @@
 		}
 	};
 
+	/**
+	 * "primary, the keywords already set on this screen except the old primary" — Rank Math keeps a
+	 * comma list (primary first); replacing the primary must not drop the secondary keywords.
+	 */
+	SL.withPrimaryKeyword = function ( primary ) {
+		var cur = '';
+		try {
+			var sel = w.wp && w.wp.data && w.wp.data.select ? w.wp.data.select( 'rank-math' ) : null;
+			cur = sel && typeof sel.getKeywords === 'function' ? String( sel.getKeywords() || '' ) : '';
+		} catch ( e ) {}
+		if ( ! cur ) {
+			var el = d.querySelector( '[name="rank_math_focus_keyword"]' ) || d.getElementById( 'seolity_focus_keyword' );
+			cur = el ? String( el.value || '' ) : '';
+		}
+		var p = String( primary || '' ).trim();
+		var rest = cur.split( ',' ).map( function ( k ) {
+			return k.trim();
+		} ).filter( Boolean ).slice( 1 ).filter( function ( k ) {
+			return k.toLowerCase() !== p.toLowerCase();
+		} );
+		return ( p ? [ p ] : [] ).concat( rest ).join( ',' );
+	};
+
 	/* ------------------------------------------------------------------ SEO plugin editor sync */
 	/**
 	 * Push values into the Rank Math / Yoast editor stores (Gutenberg & classic)
@@ -1419,12 +1479,12 @@
 	 * v: { keywords: 'a,b', title, description, pillar }
 	 */
 	SL.seoSync = function ( v ) {
-		var data = w.wp && w.wp.data;
-		if ( ! data || ! data.dispatch ) {
-			return false;
-		}
+		var data = w.wp && w.wp.data && w.wp.data.dispatch ? w.wp.data : null;
 		var synced = false;
 		function call( store, fn, arg ) {
+			if ( ! data ) {
+				return;
+			}
 			try {
 				var s = data.dispatch( store );
 				if ( s && typeof s[ fn ] === 'function' ) {
@@ -1457,7 +1517,24 @@
 			call( 'rank-math', 'updatePillarContent', !! v.pillar );
 			call( 'yoast-seo/editor', 'setCornerstoneContent', !! v.pillar );
 		}
-		// Classic editor fallbacks: the plugins' metabox inputs + SEOlity's own box.
+		// Classic editor and category screens: the plugins' form inputs + SEOlity's own box.
+		function put( sel, val ) {
+			Array.prototype.forEach.call( d.querySelectorAll( sel ), function ( el ) {
+				el.value = val;
+				el.dispatchEvent( new Event( 'input', { bubbles: true } ) );
+				el.dispatchEvent( new Event( 'change', { bubbles: true } ) );
+				synced = synced || sel.indexOf( 'seolity_' ) === -1;
+			} );
+		}
+		if ( v.title ) {
+			put( '[name="rank_math_title"], [name="yoast_wpseo_title"], #hidden_wpseo_title, [name="wpseo_title"], [name="seolity_meta_title"]', v.title );
+		}
+		if ( v.description ) {
+			put( '[name="rank_math_description"], [name="yoast_wpseo_metadesc"], #hidden_wpseo_desc, [name="wpseo_desc"], [name="seolity_meta_description"]', v.description );
+		}
+		if ( v.keywords !== undefined ) {
+			put( '#hidden_wpseo_focuskw, [name="wpseo_focuskw"]', String( v.keywords ).split( ',' )[ 0 ].trim() );
+		}
 		if ( v.keywords !== undefined ) {
 			var list = String( v.keywords ).split( /\s*,\s*/ ).filter( Boolean );
 			[ [ '[name="rank_math_focus_keyword"]', list.join( ',' ) ], [ '[name="yoast_wpseo_focuskw"]', list[ 0 ] || '' ], [ '#seolity_focus_keyword', list.join( ', ' ) ] ].forEach( function ( x ) {

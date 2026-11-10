@@ -396,3 +396,9 @@ input[type="color"].sl-input { padding: 4px; width: 80px; }
 .sl-dock__card[hidden] { display: none; }
 .sl-dock__more { background: none; border: 0; padding: 0; margin-inline-end: 10px; color: var(--sl-brand); font-size: 12px; font-weight: 600; cursor: pointer; }
 .sl-dock__more:hover { text-decoration: underline; }
+
+/* Optimize with SEOlity AI: default instruction + footer hint (1.18) */
+.sl-opt__default { border: 1px solid var(--sl-border, #e2e8f0); border-radius: 10px; padding: 8px 12px; background: var(--sl-surface-2, #f8fafc); }
+.sl-opt__default summary { cursor: pointer; font-weight: 600; font-size: 13px; }
+.sl-opt__default p { margin: 8px 0 0; line-height: 1.8; }
+.sl-opt__hint { margin-inline-end: auto; align-self: center; }

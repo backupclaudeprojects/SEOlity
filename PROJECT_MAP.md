@@ -6,7 +6,8 @@
 - هوش مصنوعی: API (Anthropic/OpenAI/Gemini/…)، اشتراک Claude/ChatGPT از طریق CLI روی همین سرور یا اجراکننده GitHub Actions، رله Cloudflare.
 
 ## 2. وضعیت فعلی
-- نسخه **1.17.1** (`seolity/seolity.php:6`)، DB schema **1.7.0** (`seolity.php:23`). شاخه `claude/beautiful-ride-7ilxpf`.
+- نسخه **1.18.0** (`seolity/seolity.php:6`)، DB schema **1.7.0** (`seolity.php:23`). شاخه `claude/beautiful-ride-7ilxpf`.
+- 1.18.0: «بهینه‌سازی با هوش مصنوعی سئولیتی» کل صفحه را یکجا می‌سازد: محتوا (یا نوشتن از صفر)، عنوان سئو، توضیحات متا، کلمه کلیدی Rank Math/Yoast و H1 اختیاری؛ دستور پیش‌فرض (`ai_optimize_prompt`) + دستور کاربر؛ رفع اعمال‌نشدن در صفحه دسته‌بندی (`editor.js`: `termDescriptionAdapter`).
 - 1.17.1: رفع «OAuth token revoked» بعد از خروج از همه دستگاه‌ها: ذخیره ورود جدید، Secret را در مخزن اجراکننده و مخزن دانش جایگزین و اجرای قدیمی را لغو می‌کند (`SubscriptionRunner::sync_secret`، `GitHubClient::cancel_run`).
 - 1.17.0: «مسیر رتبه ۱» = یک مسیر واحد نقشه‌گنجی (`pages-roadmap.js`)؛ «ذهن سئوی سایت» (`Experiments/SiteBrain.php`، یادگیری تجمیعی آزمایش‌ها)؛ تنظیم لحن `ai_tone`؛ ذهنیت «سخت‌گیر ولی مثبت‌بین، هدف رتبه ۱»؛ سازنده دانش اول توکن اشتراک را استفاده می‌کند.
 - 1.16.0: صفحه «پوشش ایندکس» (`GSC/Coverage.php`، `pages-coverage.js`): خروجی‌های Pages سرچ کنسول، پیام‌های سرچ کنسول، پایش روزانه URL Inspection، بازرسی ریدایرکت‌ها؛ «اثر تغییرات ۲.۰» (`Watch/FollowUps.php`: روز ۷/۱۴/۲۸/بلندمدت، کنترل روند کل سایت، اطمینان، تحلیل AI و درس‌ها)؛ بازار سئو ایران/بین‌المللی + ۱۴ سند دانش جدید (`knowledge/fa/iran/`).
