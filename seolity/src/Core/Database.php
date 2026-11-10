@@ -499,6 +499,8 @@ final class Database {
 				suggested_target varchar(2000) NULL,
 				suggestion_score tinyint(3) unsigned NULL,
 				status varchar(10) NOT NULL DEFAULT 'open',
+				verdict varchar(20) NULL,
+				verdict_reason varchar(600) NULL,
 				first_seen datetime NOT NULL,
 				last_seen datetime NOT NULL,
 				PRIMARY KEY  (id),

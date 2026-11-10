@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEOlity 1.0.0\n"
-"POT-Creation-Date: 2026-11-10 09:29+0000\n"
+"POT-Creation-Date: 2026-11-10 11:42+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1207,6 +1207,9 @@ msgstr ""
 msgid "Search Console"
 msgstr ""
 
+msgid "Road to #1"
+msgstr ""
+
 msgid "Keywords"
 msgstr ""
 
@@ -2090,6 +2093,12 @@ msgstr ""
 
 #, php-format
 msgid "Health score %1$s. %2$d prioritized actions are waiting, %3$d AI changes need your review."
+msgstr ""
+
+msgid "Select the URLs on the 404 page and send them to the chat first."
+msgstr ""
+
+msgid "Being prepared for exactly these URLs — it will appear in the floating popup for review. URLs without value are hidden from the 404 list; 301 / 410 change nothing until you approve."
 msgstr ""
 
 msgid "Open the conversation"
@@ -3701,6 +3710,10 @@ msgid "Point redirect chains straight to their final URL"
 msgstr ""
 
 #, php-format
+msgid "Remove the redirect of %s (it answers as a page again)"
+msgstr ""
+
+#, php-format
 msgid "Queue AI optimization for %d items"
 msgstr ""
 
@@ -3717,6 +3730,9 @@ msgstr ""
 
 #, php-format
 msgid "Fix the internal link to %s by hand"
+msgstr ""
+
+msgid "Redirect not found."
 msgstr ""
 
 #, php-format
@@ -3881,6 +3897,57 @@ msgid "This task is still active. Cancel it first."
 msgstr ""
 
 msgid "Every minute (SEOlity queue)"
+msgstr ""
+
+msgid "Choose a search first."
+msgstr ""
+
+msgid "Waiting for data: Google Search Console reports with a delay of 2–3 days, and a change needs 1–3 weeks to show in rankings."
+msgstr ""
+
+#, php-format
+msgid "Position 1 for “%s” — measured, not estimated: the average position of the last 7 days in Search Console is 1. Outstanding work! Keep the page fresh and pick the next search."
+msgstr ""
+
+#, php-format
+msgid "Real progress: from %1$s to %2$s (average of the last 7 days, Search Console). The work is paying off — keep going with the next step."
+msgstr ""
+
+#, php-format
+msgid "Down from %1$s to %2$s for now. Rankings often wobble for a week or two after changes; if it stays down for 3 weeks, review the last change."
+msgstr ""
+
+#, php-format
+msgid "Holding at %s. No real movement yet — the next step of the plan is what moves it."
+msgstr ""
+
+msgid "No automatic Google results source is set up. Open the search in Google in a private window, or set up a free source (Settings → Crawler & audits; one needs no key at all)."
+msgstr ""
+
+msgid "Choose a search to focus on first."
+msgstr ""
+
+#, php-format
+msgid "Plan to rank #1 for “%s”"
+msgstr ""
+
+msgid "Reading the page, its Search Console history and the Google results…"
+msgstr ""
+
+msgid "AI is comparing your page with the result that ranks first…"
+msgstr ""
+
+msgid "Plan ready"
+msgstr ""
+
+msgid "Plan ready — open “Road to #1”"
+msgstr ""
+
+msgid "Step not found."
+msgstr ""
+
+#, php-format
+msgid "Goal: position 1 on Google for “%s”."
 msgstr ""
 
 #, php-format
@@ -4177,6 +4244,44 @@ msgstr ""
 msgid "Improved SEO quality for the affected URLs."
 msgstr ""
 
+msgid "There are no redirect chains or loops."
+msgstr ""
+
+msgid "Fix redirect chains: AI chooses the best final page"
+msgstr ""
+
+msgid "Fix redirect chains: point every step to the final page"
+msgstr ""
+
+msgid "Reviewing redirect chains"
+msgstr ""
+
+msgid "Checking where each chain ends on the live site…"
+msgstr ""
+
+msgid "AI is choosing the best final page for each chain…"
+msgstr ""
+
+msgid "Preparing the new redirects…"
+msgstr ""
+
+msgid "Every step now goes straight to the page the chain already ends on."
+msgstr ""
+
+#, php-format
+msgid "%1$d chains/loops; %2$d redirects get a new target so that every old address reaches its final page in one step."
+msgstr ""
+
+#, php-format
+msgid "%d chains were left as they are: they end on a page that does not answer, or no safe final page was found (fix them by hand)."
+msgstr ""
+
+msgid "Rules that live in Rank Math are changed in Rank Math."
+msgstr ""
+
+msgid "Nothing changes until you approve. Every new redirect is checked on the live site and can be undone."
+msgstr ""
+
 msgid "Invalid redirect type."
 msgstr ""
 
@@ -4189,19 +4294,53 @@ msgstr ""
 msgid "This redirect would create a loop."
 msgstr ""
 
-msgid "Redirect not found."
-msgstr ""
-
 msgid "Entry not found."
 msgstr ""
 
+msgid "You brought it back to the list."
+msgstr ""
+
+msgid "You hid it as not important."
+msgstr ""
+
 msgid "There are no open 404 URLs to review."
+msgstr ""
+
+#, php-format
+msgid "AI review of %d selected 404 URLs"
 msgstr ""
 
 msgid "AI review of 404 errors: 301, 410 or leave as 404"
 msgstr ""
 
 msgid "Reviewing 404 errors"
+msgstr ""
+
+#, php-format
+msgid "Search Console: %1$d impressions, %2$d clicks"
+msgstr ""
+
+#, php-format
+msgid "linked from %d of your pages"
+msgstr ""
+
+msgid "referrer"
+msgstr ""
+
+msgid "Googlebot requests it"
+msgstr ""
+
+msgid "a deleted post had this address"
+msgstr ""
+
+#, php-format
+msgid "Has value: %s."
+msgstr ""
+
+msgid "A security scanner looking for a file this site never had. Google has never shown it (no Search Console history), no page links to it and no real visitor came from anywhere. A 404 is exactly the right answer; it does not affect rankings."
+msgstr ""
+
+msgid "No sign of value yet (no Search Console history, links or referrers), but not a typical probe either: the AI review decides."
 msgstr ""
 
 #, php-format
@@ -4226,6 +4365,10 @@ msgstr ""
 
 #, php-format
 msgid "Decisions: %1$d × 301 to an equivalent page, %2$d × 410 gone, %3$d × leave as 404, %4$d × fix the internal link."
+msgstr ""
+
+#, php-format
+msgid "%d URLs without any value (no Search Console history, no links, no real visitors) were moved to “Hidden: not important” in the 404 list. Nothing on the site changed; you can bring any of them back."
 msgstr ""
 
 msgid "Nothing changes until you approve. Untick anything you disagree with; every 301 and 410 is checked on the live site afterwards."
@@ -6984,6 +7127,10 @@ msgstr ""
 msgid "Search conversations…"
 msgstr ""
 
+#, php-format
+msgid "I selected %s broken (404) URLs. For each one: does it matter for ranking #1 on Google, and what should happen (301 to which page, 410, or hide as not important)? If they do not matter, prepare hiding/removing them."
+msgstr ""
+
 msgid "Ask anything about your site. Answers are grounded in your real Search Console, audit, competitor and experiment data — and stay here even if you reload the page."
 msgstr ""
 
@@ -7021,6 +7168,10 @@ msgid "Enter to send · Shift+Enter for a new line"
 msgstr ""
 
 msgid "Conversations"
+msgstr ""
+
+#, php-format
+msgid "%s 404 URLs attached"
 msgstr ""
 
 msgid "Which page is the question about?"
@@ -8124,11 +8275,45 @@ msgstr ""
 msgid "Search redirects…"
 msgstr ""
 
-#, php-format
-msgid "%s redirect chains/loops detected."
+msgid "Only a redirect"
 msgstr ""
 
-msgid "Flatten chains"
+#, php-format
+msgid "%s clicks (28 days)"
+msgstr ""
+
+msgid "loop"
+msgstr ""
+
+msgid "A loop has no end: let the AI choose which real page answers."
+msgstr ""
+
+msgid "Today"
+msgstr ""
+
+msgid "After the fix"
+msgstr ""
+
+msgid "AI chooses the best final page"
+msgstr ""
+
+msgid "Point every step to the final page"
+msgstr ""
+
+msgid "Optional rule, e.g. “old product addresses go to their category”, “prefer the shop page”."
+msgstr ""
+
+msgid "For each chain the AI picks, from checked live pages only, the final page that matches the old addresses best and matters most for the site (importance, real clicks) — usually where the chain ends, sometimes a stronger page like the shop or a category. You approve every redirect."
+msgstr ""
+
+msgid "Every old address will redirect in one step to the page its chain ends on. You approve every redirect; each is checked on the live site and can be undone."
+msgstr ""
+
+msgid "Prepare the fix"
+msgstr ""
+
+#, php-format
+msgid "%1$s chains (%2$s loops) with %3$s redirects. Each extra step costs visitors and Googlebot one more request and loses a little signal; a loop is a dead end. Worth fixing, rarely an emergency."
 msgstr ""
 
 msgid "Type"
@@ -8170,7 +8355,13 @@ msgstr ""
 msgid "Computing suggestions in the background."
 msgstr ""
 
-msgid "Open 404s"
+msgid "To review"
+msgstr ""
+
+msgid "With real value"
+msgstr ""
+
+msgid "Hidden: not important"
 msgstr ""
 
 msgid "Hits (7 days)"
@@ -8179,11 +8370,20 @@ msgstr ""
 msgid "New (24h)"
 msgstr ""
 
-msgid "With referrer"
+#, php-format
+msgid "Sorting %s new URLs by real evidence (Search Console history, links, referrers, Googlebot). Scanner probes without any value are moved to “Hidden: not important”."
 msgstr ""
 
 #, php-format
 msgid "%s selected"
+msgstr ""
+
+#, php-format
+msgid "%s URLs are back in the list."
+msgstr ""
+
+#, php-format
+msgid "%s URLs hidden as not important."
 msgstr ""
 
 msgid "Redirect selected to their own targets"
@@ -8192,7 +8392,32 @@ msgstr ""
 msgid "Every redirect was checked: the target must be a live page, no loop may be created and the old URL must really be gone. Untick anything you do not want, then approve."
 msgstr ""
 
+msgid "Ask the AI about these"
+msgstr ""
+
+msgid "Let the AI decide for these"
+msgstr ""
+
+msgid "AI review of the selected URLs"
+msgstr ""
+
+msgid "Your rule, e.g. “if they do not matter for rankings, hide them; real pages get a 301”."
+msgstr ""
+
+#, php-format
+msgid "The AI judges only these %s URLs from real evidence and prepares 301 / 410 / leave decisions for your approval; URLs without any value are hidden from the list."
+msgstr ""
+
+msgid "Bring back to the list"
+msgstr ""
+
+msgid "Hide as not important"
+msgstr ""
+
 msgid "Select all"
+msgstr ""
+
+msgid "Select the ones without a suggestion"
 msgstr ""
 
 msgid "Redirected"
@@ -8201,7 +8426,13 @@ msgstr ""
 msgid "Ignored"
 msgstr ""
 
+msgid "These URLs have no value for search: no Search Console history, no page links to them, no real visitor came from anywhere — mostly security scanners. A 404 is the right answer and does not hurt rankings. Nothing on the site was changed; bring any of them back if you disagree."
+msgstr ""
+
 msgid "URL"
+msgstr ""
+
+msgid "Has value"
 msgstr ""
 
 msgid "Referrer"
@@ -8224,6 +8455,9 @@ msgid "match %s%"
 msgstr ""
 
 msgid "no good match"
+msgstr ""
+
+msgid "Bring back"
 msgstr ""
 
 msgid "410 Gone"
@@ -8985,6 +9219,9 @@ msgstr ""
 msgid "Linked from: %s"
 msgstr ""
 
+msgid "Chain today:"
+msgstr ""
+
 #, php-format
 msgid "Problem: %s"
 msgstr ""
@@ -9098,6 +9335,208 @@ msgstr ""
 
 #, php-format
 msgid "AI route: %s"
+msgstr ""
+
+msgid "Weekly average position"
+msgstr ""
+
+#, php-format
+msgid "position %s"
+msgstr ""
+
+msgid "One search at a time: where you really rank in Google, an honest chance of position 1, the AI’s plan against the page that ranks first — and real progress, measured in Search Console."
+msgstr ""
+
+msgid "Connect Google Search Console first"
+msgstr ""
+
+msgid "Positions here are only real ones from Google itself — connect Search Console and wait for the first data."
+msgstr ""
+
+#, php-format
+msgid "Positions: Google Search Console, average of %1$s – %2$s (Google reports 2–3 days late). “If #1” is an estimate at a typical #1 click rate and is marked as such. No promises — only measured results."
+msgstr ""
+
+msgid "Pick ONE search below and press “Focus on this”. Finish it, then go to the next — that is how #1 is reached, search by search."
+msgstr ""
+
+msgid "searches where you are #1"
+msgstr ""
+
+msgid "in the top 3"
+msgstr ""
+
+msgid "climbed at least 1 position this month"
+msgstr ""
+
+#, php-format
+msgid "Best climb: “%1$s” from %2$s to %3$s"
+msgstr ""
+
+msgid "Focused search"
+msgstr ""
+
+msgid "At the start"
+msgstr ""
+
+msgid "Last 7 days"
+msgstr ""
+
+msgid "Goal"
+msgstr ""
+
+msgid "Google check"
+msgstr ""
+
+#, php-format
+msgid "your page is #%s"
+msgstr ""
+
+#, php-format
+msgid "your site is not in the first %s results"
+msgstr ""
+
+#, php-format
+msgid "#1 is %s"
+msgstr ""
+
+msgid "Checked in Google."
+msgstr ""
+
+msgid "Open in Google"
+msgstr ""
+
+msgid "Search Console is the real average; “Check Google now” shows today’s results from your results source (one search of its quota)."
+msgstr ""
+
+msgid "Open it in a private (incognito) window so your own history does not change the results. To let the AI see the page that ranks first, use the free “your browser” Google source (Competitors page) — one click on its bookmark sends the results to SEOlity."
+msgstr ""
+
+msgid "Done — next search"
+msgstr ""
+
+msgid "Skip this search"
+msgstr ""
+
+msgid "Plan again"
+msgstr ""
+
+msgid "Make the plan with AI"
+msgstr ""
+
+msgid "The AI is comparing your page with the result that ranks first — the plan appears here in a minute or two."
+msgstr ""
+
+msgid "No plan yet. The AI compares your page with the page that ranks first, says honestly how realistic #1 is, and gives the few steps that move THIS search."
+msgstr ""
+
+#, php-format
+msgid "Realistic time: %1$s–%2$s weeks"
+msgstr ""
+
+msgid "What it takes:"
+msgstr ""
+
+msgid "Who is #1 and why:"
+msgstr ""
+
+msgid "What your page is missing"
+msgstr ""
+
+msgid "Steps, most effective first"
+msgstr ""
+
+#, php-format
+msgid "Impact: %s"
+msgstr ""
+
+#, php-format
+msgid "Why it moves this search: %s"
+msgstr ""
+
+msgid "Prepared — open"
+msgstr ""
+
+msgid "Add to the roadmap"
+msgstr ""
+
+msgid "Prepare it"
+msgstr ""
+
+msgid "Prepared."
+msgstr ""
+
+msgid "Not worth your time for this search"
+msgstr ""
+
+msgid "How we will know it worked:"
+msgstr ""
+
+#, php-format
+msgid "Plan from %s"
+msgstr ""
+
+msgid "made without live Google results"
+msgstr ""
+
+msgid "The plan is ready."
+msgstr ""
+
+msgid "All your searches, best chance of real gain first"
+msgstr ""
+
+msgid "Every chance"
+msgstr ""
+
+msgid "Very close"
+msgstr ""
+
+msgid "Realistic"
+msgstr ""
+
+msgid "Hard"
+msgstr ""
+
+msgid "Long shot for now"
+msgstr ""
+
+msgid "Already #1"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Brand"
+msgstr ""
+
+#, php-format
+msgid "%s of your pages compete"
+msgstr ""
+
+#, php-format
+msgid "28 days before: %s"
+msgstr ""
+
+msgid "If #1 (estimate)"
+msgstr ""
+
+msgid "Chance"
+msgstr ""
+
+msgid "Intent"
+msgstr ""
+
+msgid "In focus"
+msgstr ""
+
+msgid "Focus on this"
+msgstr ""
+
+#, php-format
+msgid "Leave “%s” and focus on this search instead? One search at a time works best."
+msgstr ""
+
+msgid "No searches match."
 msgstr ""
 
 msgid "This week"
@@ -9231,9 +9670,6 @@ msgid "The last analysis failed:"
 msgstr ""
 
 msgid "The target: position 1 on Google for the searches that bring customers. The AI picks them from Search Console and checks who ranks above you."
-msgstr ""
-
-msgid "Search"
 msgstr ""
 
 msgid "Now"
@@ -9590,9 +10026,6 @@ msgstr ""
 msgid "Property selected. Importing data in the background…"
 msgstr ""
 
-msgid "Last 7 days"
-msgstr ""
-
 msgid "Last 28 days"
 msgstr ""
 
@@ -9788,9 +10221,6 @@ msgid "Questions"
 msgstr ""
 
 msgid "Entities"
-msgstr ""
-
-msgid "Intent"
 msgstr ""
 
 msgid "Opportunity"
@@ -11381,6 +11811,21 @@ msgid "expert"
 msgstr ""
 
 msgid "insufficient"
+msgstr ""
+
+msgid "Buying"
+msgstr ""
+
+msgid "Comparing"
+msgstr ""
+
+msgid "Learning"
+msgstr ""
+
+msgid "chain_fix"
+msgstr ""
+
+msgid "review_404s"
 msgstr ""
 
 #, php-format

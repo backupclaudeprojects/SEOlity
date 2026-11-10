@@ -321,17 +321,114 @@
 		v.appendChild( h( 'div', { class: 'sl-toolbar' }, s ) );
 		var list = h( 'div' );
 		v.appendChild( list );
+		/** Redirect chains as a picture: today (A → B → C) and after the fix (A → C, B → C). */
+		function renderChains( box ) {
+			App.load( box, SL.api( 'redirects/chains' ), function ( g ) {
+				if ( ! g.count ) {
+					return;
+				}
+				var after = false;
+				var lanes = h( 'div', { class: 'sl-chains__lanes' } );
+				function node( p, isFinal, isLoop ) {
+					var n = g.nodes[ p ] || { path: p };
+					return h( 'span', { class: 'sl-chain__node' + ( isFinal ? ' is-final' : '' ) + ( isLoop ? ' is-loop' : '' ) + ( n.is_page ? ' is-page' : '' ), title: ( n.title ? n.title + '\n' : '' ) + ( n.label || t( 'Only a redirect' ) ) + ( n.clicks_28d ? '\n' + t( '%s clicks (28 days)', n.clicks_28d ) : '' ) },
+						h( 'code', { dir: 'ltr', text: decodeURI( p ) } ),
+						n.title ? h( 'small', { dir: 'auto', text: n.title } ) : null,
+						n.label ? h( 'small', { class: 'sl-chain__imp sl-chain__imp--' + n.importance, text: n.label } ) : null
+					);
+				}
+				function arrow() {
+					return h( 'span', { class: 'sl-chain__arrow', 'aria-hidden': 'true' } );
+				}
+				function draw() {
+					SL.clear( lanes );
+					g.chains.forEach( function ( c ) {
+						var paths = c.chain;
+						var last = paths[ paths.length - 1 ];
+						var lane = h( 'div', { class: 'sl-chain' + ( c.loop ? ' is-loop' : '' ) + ( after && ! c.loop ? ' is-after' : '' ) } );
+						if ( ! after || c.loop ) {
+							paths.forEach( function ( p, i ) {
+								if ( i ) {
+									lane.appendChild( arrow() );
+								}
+								lane.appendChild( node( p, ! c.loop && i === paths.length - 1, c.loop && i === paths.length - 1 ) );
+							} );
+							if ( c.loop ) {
+								lane.appendChild( h( 'span', { class: 'sl-chain__loopmark', text: '↺ ' + t( 'loop' ) } ) );
+								if ( after ) {
+									lane.appendChild( h( 'span', { class: 'sl-muted sl-small', text: t( 'A loop has no end: let the AI choose which real page answers.' ) } ) );
+								}
+							}
+						} else {
+							// After: every old address goes straight to the final page.
+							var olds = h( 'div', { class: 'sl-chain__olds' }, paths.slice( 0, -1 ).map( function ( p ) {
+								return h( 'div', { class: 'sl-chain__row' }, node( p, false, false ), arrow() );
+							} ) );
+							lane.appendChild( olds );
+							lane.appendChild( node( last, true, false ) );
+						}
+						lanes.appendChild( lane );
+					} );
+				}
+				var toggle = h( 'div', { class: 'sl-seg' },
+					h( 'button', { type: 'button', class: 'is-active', onClick: function ( e ) {
+						after = false;
+						e.target.classList.add( 'is-active' );
+						e.target.nextSibling.classList.remove( 'is-active' );
+						draw();
+					} }, t( 'Today' ) ),
+					h( 'button', { type: 'button', class: '', onClick: function ( e ) {
+						after = true;
+						e.target.classList.add( 'is-active' );
+						e.target.previousSibling.classList.remove( 'is-active' );
+						draw();
+					} }, t( 'After the fix' ) )
+				);
+				function review( ai ) {
+					var m = SL.modal( { title: ai ? t( 'AI chooses the best final page' ) : t( 'Point every step to the final page' ), wide: true, onClose: load } );
+					var instr = ai ? h( 'textarea', { class: 'sl-input', rows: 2, dir: 'auto', placeholder: t( 'Optional rule, e.g. “old product addresses go to their category”, “prefer the shop page”.' ) } ) : null;
+					var opbox = h( 'div' );
+					m.body.appendChild( h( 'p', { class: 'sl-muted', text: ai ? t( 'For each chain the AI picks, from checked live pages only, the final page that matches the old addresses best and matters most for the site (importance, real clicks) — usually where the chain ends, sometimes a stronger page like the shop or a category. You approve every redirect.' ) : t( 'Every old address will redirect in one step to the page its chain ends on. You approve every redirect; each is checked on the live site and can be undone.' ) } ) );
+					if ( instr ) {
+						m.body.appendChild( instr );
+					}
+					m.body.appendChild( opbox );
+					opbox.appendChild( App.abtn( t( 'Prepare the fix' ), function () {
+						return SL.api( 'redirects/chains/review', { body: { ai: ai ? 1 : 0, instructions: instr ? instr.value : '' } } ).then( function ( op ) {
+							if ( instr ) {
+								instr.remove();
+							}
+							App.operationView( opbox, op, load );
+						} );
+					}, 'primary' ) );
+				}
+				box.appendChild( h( 'section', { class: 'sl-panel sl-chains' },
+					h( 'div', { class: 'sl-chains__head' },
+						h( 'div', null,
+							h( 'h3', { class: 'sl-panel__title', text: t( 'Redirect chains' ) } ),
+							h( 'p', { class: 'sl-muted sl-small', text: t( '%1$s chains (%2$s loops) with %3$s redirects. Each extra step costs visitors and Googlebot one more request and loses a little signal; a loop is a dead end. Worth fixing, rarely an emergency.', g.count, g.loops, g.hops ) } )
+						),
+						toggle
+					),
+					lanes,
+					App.cap( 'manage' ) ? h( 'div', { class: 'sl-row' },
+						App.btn( SL.il( 'wand', t( 'AI chooses the best final page' ), 15 ), function () {
+							review( true );
+						}, 'primary' ),
+						App.btn( t( 'Point every step to the final page' ), function () {
+							review( false );
+						} )
+					) : null
+				) );
+				draw();
+			} );
+		}
 		function load() {
 			App.load( list, SL.api( 'redirects', { query: f } ), function ( r ) {
+				var chainBox = h( 'div' );
+				list.appendChild( chainBox );
 				if ( r.chains.length ) {
-					list.appendChild( h( 'div', { class: 'sl-alert sl-alert--warn' }, h( 'strong', { text: t( '%s redirect chains/loops detected.', r.chains.length ) } ), h( 'ul', null, r.chains.slice( 0, 5 ).map( function ( c ) {
-						return h( 'li', { dir: 'ltr', class: 'sl-iconline' }, c.loop ? SL.icon( 'refresh', 14 ) : null, h( 'span', { text: c.chain.join( ' → ' ) } ) );
-					} ) ), App.cap( 'manage' ) ? App.abtn( t( 'Flatten chains' ), function () {
-						return SL.api( 'redirects/fix-chains', { method: 'POST' } ).then( function ( x ) {
-							SL.toast( t( '%s redirect chains fixed.', x.fixed ), 'success' );
-							load();
-						} );
-					} ) : null ) );
+					renderChains( chainBox );
 				}
 				list.appendChild( App.table( [
 					{ label: t( 'From' ), render: function ( x ) {
@@ -402,25 +499,46 @@
 		v.appendChild( body );
 		function load() {
 			App.load( body, SL.api( '404', { query: f } ), function ( r ) {
-				body.appendChild( h( 'div', { class: 'sl-kpis' }, App.kpi( t( 'Open 404s' ), SL.num( r.stats.open, 0 ) ), App.kpi( t( 'Hits (7 days)' ), SL.num( r.stats.hits_7d, 0 ) ), App.kpi( t( 'New (24h)' ), SL.num( r.stats.new_24h, 0 ) ), App.kpi( t( 'With referrer' ), SL.num( r.stats.with_referrer, 0 ) ) ) );
+				body.appendChild( h( 'div', { class: 'sl-kpis' }, App.kpi( t( 'To review' ), SL.num( r.stats.open, 0 ) ), App.kpi( t( 'With real value' ), SL.num( r.stats.important || 0, 0 ) ), App.kpi( t( 'Hidden: not important' ), SL.num( r.stats.noise || 0, 0 ) ), App.kpi( t( 'Hits (7 days)' ), SL.num( r.stats.hits_7d, 0 ) ), App.kpi( t( 'New (24h)' ), SL.num( r.stats.new_24h, 0 ) ) ) );
+				if ( r.stats.sorting ) {
+					body.appendChild( h( 'div', { class: 'sl-alert sl-alert--info' }, t( 'Sorting %s new URLs by real evidence (Search Console history, links, referrers, Googlebot). Scanner probes without any value are moved to “Hidden: not important”.', r.stats.sorting ) ) );
+					setTimeout( function () {
+						if ( document.body.contains( body ) ) {
+							load();
+						}
+					}, 8000 );
+				}
 				// Bulk: each selected URL goes to its own (editable) target.
 				var sel = {};
 				var targets = {};
 				var boxes = [];
-				var bulkOn = 'open' === f.status && App.cap( 'manage' );
+				var rowsById = {};
+				( r.items || [] ).forEach( function ( x ) {
+					rowsById[ x.id ] = x;
+				} );
+				var bulkOn = ( 'open' === f.status || 'noise' === f.status ) && App.cap( 'manage' );
 				var counter = h( 'span', { class: 'sl-muted sl-small', text: '' } );
-				function count() {
-					var n = Object.keys( sel ).filter( function ( k ) {
+				function chosen() {
+					return Object.keys( sel ).filter( function ( k ) {
 						return sel[ k ];
-					} ).length;
+					} ).map( Number );
+				}
+				function count() {
+					var n = chosen().length;
 					counter.textContent = n ? t( '%s selected', n ) : '';
-					bulkBtn.disabled = ! n;
+					bulkBtns.forEach( function ( b ) {
+						b.disabled = ! n;
+					} );
+				}
+				function status( st ) {
+					return SL.api( '404/bulk-status', { body: { ids: chosen(), status: st } } ).then( function ( x ) {
+						SL.toast( 'open' === st ? t( '%s URLs are back in the list.', x.updated ) : t( '%s URLs hidden as not important.', x.updated ), 'success' );
+						load();
+					} );
 				}
 				var bulkBtn = App.abtn( SL.il( 'corner', t( 'Redirect selected to their own targets' ), 15 ), function () {
-					var items = Object.keys( sel ).filter( function ( k ) {
-						return sel[ k ];
-					} ).map( function ( k ) {
-						return { id: Number( k ), target: targets[ k ] ? targets[ k ].value.trim() : '' };
+					var items = chosen().map( function ( k ) {
+						return { id: k, target: targets[ k ] ? targets[ k ].value.trim() : '' };
 					} );
 					return SL.api( '404/bulk-redirect', { body: { items: items } } ).then( function ( op ) {
 						var m = SL.modal( { title: op.title, wide: true, onClose: load } );
@@ -430,6 +548,32 @@
 						App.operationView( box, op, load );
 					} );
 				}, 'primary', { disabled: true } );
+				var askBtn = App.btn( SL.il( 'bot', t( 'Ask the AI about these' ), 15 ), function () {
+					var ids = chosen();
+					App.state.chatPackage = { type: '404', ids: ids, count: ids.length, sample: ids.slice( 0, 4 ).map( function ( k ) {
+						return rowsById[ k ] ? rowsById[ k ].url : '';
+					} ) };
+					App.go( '#/ai' );
+				}, 'sm', { disabled: true } );
+				var decideBtn = App.cap( 'ai' ) ? App.btn( SL.il( 'wand', t( 'Let the AI decide for these' ), 15 ), function () {
+					var ids = chosen();
+					var m = SL.modal( { title: t( 'AI review of the selected URLs' ), wide: true, onClose: load } );
+					var instr = h( 'textarea', { class: 'sl-input', rows: 2, dir: 'auto', placeholder: t( 'Your rule, e.g. “if they do not matter for rankings, hide them; real pages get a 301”.' ) } );
+					var box = h( 'div' );
+					m.body.appendChild( h( 'p', { class: 'sl-muted', text: t( 'The AI judges only these %s URLs from real evidence and prepares 301 / 410 / leave decisions for your approval; URLs without any value are hidden from the list.', ids.length ) } ) );
+					m.body.appendChild( instr );
+					m.body.appendChild( box );
+					box.appendChild( App.abtn( t( 'Start the review' ), function () {
+						return SL.api( '404/triage', { body: { instructions: instr.value, ids: ids } } ).then( function ( op ) {
+							instr.remove();
+							App.operationView( box, op, load );
+						} );
+					}, 'primary' ) );
+				}, 'sm', { disabled: true } ) : null;
+				var hideBtn = App.abtn( 'noise' === f.status ? t( 'Bring back to the list' ) : t( 'Hide as not important' ), function () {
+					return status( 'noise' === f.status ? 'open' : 'noise' );
+				}, 'sm', { disabled: true } );
+				var bulkBtns = [ hideBtn, askBtn ].concat( decideBtn ? [ decideBtn ] : [] ).concat( 'open' === f.status ? [ bulkBtn ] : [] );
 				var all = h( 'input', { type: 'checkbox', 'aria-label': t( 'Select all' ), title: t( 'Select all' ), onChange: function ( e ) {
 					boxes.forEach( function ( b ) {
 						b.checked = e.target.checked;
@@ -437,10 +581,25 @@
 					} );
 					count();
 				} } );
-				body.appendChild( h( 'div', { class: 'sl-toolbar' }, App.select( [ [ 'open', t( 'Open' ) ], [ 'redirected', t( 'Redirected' ) ], [ 'ignored', t( 'Ignored' ) ] ], f.status, function ( x ) {
+				var noTarget = 'open' === f.status ? App.btn( t( 'Select the ones without a suggestion' ), function () {
+					boxes.forEach( function ( b ) {
+						var x = rowsById[ b.value ];
+						b.checked = !! x && ! x.suggested_target;
+						sel[ b.value ] = b.checked;
+					} );
+					count();
+				}, 'sm' ) : null;
+				body.appendChild( h( 'div', { class: 'sl-toolbar' }, App.select( [ [ 'open', t( 'To review' ) + ' (' + SL.num( r.stats.open, 0 ) + ')' ], [ 'noise', t( 'Hidden: not important' ) + ' (' + SL.num( r.stats.noise || 0, 0 ) + ')' ], [ 'redirected', t( 'Redirected' ) ], [ 'ignored', t( 'Ignored' ) ] ], f.status, function ( x ) {
 					f.status = x;
+					f.page = 1;
 					load();
-				} ), bulkOn ? bulkBtn : null, bulkOn ? counter : null ) );
+				} ), bulkOn ? noTarget : null, bulkOn ? counter : null ) );
+				if ( bulkOn ) {
+					body.appendChild( h( 'div', { class: 'sl-toolbar sl-404-bulk' }, bulkBtns ) );
+				}
+				if ( 'noise' === f.status ) {
+					body.appendChild( h( 'p', { class: 'sl-muted sl-small', text: t( 'These URLs have no value for search: no Search Console history, no page links to them, no real visitor came from anywhere — mostly security scanners. A 404 is the right answer and does not hurt rankings. Nothing on the site was changed; bring any of them back if you disagree.' ) } ) );
+				}
 				body.appendChild( App.table( [
 					bulkOn ? { label: all, render: function ( x ) {
 						var b = h( 'input', { type: 'checkbox', value: String( x.id ), 'aria-label': t( 'Select' ), onChange: function ( e ) {
@@ -451,7 +610,8 @@
 						return b;
 					} } : null,
 					{ label: t( 'URL' ), render: function ( x ) {
-						return h( 'code', { dir: 'ltr', text: x.url } );
+						var badge = x.verdict === 'important' ? SL.badge( t( 'Has value' ), 'good' ) : null;
+						return h( 'div', { class: 'sl-404-url' }, h( 'code', { dir: 'ltr', text: x.url } ), badge, x.verdict_reason ? h( 'small', { class: 'sl-muted sl-404-why', dir: 'auto', text: x.verdict_reason } ) : null );
 					} },
 					{ label: t( 'Referrer' ), render: function ( x ) {
 						return x.referrer ? App.ext( x.referrer ) : '—';
@@ -473,6 +633,11 @@
 						return x.suggested_target ? h( 'div', null, App.ext( x.suggested_target ), h( 'small', { class: 'sl-muted', text: ' ' + ( x.suggestion_score || 0 ) + '%' } ) ) : h( 'span', { class: 'sl-muted', text: x.suggested_target === '' ? t( 'no good match' ) : t( 'pending' ) } );
 					} },
 					{ label: '', render: function ( x ) {
+						if ( App.cap( 'manage' ) && x.status === 'noise' ) {
+							return App.btn( t( 'Bring back' ), function () {
+								SL.api( '404/' + x.id + '/status', { body: { status: 'open' } } ).then( load ).catch( SL.fail );
+							}, 'sm' );
+						}
 						if ( ! App.cap( 'manage' ) || x.status !== 'open' ) {
 							return null;
 						}

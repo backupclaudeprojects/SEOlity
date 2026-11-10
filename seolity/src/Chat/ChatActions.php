@@ -36,7 +36,7 @@ final class ChatActions {
 	 * @param string $conversation Conversation id (for links back).
 	 * @return array[] One result per proposal: kind, ok, title, note, route, id.
 	 */
-	public function apply( array $proposals, $conversation = '' ) {
+	public function apply( array $proposals, $conversation = '', array $package = array() ) {
 		$out  = array();
 		$seen = array();
 		foreach ( array_slice( $proposals, 0, 8 ) as $p ) {
@@ -58,6 +58,22 @@ final class ChatActions {
 						break;
 					case 'follow_up':
 						$out[] = $this->follow_up( $p, $conversation );
+						break;
+					case 'review_404s':
+						$ids = ! empty( $package['ids'] ) && '404' === $package['type'] ? (array) $package['ids'] : array();
+						if ( ! $ids ) {
+							$out[] = array( 'kind' => 'review_404s', 'ok' => false, 'title' => $p['title'], 'note' => __( 'Select the URLs on the 404 page and send them to the chat first.', 'seolity' ), 'route' => '#/404', 'id' => 0 );
+							break;
+						}
+						$op    = $this->plugin->nf_triage->start( (string) ( ! empty( $p['instructions'] ) ? $p['instructions'] : $p['detail'] ), $ids );
+						$out[] = array(
+							'kind'  => 'review_404s',
+							'ok'    => ! is_wp_error( $op ),
+							'title' => $p['title'],
+							'note'  => is_wp_error( $op ) ? $op->get_error_message() : __( 'Being prepared for exactly these URLs — it will appear in the floating popup for review. URLs without value are hidden from the 404 list; 301 / 410 change nothing until you approve.', 'seolity' ),
+							'route' => '#/404',
+							'id'    => is_wp_error( $op ) ? 0 : (int) $op['id'],
+						);
 						break;
 					case 'message':
 						$id    = $this->plugin->alerts->message( 'ai', (string) $p['title'], (string) $p['detail'], array( 'url' => $this->abs( isset( $p['url'] ) ? $p['url'] : '' ), 'links' => array( array( 'title' => __( 'Open the conversation', 'seolity' ), 'route' => '#/ai' ) ) ) );

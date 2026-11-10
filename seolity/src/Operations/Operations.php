@@ -370,6 +370,9 @@ final class Operations {
 				return sprintf( __( '301 redirect %1$s → %2$s', 'seolity' ), urldecode( (string) $it['source'] ), urldecode( (string) $it['target'] ) );
 			case 'fix_chains':
 				return __( 'Point redirect chains straight to their final URL', 'seolity' );
+			case 'redirect_remove':
+				/* translators: %s: url */
+				return sprintf( __( 'Remove the redirect of %s (it answers as a page again)', 'seolity' ), urldecode( (string) $it['source'] ) );
 			case 'bulk':
 				/* translators: %d: items */
 				return sprintf( __( 'Queue AI optimization for %d items', 'seolity' ), count( (array) $it['ids'] ) );
@@ -438,6 +441,16 @@ final class Operations {
 					$this->plugin->recommendations->resolve_url( array( 'create_redirect', 'not_found' ), $it['source'], array( 'redirect' => $v, 'at' => gmdate( 'c' ) ) );
 				}
 				return array( 'ok' => $v['ok'], 'detail' => $v['detail'], 'verify' => $v, 'redirect_id' => (int) $rid );
+			case 'redirect_remove':
+				// Breaking a loop: the chosen final page must stop redirecting. Undo restores the rule.
+				$old = $this->plugin->db->row( 'SELECT * FROM {redirects} WHERE id = %d', array( (int) $it['replace_id'] ) );
+				if ( ! $old ) {
+					return array( 'ok' => false, 'detail' => __( 'Redirect not found.', 'seolity' ) );
+				}
+				$roll[] = array( 'kind' => 'redirect_restore', 'source' => $old['source'], 'target' => $old['target'], 'type' => (int) $old['type'], 'origin' => $old['origin'] );
+				$this->plugin->redirects->delete( (int) $old['id'] );
+				$t = $this->verifier->target_ok( home_url( $old['source'] ) );
+				return array( 'ok' => ! empty( $t['ok'] ), 'detail' => (string) $t['detail'] );
 			case 'fix_chains':
 				$n    = (int) $this->plugin->redirects->fix_chains();
 				$left = count(

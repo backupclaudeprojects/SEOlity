@@ -145,6 +145,11 @@
 						body.appendChild( h( 'p', { class: 'sl-small', dir: 'auto', text: t( 'Linked from: %s', it.posts.join( '، ' ) ) } ) );
 					}
 				}
+				if ( it.chain && it.chain.length ) {
+					body.appendChild( h( 'p', { class: 'sl-small sl-muted sl-op__chain', dir: 'ltr', text: t( 'Chain today:' ) + ' ' + it.chain.map( function ( p ) {
+						return decodeURI( p );
+					} ).join( ' → ' ) + ( it.loop ? ' ↺' : '' ) } ) );
+				}
 				if ( 'gone' === it.kind && it.check && ! it.check.ok ) {
 					body.appendChild( h( 'p', { class: 'sl-small sl-text-bad', dir: 'auto', text: t( 'Problem: %s', ( it.check.problems || [] ).join( ' · ' ) ) } ) );
 				}
@@ -234,6 +239,8 @@
 					return t( '301 redirect %1$s → %2$s', decodeURI( SL.path( it.source ) ), decodeURI( SL.path( it.target ) ) );
 				case 'fix_chains':
 					return t( 'Point %s redirect chains straight to their final URL', it.count || '' );
+				case 'redirect_remove':
+					return t( 'Remove the redirect of %s (it answers as a page again)', decodeURI( SL.path( it.source ) ) );
 				case 'bulk':
 					return t( 'Optimize %s items with AI in the background', ( it.ids || [] ).length );
 				case 'plan':

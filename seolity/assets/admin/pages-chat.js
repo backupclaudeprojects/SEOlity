@@ -37,6 +37,9 @@
 	App.pages.ai = function ( v ) {
 		var cid = App.state.chatId || load( KEY );
 		var page = null; // { id, label, url } the question is about.
+		// A package of selected items sent from another page (e.g. 404 URLs): attached to the next question.
+		var pkg = App.state.chatPackage || null;
+		App.state.chatPackage = null;
 		var poll = null;
 		var busy = false;
 
@@ -52,6 +55,10 @@
 		var q0 = App.query ? App.query() : {};
 		if ( q0.ask ) {
 			input.value = String( q0.ask );
+		}
+		if ( pkg && '404' === pkg.type ) {
+			input.value = t( 'I selected %s broken (404) URLs. For each one: does it matter for ranking #1 on Google, and what should happen (301 to which page, 410, or hide as not important)? If they do not matter, prepare hiding/removing them.', pkg.count );
+			cid = ''; // A package starts its own conversation.
 		}
 		App.warmAi();
 		input.addEventListener( 'focus', App.warmAi );
@@ -82,9 +89,16 @@
 			h( 'div', { class: 'sl-chat__main' }, log, chips, h( 'div', { class: 'sl-chat__compose' }, h( 'div', { class: 'sl-chat__tools' }, pickPage, pageChip ), h( 'div', { class: 'sl-chat__row' }, input, send ), h( 'small', { class: 'sl-muted', text: t( 'Enter to send · Shift+Enter for a new line' ) } ) ) ),
 			h( 'aside', { class: 'sl-chat__history' }, h( 'h4', { text: t( 'Conversations' ) } ), search, list )
 		) );
+		renderPage();
 
 		function renderPage() {
 			SL.clear( pageChip );
+			if ( pkg ) {
+				pageChip.appendChild( h( 'span', { class: 'sl-chip sl-chip--pkg', title: ( pkg.sample || [] ).join( '\n' ) }, SL.icon( 'layers', 13 ), ' ', t( '%s 404 URLs attached', pkg.count ), ' ', h( 'button', { type: 'button', class: 'sl-chat__x', 'aria-label': t( 'Remove' ), onClick: function () {
+					pkg = null;
+					renderPage();
+				} }, '×' ) ) );
+			}
 			if ( page ) {
 				pageChip.appendChild( h( 'span', { class: 'sl-chip' }, SL.icon( 'content', 13 ), ' ', page.label, ' ', h( 'button', { type: 'button', class: 'sl-chat__x', 'aria-label': t( 'Remove' ), onClick: function () {
 					page = null;
@@ -122,7 +136,7 @@
 		function bubble( msg ) {
 			var meta = msg.meta || {};
 			if ( msg.role === 'user' ) {
-				return h( 'div', { class: 'sl-msg sl-msg--user' }, h( 'div', { dir: 'auto', text: msg.content } ), meta.page ? h( 'div', { class: 'sl-msg__page' }, SL.icon( 'content', 12 ), ' ', decodeURIComponent( meta.page.replace( /^https?:\/\/[^/]+/, '' ) ) ) : null );
+				return h( 'div', { class: 'sl-msg sl-msg--user' }, h( 'div', { dir: 'auto', text: msg.content } ), meta.page ? h( 'div', { class: 'sl-msg__page' }, SL.icon( 'content', 12 ), ' ', decodeURIComponent( meta.page.replace( /^https?:\/\/[^/]+/, '' ) ) ) : null, meta.package ? h( 'div', { class: 'sl-msg__page' }, SL.icon( 'layers', 12 ), ' ', t( '%s 404 URLs attached', meta.package.count ) ) : null );
 			}
 			var st = meta.status || ( msg.content ? 'done' : 'pending' );
 			if ( st === 'pending' || st === 'waiting' ) {
@@ -249,10 +263,17 @@
 			}
 			input.value = '';
 			busy = true;
-			messages.push( { role: 'user', content: text, meta: page ? { page: page.url } : {} } );
+			var um = page ? { page: page.url } : {};
+			if ( pkg ) {
+				um.package = { type: pkg.type, count: pkg.count };
+			}
+			messages.push( { role: 'user', content: text, meta: um } );
 			messages.push( { role: 'assistant', content: '', meta: { status: 'pending', started: new Date().toISOString() } } );
 			render();
-			SL.api( 'chat', { body: { message: text, conversation_id: cid, page: page ? page.id : '' }, noWait: true } ).then( function ( r ) {
+			var sentPkg = pkg ? { type: pkg.type, ids: pkg.ids } : null;
+			pkg = null;
+			renderPage();
+			SL.api( 'chat', { body: { message: text, conversation_id: cid, page: page ? page.id : '', items: sentPkg }, noWait: true } ).then( function ( r ) {
 				busy = false;
 				if ( r.conversation_id !== cid ) {
 					cid = r.conversation_id;

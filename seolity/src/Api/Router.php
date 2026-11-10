@@ -974,6 +974,31 @@ final class Router {
 		$this->route( 'POST', '/redirects/fix-chains', 'manage', function () use ( $p ) {
 			return array( 'fixed' => $p->redirects->fix_chains() );
 		} );
+		/* ---------------- Road to #1, one search at a time ---------------- */
+		$this->route( 'GET', '/rank1', 'view', function () use ( $p ) {
+			return $p->rank1->board();
+		} );
+		$this->route( 'POST', '/rank1/focus', 'ai', function ( Req $r ) use ( $p ) {
+			return $p->rank1->focus( (string) $r->get_param( 'query' ), self::url( $r, 'page' ) );
+		} );
+		$this->route( 'POST', '/rank1/finish', 'ai', function ( Req $r ) use ( $p ) {
+			return array( 'focus' => $p->rank1->finish( 'done' === self::key( $r, 'how' ) ? 'done' : 'skip' ) );
+		} );
+		$this->route( 'POST', '/rank1/plan', 'ai', function ( Req $r ) use ( $p ) {
+			return $p->rank1->start_plan( (string) $r->get_param( 'instructions' ) );
+		} );
+		$this->route( 'POST', '/rank1/check', 'ai', function ( Req $r ) use ( $p ) {
+			return $p->rank1->check_live( sanitize_text_field( (string) $r->get_param( 'query' ) ) );
+		} );
+		$this->route( 'POST', '/rank1/step', 'ai', function ( Req $r ) use ( $p ) {
+			return $p->rank1->do_step( self::int( $r, 'index' ) );
+		} );
+		$this->route( 'GET', '/redirects/chains', 'view', function () use ( $p ) {
+			return $p->chains->view();
+		} );
+		$this->route( 'POST', '/redirects/chains/review', 'manage', function ( Req $r ) use ( $p ) {
+			return $p->chains->start( (bool) $r->get_param( 'ai' ), (string) $r->get_param( 'instructions' ) );
+		} );
 		$this->route( 'GET', '/404', 'view', function ( Req $r ) use ( $p ) {
 			return $p->not_found->query( self::filters( $r, array( 'status', 'search', 'page', 'per_page' ) ) );
 		} );
@@ -1010,7 +1035,10 @@ final class Router {
 			return array( 'ok' => $p->not_found->set_status( self::int( $r, 'id' ), self::key( $r, 'status' ) ) );
 		} );
 		$this->route( 'POST', '/404/triage', 'ai', function ( Req $r ) use ( $p ) {
-			return $p->nf_triage->start( (string) $r->get_param( 'instructions' ) );
+			return $p->nf_triage->start( (string) $r->get_param( 'instructions' ), array_map( 'intval', (array) $r->get_param( 'ids' ) ) );
+		} );
+		$this->route( 'POST', '/404/bulk-status', 'manage', function ( Req $r ) use ( $p ) {
+			return array( 'updated' => $p->not_found->set_status_many( array_map( 'intval', (array) $r->get_param( 'ids' ) ), self::key( $r, 'status' ) ) );
 		} );
 		$this->route( 'POST', '/404/suggest', 'ai', function () use ( $p ) {
 			$p->queue->push( 'not_found_suggest', array(), array( 'unique' => true, 'priority' => 2 ) );
@@ -1165,7 +1193,7 @@ final class Router {
 			return $p->briefing->latest();
 		} );
 		$this->route( 'POST', '/chat', 'ai', function ( Req $r ) use ( $p ) {
-			return $p->chat->ask( wp_unslash( (string) $r->get_param( 'message' ) ), self::key( $r, 'conversation_id' ), array( 'page' => $r->get_param( 'page' ) ) );
+			return $p->chat->ask( wp_unslash( (string) $r->get_param( 'message' ) ), self::key( $r, 'conversation_id' ), array( 'page' => $r->get_param( 'page' ), 'items' => $r->get_param( 'items' ) ) );
 		} );
 		$this->route( 'GET', '/chat/conversations', 'ai', function () use ( $p ) {
 			return $p->chat->conversations();

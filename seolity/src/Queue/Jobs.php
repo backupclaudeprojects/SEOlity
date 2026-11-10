@@ -192,6 +192,29 @@ final class Jobs {
 		$q->handler( 'not_found_suggest', static function () use ( $p ) {
 			return $p->not_found->suggest_pending();
 		} );
+		$q->handler( 'rank1_plan', static function ( $a ) use ( $p ) {
+			if ( ! empty( $a['user_id'] ) ) {
+				wp_set_current_user( (int) $a['user_id'] );
+			}
+			return $p->rank1->make_plan( (array) $a );
+		} );
+		$q->handler( 'redirect_chains_prepare', static function ( $a ) use ( $p ) {
+			if ( ! empty( $a['user_id'] ) ) {
+				wp_set_current_user( (int) $a['user_id'] );
+			}
+			return $p->chains->prepare( (int) $a['id'] );
+		} );
+		$q->handler( 'not_found_classify', static function () use ( $p ) {
+			$left = 1;
+			for ( $round = 0; $round < 5 && $left > 0; $round++ ) {
+				$left = $p->nf_triage->classify( 60 );
+			}
+			if ( $left > 0 ) {
+				// A running job blocks its own unique key: the follow-up gets a fresh one.
+				$p->queue->push( 'not_found_classify', array(), array( 'unique' => 'nfc_' . time(), 'priority' => 2, 'delay' => 5 ) );
+			}
+			return true;
+		} );
 
 		// AI bulk work (one object per job keeps memory + timeouts in check).
 		$q->handler( 'bulk_item', static function ( $a ) use ( $p ) {

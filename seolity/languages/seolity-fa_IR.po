@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEOlity 1.0.0\n"
-"POT-Creation-Date: 2026-11-10 09:29+0000\n"
+"POT-Creation-Date: 2026-11-10 11:42+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1208,6 +1208,9 @@ msgstr "ممیزی سایت"
 msgid "Search Console"
 msgstr "سرچ کنسول"
 
+msgid "Road to #1"
+msgstr "مسیر رتبه ۱"
+
 msgid "Keywords"
 msgstr "کلمات کلیدی"
 
@@ -2092,6 +2095,12 @@ msgstr "گزارش روزانه سئوی شما"
 #, php-format
 msgid "Health score %1$s. %2$d prioritized actions are waiting, %3$d AI changes need your review."
 msgstr "امتیاز سلامت %1$s. %2$d اقدام اولویت‌دار در انتظار است و %3$d تغییر هوش مصنوعی نیاز به بررسی شما دارد."
+
+msgid "Select the URLs on the 404 page and send them to the chat first."
+msgstr "اول در صفحه ۴۰۴ آدرس‌ها را انتخاب کنید و به چت بفرستید."
+
+msgid "Being prepared for exactly these URLs — it will appear in the floating popup for review. URLs without value are hidden from the 404 list; 301 / 410 change nothing until you approve."
+msgstr "برای همین آدرس‌ها در حال آماده‌سازی است و در پنجره شناور برای بررسی می‌آید. آدرس‌های بی‌ارزش از لیست ۴۰۴ پنهان می‌شوند؛ ۳۰۱ و ۴۱۰ تا تأیید شما چیزی را عوض نمی‌کنند."
 
 msgid "Open the conversation"
 msgstr "باز کردن گفتگو"
@@ -3702,6 +3711,10 @@ msgid "Point redirect chains straight to their final URL"
 msgstr "زنجیره‌های ریدایرکت مستقیم به آدرس نهایی اشاره کنند"
 
 #, php-format
+msgid "Remove the redirect of %s (it answers as a page again)"
+msgstr "حذف ریدایرکت %s (دوباره به‌عنوان صفحه جواب می‌دهد)"
+
+#, php-format
 msgid "Queue AI optimization for %d items"
 msgstr "قرار دادن بهینه‌سازی هوش مصنوعی برای %d مورد در صف"
 
@@ -3719,6 +3732,9 @@ msgstr "%s به‌صورت ۴۰۴ بماند (بررسی‌شده علامت ب�
 #, php-format
 msgid "Fix the internal link to %s by hand"
 msgstr "لینک داخلی به %s را دستی اصلاح کنید"
+
+msgid "Redirect not found."
+msgstr "ریدایرکت پیدا نشد."
 
 #, php-format
 msgid "%1$d redirects updated; %2$d chains left."
@@ -3883,6 +3899,57 @@ msgstr "این وظیفه هنوز فعال است. اول آن را لغو کن
 
 msgid "Every minute (SEOlity queue)"
 msgstr "هر دقیقه (صف سئولیتی)"
+
+msgid "Choose a search first."
+msgstr "اول یک جست‌وجو را انتخاب کنید."
+
+msgid "Waiting for data: Google Search Console reports with a delay of 2–3 days, and a change needs 1–3 weeks to show in rankings."
+msgstr "در انتظار داده: سرچ کنسول گوگل با ۲ تا ۳ روز تأخیر گزارش می‌دهد و هر تغییر ۱ تا ۳ هفته طول می‌کشد تا در رتبه دیده شود."
+
+#, php-format
+msgid "Position 1 for “%s” — measured, not estimated: the average position of the last 7 days in Search Console is 1. Outstanding work! Keep the page fresh and pick the next search."
+msgstr "رتبه ۱ برای «%s» — اندازه‌گیری‌شده، نه تخمینی: میانگین جایگاه ۷ روز اخیر در سرچ کنسول ۱ است. کارتان عالی بود! صفحه را به‌روز نگه دارید و سراغ جست‌وجوی بعدی بروید."
+
+#, php-format
+msgid "Real progress: from %1$s to %2$s (average of the last 7 days, Search Console). The work is paying off — keep going with the next step."
+msgstr "پیشرفت واقعی: از %1$s به %2$s (میانگین ۷ روز اخیر، سرچ کنسول). زحمت‌تان دارد جواب می‌دهد؛ با قدم بعدی ادامه دهید."
+
+#, php-format
+msgid "Down from %1$s to %2$s for now. Rankings often wobble for a week or two after changes; if it stays down for 3 weeks, review the last change."
+msgstr "فعلاً از %1$s به %2$s پایین آمده. رتبه‌ها معمولاً یکی دو هفته بعد از تغییرات نوسان دارند؛ اگر ۳ هفته پایین ماند، آخرین تغییر را بازبینی کنید."
+
+#, php-format
+msgid "Holding at %s. No real movement yet — the next step of the plan is what moves it."
+msgstr "روی %s ثابت مانده. هنوز حرکت واقعی نداشته؛ قدم بعدی برنامه است که آن را جابه‌جا می‌کند."
+
+msgid "No automatic Google results source is set up. Open the search in Google in a private window, or set up a free source (Settings → Crawler & audits; one needs no key at all)."
+msgstr "هیچ منبع خودکار نتایج گوگل تنظیم نشده. جست‌وجو را در یک پنجره ناشناس در گوگل باز کنید، یا یک منبع رایگان تنظیم کنید (تنظیمات ← خزنده و ممیزی؛ یکی اصلاً کلید نمی‌خواهد)."
+
+msgid "Choose a search to focus on first."
+msgstr "اول یک جست‌وجو را برای تمرکز انتخاب کنید."
+
+#, php-format
+msgid "Plan to rank #1 for “%s”"
+msgstr "برنامه رتبه ۱ برای «%s»"
+
+msgid "Reading the page, its Search Console history and the Google results…"
+msgstr "خواندن صفحه، سابقه سرچ کنسول آن و نتایج گوگل…"
+
+msgid "AI is comparing your page with the result that ranks first…"
+msgstr "هوش مصنوعی صفحه شما را با نتیجه رتبه اول مقایسه می‌کند…"
+
+msgid "Plan ready"
+msgstr "برنامه آماده است"
+
+msgid "Plan ready — open “Road to #1”"
+msgstr "برنامه آماده است؛ «مسیر رتبه ۱» را باز کنید"
+
+msgid "Step not found."
+msgstr "قدم پیدا نشد."
+
+#, php-format
+msgid "Goal: position 1 on Google for “%s”."
+msgstr "هدف: رتبه ۱ گوگل برای «%s»."
 
 #, php-format
 msgid "Redirect the 404 URL %s"
@@ -4178,6 +4245,44 @@ msgstr "رتبه‌های جدید در موضوعاتی که رقبا اکنو�
 msgid "Improved SEO quality for the affected URLs."
 msgstr "بهبود کیفیت سئو برای URLهای درگیر."
 
+msgid "There are no redirect chains or loops."
+msgstr "هیچ زنجیره یا حلقه ریدایرکتی وجود ندارد."
+
+msgid "Fix redirect chains: AI chooses the best final page"
+msgstr "رفع زنجیره‌های ریدایرکت: هوش مصنوعی بهترین صفحه مقصد را انتخاب می‌کند"
+
+msgid "Fix redirect chains: point every step to the final page"
+msgstr "رفع زنجیره‌های ریدایرکت: هر قدم مستقیم به صفحه مقصد"
+
+msgid "Reviewing redirect chains"
+msgstr "بررسی زنجیره‌های ریدایرکت"
+
+msgid "Checking where each chain ends on the live site…"
+msgstr "بررسی اینکه هر زنجیره روی سایت زنده به کجا ختم می‌شود…"
+
+msgid "AI is choosing the best final page for each chain…"
+msgstr "هوش مصنوعی برای هر زنجیره بهترین صفحه مقصد را انتخاب می‌کند…"
+
+msgid "Preparing the new redirects…"
+msgstr "آماده‌سازی ریدایرکت‌های جدید…"
+
+msgid "Every step now goes straight to the page the chain already ends on."
+msgstr "حالا هر قدم مستقیم به همان صفحه‌ای می‌رود که زنجیره به آن ختم می‌شد."
+
+#, php-format
+msgid "%1$d chains/loops; %2$d redirects get a new target so that every old address reaches its final page in one step."
+msgstr "%1$d زنجیره/حلقه؛ %2$d ریدایرکت مقصد جدید می‌گیرند تا هر آدرس قدیمی با یک قدم به صفحه نهایی برسد."
+
+#, php-format
+msgid "%d chains were left as they are: they end on a page that does not answer, or no safe final page was found (fix them by hand)."
+msgstr "%d زنجیره دست‌نخورده ماندند: یا به صفحه‌ای ختم می‌شوند که جواب نمی‌دهد، یا صفحه مقصد مطمئنی پیدا نشد (دستی درستشان کنید)."
+
+msgid "Rules that live in Rank Math are changed in Rank Math."
+msgstr "قانون‌هایی که در رنک‌مث هستند، در خود رنک‌مث تغییر می‌کنند."
+
+msgid "Nothing changes until you approve. Every new redirect is checked on the live site and can be undone."
+msgstr "تا تأیید نکنید چیزی عوض نمی‌شود. هر ریدایرکت جدید روی سایت زنده بررسی می‌شود و قابل برگشت است."
+
 msgid "Invalid redirect type."
 msgstr "نوع ریدایرکت نامعتبر است."
 
@@ -4190,20 +4295,54 @@ msgstr "URL مقصد الزامی است."
 msgid "This redirect would create a loop."
 msgstr "این ریدایرکت یک حلقه ایجاد می‌کند."
 
-msgid "Redirect not found."
-msgstr "ریدایرکت پیدا نشد."
-
 msgid "Entry not found."
 msgstr "مورد پیدا نشد."
 
+msgid "You brought it back to the list."
+msgstr "خودتان آن را به لیست برگرداندید."
+
+msgid "You hid it as not important."
+msgstr "خودتان آن را به‌عنوان غیرمهم پنهان کردید."
+
 msgid "There are no open 404 URLs to review."
 msgstr "هیچ آدرس ۴۰۴ بازی برای بررسی نیست."
+
+#, php-format
+msgid "AI review of %d selected 404 URLs"
+msgstr "بررسی هوش مصنوعی برای %d آدرس ۴۰۴ انتخاب‌شده"
 
 msgid "AI review of 404 errors: 301, 410 or leave as 404"
 msgstr "بررسی هوشمند خطاهای ۴۰۴: ریدایرکت ۳۰۱، ۴۱۰ یا ۴۰۴ بماند"
 
 msgid "Reviewing 404 errors"
 msgstr "در حال بررسی خطاهای ۴۰۴"
+
+#, php-format
+msgid "Search Console: %1$d impressions, %2$d clicks"
+msgstr "سرچ کنسول: %1$d نمایش، %2$d کلیک"
+
+#, php-format
+msgid "linked from %d of your pages"
+msgstr "از %d صفحه شما لینک دارد"
+
+msgid "referrer"
+msgstr "ارجاع‌دهنده"
+
+msgid "Googlebot requests it"
+msgstr "گوگل‌بات درخواستش می‌کند"
+
+msgid "a deleted post had this address"
+msgstr "یک نوشته حذف‌شده این آدرس را داشته"
+
+#, php-format
+msgid "Has value: %s."
+msgstr "ارزش دارد: %s."
+
+msgid "A security scanner looking for a file this site never had. Google has never shown it (no Search Console history), no page links to it and no real visitor came from anywhere. A 404 is exactly the right answer; it does not affect rankings."
+msgstr "یک اسکنر امنیتی دنبال فایلی گشته که این سایت هیچ‌وقت نداشته. گوگل هیچ‌وقت نشانش نداده (سابقه‌ای در سرچ کنسول نیست)، هیچ صفحه‌ای به آن لینک نداده و هیچ بازدیدکننده واقعی از جایی نیامده. ۴۰۴ دقیقاً جواب درست است و روی رتبه اثری ندارد."
+
+msgid "No sign of value yet (no Search Console history, links or referrers), but not a typical probe either: the AI review decides."
+msgstr "هنوز نشانه‌ای از ارزش ندارد (سابقه سرچ کنسول، لینک یا ارجاع‌دهنده نیست)، ولی کاوش معمول اسکنر هم نیست؛ بررسی هوش مصنوعی تصمیم می‌گیرد."
 
 #, php-format
 msgid "Collecting evidence for %d URLs (Search Console, links, referrers, candidates)…"
@@ -4228,6 +4367,10 @@ msgstr "بودجه خزش: این ۴۰۴ها برای این سایت مشکل �
 #, php-format
 msgid "Decisions: %1$d × 301 to an equivalent page, %2$d × 410 gone, %3$d × leave as 404, %4$d × fix the internal link."
 msgstr "تصمیم‌ها: %1$d × ریدایرکت ۳۰۱ به صفحه معادل، %2$d × ۴۱۰ حذف دائمی، %3$d × ۴۰۴ بماند، %4$d × اصلاح لینک داخلی."
+
+#, php-format
+msgid "%d URLs without any value (no Search Console history, no links, no real visitors) were moved to “Hidden: not important” in the 404 list. Nothing on the site changed; you can bring any of them back."
+msgstr "%d آدرس بدون هیچ ارزشی (بدون سابقه سرچ کنسول، لینک یا بازدیدکننده واقعی) در لیست ۴۰۴ به «پنهان: غیرمهم» منتقل شدند. چیزی در سایت عوض نشد؛ هرکدام را می‌توانید برگردانید."
 
 msgid "Nothing changes until you approve. Untick anything you disagree with; every 301 and 410 is checked on the live site afterwards."
 msgstr "تا تأیید نکنید چیزی تغییر نمی‌کند. تیک هر موردی را که قبول ندارید بردارید؛ هر ۳۰۱ و ۴۱۰ بعد از اعمال روی سایت زنده بررسی می‌شود."
@@ -6985,6 +7128,10 @@ msgstr "ارسال"
 msgid "Search conversations…"
 msgstr "جست‌وجوی گفتگوها…"
 
+#, php-format
+msgid "I selected %s broken (404) URLs. For each one: does it matter for ranking #1 on Google, and what should happen (301 to which page, 410, or hide as not important)? If they do not matter, prepare hiding/removing them."
+msgstr "%s آدرس خراب (۴۰۴) را انتخاب کردم. برای هرکدام بگو: برای رتبه ۱ گوگل مهم است یا نه، و چه کار باید کرد (۳۰۱ به کدام صفحه، ۴۱۰، یا پنهان‌کردن به‌عنوان غیرمهم)؟ اگر مهم نیستند، پنهان‌کردن/حذفشان را آماده کن."
+
 msgid "Ask anything about your site. Answers are grounded in your real Search Console, audit, competitor and experiment data — and stay here even if you reload the page."
 msgstr "هر سؤالی درباره سایتتان بپرسید. پاسخ‌ها بر پایه داده‌های واقعی سرچ کنسول، ممیزی، رقبا و آزمایش‌ها هستند — و حتی اگر صفحه را رفرش کنید همین‌جا می‌مانند."
 
@@ -7023,6 +7170,10 @@ msgstr "Enter برای ارسال · Shift+Enter برای خط جدید"
 
 msgid "Conversations"
 msgstr "گفتگوها"
+
+#, php-format
+msgid "%s 404 URLs attached"
+msgstr "%s آدرس ۴۰۴ پیوست شد"
 
 msgid "Which page is the question about?"
 msgstr "سؤال درباره کدام صفحه است؟"
@@ -8125,12 +8276,46 @@ msgstr "%s خط خطا داشت."
 msgid "Search redirects…"
 msgstr "جستجوی ریدایرکت‌ها…"
 
-#, php-format
-msgid "%s redirect chains/loops detected."
-msgstr "%s زنجیره/حلقه ریدایرکت شناسایی شد."
+msgid "Only a redirect"
+msgstr "فقط یک ریدایرکت"
 
-msgid "Flatten chains"
-msgstr "صاف کردن زنجیره‌ها"
+#, php-format
+msgid "%s clicks (28 days)"
+msgstr "%s کلیک (۲۸ روز)"
+
+msgid "loop"
+msgstr "حلقه"
+
+msgid "A loop has no end: let the AI choose which real page answers."
+msgstr "حلقه انتهایی ندارد؛ بگذارید هوش مصنوعی انتخاب کند کدام صفحه واقعی جواب بدهد."
+
+msgid "Today"
+msgstr "الان"
+
+msgid "After the fix"
+msgstr "بعد از اصلاح"
+
+msgid "AI chooses the best final page"
+msgstr "هوش مصنوعی بهترین صفحه مقصد را انتخاب کند"
+
+msgid "Point every step to the final page"
+msgstr "هر قدم مستقیم به صفحه مقصد"
+
+msgid "Optional rule, e.g. “old product addresses go to their category”, “prefer the shop page”."
+msgstr "قانون اختیاری؛ مثلاً «آدرس‌های قدیمی محصول به دسته خودشان بروند»، «صفحه فروشگاه را ترجیح بده»."
+
+msgid "For each chain the AI picks, from checked live pages only, the final page that matches the old addresses best and matters most for the site (importance, real clicks) — usually where the chain ends, sometimes a stronger page like the shop or a category. You approve every redirect."
+msgstr "هوش مصنوعی برای هر زنجیره، فقط از بین صفحه‌های زنده‌ای که بررسی شده‌اند، صفحه مقصدی را انتخاب می‌کند که با آدرس‌های قدیمی بیشترین تطابق را دارد و برای سایت مهم‌تر است (اهمیت، کلیک واقعی)؛ معمولاً همان انتهای زنجیره، گاهی صفحه قوی‌تری مثل فروشگاه یا یک دسته. هر ریدایرکت را خودتان تأیید می‌کنید."
+
+msgid "Every old address will redirect in one step to the page its chain ends on. You approve every redirect; each is checked on the live site and can be undone."
+msgstr "هر آدرس قدیمی با یک قدم به صفحه‌ای ریدایرکت می‌شود که زنجیره‌اش به آن ختم می‌شود. هر ریدایرکت را خودتان تأیید می‌کنید؛ همه روی سایت زنده بررسی می‌شوند و قابل برگشت‌اند."
+
+msgid "Prepare the fix"
+msgstr "آماده‌سازی اصلاح"
+
+#, php-format
+msgid "%1$s chains (%2$s loops) with %3$s redirects. Each extra step costs visitors and Googlebot one more request and loses a little signal; a loop is a dead end. Worth fixing, rarely an emergency."
+msgstr "%1$s زنجیره (%2$s حلقه) با %3$s ریدایرکت. هر قدم اضافه یک درخواست بیشتر برای بازدیدکننده و گوگل‌بات است و کمی از اعتبار را هدر می‌دهد؛ حلقه یک بن‌بست است. ارزش اصلاح دارد، ولی به‌ندرت فوری است."
 
 msgid "Type"
 msgstr "نوع"
@@ -8171,8 +8356,14 @@ msgstr "پیشنهاد مقصد"
 msgid "Computing suggestions in the background."
 msgstr "در حال محاسبه پیشنهادها در پس‌زمینه."
 
-msgid "Open 404s"
-msgstr "۴۰۴های باز"
+msgid "To review"
+msgstr "برای بررسی"
+
+msgid "With real value"
+msgstr "با ارزش واقعی"
+
+msgid "Hidden: not important"
+msgstr "پنهان: غیرمهم"
 
 msgid "Hits (7 days)"
 msgstr "بازدیدها (۷ روز)"
@@ -8180,12 +8371,21 @@ msgstr "بازدیدها (۷ روز)"
 msgid "New (24h)"
 msgstr "جدید (۲۴ ساعت)"
 
-msgid "With referrer"
-msgstr "دارای ارجاع‌دهنده"
+#, php-format
+msgid "Sorting %s new URLs by real evidence (Search Console history, links, referrers, Googlebot). Scanner probes without any value are moved to “Hidden: not important”."
+msgstr "در حال دسته‌بندی %s آدرس جدید با شواهد واقعی (سابقه سرچ کنسول، لینک‌ها، ارجاع‌دهنده‌ها، گوگل‌بات). کاوش‌های اسکنر که هیچ ارزشی ندارند به «پنهان: غیرمهم» می‌روند."
 
 #, php-format
 msgid "%s selected"
 msgstr "%s مورد انتخاب شد"
+
+#, php-format
+msgid "%s URLs are back in the list."
+msgstr "%s آدرس به لیست برگشت."
+
+#, php-format
+msgid "%s URLs hidden as not important."
+msgstr "%s آدرس به‌عنوان غیرمهم پنهان شد."
 
 msgid "Redirect selected to their own targets"
 msgstr "ریدایرکت موارد انتخاب‌شده به مقصد خودشان"
@@ -8193,8 +8393,33 @@ msgstr "ریدایرکت موارد انتخاب‌شده به مقصد خودش
 msgid "Every redirect was checked: the target must be a live page, no loop may be created and the old URL must really be gone. Untick anything you do not want, then approve."
 msgstr "هر ریدایرکت بررسی شد: مقصد باید صفحه زنده باشد، حلقه ایجاد نشود و آدرس قدیمی واقعاً از بین رفته باشد. تیک هر چیزی را که نمی‌خواهید بردارید و سپس تأیید کنید."
 
+msgid "Ask the AI about these"
+msgstr "درباره این‌ها از هوش مصنوعی بپرس"
+
+msgid "Let the AI decide for these"
+msgstr "هوش مصنوعی برای این‌ها تصمیم بگیرد"
+
+msgid "AI review of the selected URLs"
+msgstr "بررسی هوش مصنوعی آدرس‌های انتخاب‌شده"
+
+msgid "Your rule, e.g. “if they do not matter for rankings, hide them; real pages get a 301”."
+msgstr "قانون شما؛ مثلاً «اگر برای رتبه مهم نیستند پنهانشان کن؛ صفحه‌های واقعی ۳۰۱ بگیرند»."
+
+#, php-format
+msgid "The AI judges only these %s URLs from real evidence and prepares 301 / 410 / leave decisions for your approval; URLs without any value are hidden from the list."
+msgstr "هوش مصنوعی فقط همین %s آدرس را با شواهد واقعی بررسی می‌کند و تصمیم‌های ۳۰۱ / ۴۱۰ / رهاکردن را برای تأیید شما آماده می‌کند؛ آدرس‌های بی‌ارزش از لیست پنهان می‌شوند."
+
+msgid "Bring back to the list"
+msgstr "برگرداندن به لیست"
+
+msgid "Hide as not important"
+msgstr "پنهان‌کردن به‌عنوان غیرمهم"
+
 msgid "Select all"
 msgstr "انتخاب همه"
+
+msgid "Select the ones without a suggestion"
+msgstr "انتخاب آن‌هایی که پیشنهاد ندارند"
 
 msgid "Redirected"
 msgstr "ریدایرکت‌شده"
@@ -8202,8 +8427,14 @@ msgstr "ریدایرکت‌شده"
 msgid "Ignored"
 msgstr "نادیده‌گرفته‌شده"
 
+msgid "These URLs have no value for search: no Search Console history, no page links to them, no real visitor came from anywhere — mostly security scanners. A 404 is the right answer and does not hurt rankings. Nothing on the site was changed; bring any of them back if you disagree."
+msgstr "این آدرس‌ها برای جست‌وجو ارزشی ندارند: نه سابقه سرچ کنسول، نه لینکی از صفحه‌ها، نه بازدیدکننده واقعی از جایی؛ بیشترشان اسکنرهای امنیتی‌اند. ۴۰۴ جواب درست است و به رتبه آسیبی نمی‌زند. چیزی در سایت عوض نشده؛ اگر موافق نیستید هرکدام را برگردانید."
+
 msgid "URL"
 msgstr "آدرس (URL)"
+
+msgid "Has value"
+msgstr "ارزش دارد"
 
 msgid "Referrer"
 msgstr "ارجاع‌دهنده"
@@ -8226,6 +8457,9 @@ msgstr "تطابق %s%"
 
 msgid "no good match"
 msgstr "مورد مناسبی نیست"
+
+msgid "Bring back"
+msgstr "برگرداندن"
 
 msgid "410 Gone"
 msgstr "۴۱۰ حذف‌شده"
@@ -8986,6 +9220,9 @@ msgstr "اطمینان %s%"
 msgid "Linked from: %s"
 msgstr "لینک‌شده از: %s"
 
+msgid "Chain today:"
+msgstr "زنجیره فعلی:"
+
 #, php-format
 msgid "Problem: %s"
 msgstr "مشکل: %s"
@@ -9100,6 +9337,208 @@ msgstr "متوقف شد"
 #, php-format
 msgid "AI route: %s"
 msgstr "مسیر هوش مصنوعی: %s"
+
+msgid "Weekly average position"
+msgstr "میانگین هفتگی جایگاه"
+
+#, php-format
+msgid "position %s"
+msgstr "جایگاه %s"
+
+msgid "One search at a time: where you really rank in Google, an honest chance of position 1, the AI’s plan against the page that ranks first — and real progress, measured in Search Console."
+msgstr "هر بار یک جست‌وجو: جایگاه واقعی شما در گوگل، شانس صادقانه رتبه ۱، برنامه هوش مصنوعی در برابر صفحه رتبه اول؛ و پیشرفت واقعی که در سرچ کنسول اندازه گرفته می‌شود."
+
+msgid "Connect Google Search Console first"
+msgstr "اول سرچ کنسول گوگل را وصل کنید"
+
+msgid "Positions here are only real ones from Google itself — connect Search Console and wait for the first data."
+msgstr "جایگاه‌های این صفحه فقط واقعی و از خود گوگل‌اند؛ سرچ کنسول را وصل کنید و منتظر اولین داده بمانید."
+
+#, php-format
+msgid "Positions: Google Search Console, average of %1$s – %2$s (Google reports 2–3 days late). “If #1” is an estimate at a typical #1 click rate and is marked as such. No promises — only measured results."
+msgstr "جایگاه‌ها: سرچ کنسول گوگل، میانگین %1$s تا %2$s (گوگل با ۲ تا ۳ روز تأخیر گزارش می‌دهد). «اگر رتبه ۱» یک تخمین بر اساس نرخ کلیک معمول رتبه ۱ است و همین‌طور علامت خورده. وعده‌ای نمی‌دهیم؛ فقط نتیجه اندازه‌گیری‌شده."
+
+msgid "Pick ONE search below and press “Focus on this”. Finish it, then go to the next — that is how #1 is reached, search by search."
+msgstr "از پایین فقط یک جست‌وجو انتخاب کنید و «روی این تمرکز کن» را بزنید. تمامش کنید، بعد سراغ بعدی بروید؛ رتبه ۱ همین‌طور یکی‌یکی به دست می‌آید."
+
+msgid "searches where you are #1"
+msgstr "جست‌وجو که در آن رتبه ۱ هستید"
+
+msgid "in the top 3"
+msgstr "در ۳ رتبه اول"
+
+msgid "climbed at least 1 position this month"
+msgstr "این ماه دست‌کم ۱ پله بالا رفته"
+
+#, php-format
+msgid "Best climb: “%1$s” from %2$s to %3$s"
+msgstr "بهترین صعود: «%1$s» از %2$s به %3$s"
+
+msgid "Focused search"
+msgstr "جست‌وجوی در تمرکز"
+
+msgid "At the start"
+msgstr "در شروع"
+
+msgid "Last 7 days"
+msgstr "۷ روز گذشته"
+
+msgid "Goal"
+msgstr "هدف"
+
+msgid "Google check"
+msgstr "بررسی در گوگل"
+
+#, php-format
+msgid "your page is #%s"
+msgstr "صفحه شما رتبه %s است"
+
+#, php-format
+msgid "your site is not in the first %s results"
+msgstr "سایت شما در %s نتیجه اول نیست"
+
+#, php-format
+msgid "#1 is %s"
+msgstr "رتبه ۱: %s"
+
+msgid "Checked in Google."
+msgstr "در گوگل بررسی شد."
+
+msgid "Open in Google"
+msgstr "باز کردن در گوگل"
+
+msgid "Search Console is the real average; “Check Google now” shows today’s results from your results source (one search of its quota)."
+msgstr "سرچ کنسول میانگین واقعی است؛ «بررسی در گوگل همین حالا» نتایج امروز را از منبع نتایج شما نشان می‌دهد (یک جست‌وجو از سهمیه‌اش)."
+
+msgid "Open it in a private (incognito) window so your own history does not change the results. To let the AI see the page that ranks first, use the free “your browser” Google source (Competitors page) — one click on its bookmark sends the results to SEOlity."
+msgstr "آن را در پنجره ناشناس (incognito) باز کنید تا سابقه خودتان نتایج را تغییر ندهد. برای اینکه هوش مصنوعی صفحه رتبه اول را ببیند، از منبع رایگان «مرورگر خودتان» استفاده کنید (صفحه رقبا)؛ با یک کلیک روی بوکمارکش، نتایج به سئولیتی فرستاده می‌شود."
+
+msgid "Done — next search"
+msgstr "تمام شد؛ جست‌وجوی بعدی"
+
+msgid "Skip this search"
+msgstr "رد کردن این جست‌وجو"
+
+msgid "Plan again"
+msgstr "برنامه دوباره"
+
+msgid "Make the plan with AI"
+msgstr "ساخت برنامه با هوش مصنوعی"
+
+msgid "The AI is comparing your page with the result that ranks first — the plan appears here in a minute or two."
+msgstr "هوش مصنوعی دارد صفحه شما را با نتیجه رتبه اول مقایسه می‌کند؛ برنامه تا یکی دو دقیقه دیگر همین‌جا ظاهر می‌شود."
+
+msgid "No plan yet. The AI compares your page with the page that ranks first, says honestly how realistic #1 is, and gives the few steps that move THIS search."
+msgstr "هنوز برنامه‌ای نیست. هوش مصنوعی صفحه شما را با صفحه رتبه اول مقایسه می‌کند، صادقانه می‌گوید رتبه ۱ چقدر واقع‌بینانه است و همان چند قدمی را می‌دهد که همین جست‌وجو را جابه‌جا می‌کند."
+
+#, php-format
+msgid "Realistic time: %1$s–%2$s weeks"
+msgstr "زمان واقع‌بینانه: %1$s تا %2$s هفته"
+
+msgid "What it takes:"
+msgstr "چه چیزی لازم است:"
+
+msgid "Who is #1 and why:"
+msgstr "چه کسی رتبه ۱ است و چرا:"
+
+msgid "What your page is missing"
+msgstr "صفحه شما چه کم دارد"
+
+msgid "Steps, most effective first"
+msgstr "قدم‌ها، اثرگذارترین اول"
+
+#, php-format
+msgid "Impact: %s"
+msgstr "اثر: %s"
+
+#, php-format
+msgid "Why it moves this search: %s"
+msgstr "چرا این جست‌وجو را جابه‌جا می‌کند: %s"
+
+msgid "Prepared — open"
+msgstr "آماده شد؛ باز کن"
+
+msgid "Add to the roadmap"
+msgstr "افزودن به نقشه راه"
+
+msgid "Prepare it"
+msgstr "آماده‌اش کن"
+
+msgid "Prepared."
+msgstr "آماده شد."
+
+msgid "Not worth your time for this search"
+msgstr "برای این جست‌وجو ارزش وقت‌گذاشتن ندارد"
+
+msgid "How we will know it worked:"
+msgstr "از کجا می‌فهمیم جواب داده:"
+
+#, php-format
+msgid "Plan from %s"
+msgstr "برنامه از %s"
+
+msgid "made without live Google results"
+msgstr "بدون نتایج زنده گوگل ساخته شده"
+
+msgid "The plan is ready."
+msgstr "برنامه آماده است."
+
+msgid "All your searches, best chance of real gain first"
+msgstr "همه جست‌وجوهای شما، بیشترین شانس سود واقعی اول"
+
+msgid "Every chance"
+msgstr "همه شانس‌ها"
+
+msgid "Very close"
+msgstr "خیلی نزدیک"
+
+msgid "Realistic"
+msgstr "واقع‌بینانه"
+
+msgid "Hard"
+msgstr "سخت"
+
+msgid "Long shot for now"
+msgstr "فعلاً دور از دسترس"
+
+msgid "Already #1"
+msgstr "همین حالا رتبه ۱"
+
+msgid "Search"
+msgstr "جست‌وجو"
+
+msgid "Brand"
+msgstr "برند"
+
+#, php-format
+msgid "%s of your pages compete"
+msgstr "%s صفحه شما با هم رقابت می‌کنند"
+
+#, php-format
+msgid "28 days before: %s"
+msgstr "۲۸ روز قبل: %s"
+
+msgid "If #1 (estimate)"
+msgstr "اگر رتبه ۱ (تخمین)"
+
+msgid "Chance"
+msgstr "شانس"
+
+msgid "Intent"
+msgstr "هدف جستجو"
+
+msgid "In focus"
+msgstr "در تمرکز"
+
+msgid "Focus on this"
+msgstr "روی این تمرکز کن"
+
+#, php-format
+msgid "Leave “%s” and focus on this search instead? One search at a time works best."
+msgstr "«%s» را رها کنیم و روی این جست‌وجو تمرکز کنیم؟ هر بار یک جست‌وجو بهترین نتیجه را می‌دهد."
+
+msgid "No searches match."
+msgstr "جست‌وجویی پیدا نشد."
 
 msgid "This week"
 msgstr "این هفته"
@@ -9233,9 +9672,6 @@ msgstr "آخرین تحلیل ناموفق بود:"
 
 msgid "The target: position 1 on Google for the searches that bring customers. The AI picks them from Search Console and checks who ranks above you."
 msgstr "هدف: رتبه ۱ گوگل برای جست‌وجوهایی که مشتری می‌آورند. هوش مصنوعی آن‌ها را از سرچ کنسول انتخاب می‌کند و بررسی می‌کند چه کسی بالاتر از شماست."
-
-msgid "Search"
-msgstr "جست‌وجو"
 
 msgid "Now"
 msgstr "الان"
@@ -9591,9 +10027,6 @@ msgstr "استفاده از این پراپرتی"
 msgid "Property selected. Importing data in the background…"
 msgstr "پراپرتی انتخاب شد. در حال وارد کردن داده‌ها در پس‌زمینه…"
 
-msgid "Last 7 days"
-msgstr "۷ روز گذشته"
-
 msgid "Last 28 days"
 msgstr "۲۸ روز گذشته"
 
@@ -9790,9 +10223,6 @@ msgstr "سؤالات"
 
 msgid "Entities"
 msgstr "موجودیت‌ها"
-
-msgid "Intent"
-msgstr "هدف جستجو"
 
 msgid "Opportunity"
 msgstr "فرصت"
@@ -11383,6 +11813,21 @@ msgstr "فنی و خلاصه (برای متخصص)"
 
 msgid "insufficient"
 msgstr "ناکافی"
+
+msgid "Buying"
+msgstr "خرید"
+
+msgid "Comparing"
+msgstr "مقایسه"
+
+msgid "Learning"
+msgstr "یادگیری"
+
+msgid "chain_fix"
+msgstr "اصلاح زنجیره"
+
+msgid "review_404s"
+msgstr "بررسی ۴۰۴‌ها"
 
 #, php-format
 msgid "%d change prepared — review it and approve to apply it on the site."
