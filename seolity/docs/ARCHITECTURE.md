@@ -544,6 +544,9 @@ Upgrade: settings `sub_cli_*` and the saved secrets are reused unchanged; new se
 - Setting `ai_tone` (teacher/friendly/professional/expert) + mindset line in `Engine::build_system()`.
 - Knowledge builder: `pickEngine()` prefers CLAUDE_CODE_OAUTH_TOKEN → CODEX_AUTH_JSON → ANTHROPIC_API_KEY; `GitHubHub::refresh_builder()` commits changed builder files before each dispatch.
 
+### 15f. Login copies on GitHub (1.17.1)
+A subscription login lives in up to three places: the plugin settings (encrypted), the runner repository secret and the knowledge repository secret. `SubscriptionRunner::sync_secret( $key, $fresh_login )` writes every copy (the knowledge repository only when it is the site's own, not the shared one, and exists). With `$fresh_login` it cancels queued/running runs of `seolity-ai.yml` (`GitHubClient::cancel_run`), because a GitHub run keeps the secrets it started with; cancelled run ids are remembered so `warm_run()` never routes a job to them, and the dispatch throttle is reset. `GitHubHub::collect_knowledge()` always rewrites the saved login before dispatching.
+
 ## 16. Compatibility
 
 * **WooCommerce**: product SEO (title, descriptions, short description, attributes, images, schema,

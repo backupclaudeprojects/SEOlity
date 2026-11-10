@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEOlity 1.0.0\n"
-"POT-Creation-Date: 2026-11-09 14:27+0000\n"
+"POT-Creation-Date: 2026-11-10 09:09+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -7587,6 +7587,16 @@ msgid "On your computer run “claude setup-token”, sign in with your Claude a
 msgstr ""
 
 msgid "Save login"
+msgstr ""
+
+#, php-format
+msgid "Login saved and replaced on GitHub (%s)."
+msgstr ""
+
+msgid "The runner that still had the old login was restarted."
+msgstr ""
+
+msgid "Now press “Test connection”."
 msgstr ""
 
 msgid "Login saved. Now press “Test connection”."

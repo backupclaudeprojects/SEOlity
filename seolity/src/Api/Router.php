@@ -1276,7 +1276,7 @@ final class Router {
 			}
 			$p->settings->set_secret( $key, $value );
 			$p->audit_log->log( 'secret.updated', 'settings', null, array( 'key' => $key, 'cleared' => '' === $value ) );
-			$synced = $p->subscription->sync_secret( $key ); // Keep the runner repository's secret in step.
+			$synced = $p->subscription->sync_secret( $key, '' !== $value ); // Keep every GitHub copy of the login in step; a new login restarts the runner.
 			return array( 'secrets' => $p->settings->secret_flags(), 'runner_synced' => is_wp_error( $synced ) ? $synced->get_error_message() : $synced );
 		} );
 		/* ---------------- AI provider manager: connect, models, verify, activate ---------------- */
@@ -1353,7 +1353,7 @@ final class Router {
 				}
 				$key = 'codex' === $engine ? 'codex_auth_json' : 'claude_oauth_token';
 				$p->settings->set_secret( $key, $value );
-				$synced = $p->subscription->sync_secret( $key );
+				$synced = $p->subscription->sync_secret( $key, true );
 				if ( is_wp_error( $synced ) ) {
 					return $synced;
 				}
@@ -1364,8 +1364,12 @@ final class Router {
 			if ( false !== $r->get_param( 'activate' ) && '0' !== (string) $r->get_param( 'activate' ) ) {
 				$p->settings->update( array( 'ai_provider' => 'sub_' . $engine ) ); // Like ARIAGH: saving the account makes it the AI engine.
 			}
-			$p->audit_log->log( 'subscription.account', 'site', null, array( 'engine' => $engine ) );
-			return $p->subscription->check( $engine );
+			$p->audit_log->log( 'subscription.account', 'site', null, array( 'engine' => $engine, 'synced' => isset( $synced ) && is_array( $synced ) ? $synced['repos'] : array() ) );
+			$out = $p->subscription->check( $engine );
+			if ( is_array( $out ) ) {
+				$out['synced'] = isset( $synced ) && is_array( $synced ) ? $synced : null;
+			}
+			return $out;
 		} );
 		$this->route( 'POST', '/subscription/deploy', 'manage', function ( Req $r ) use ( $p ) {
 			return $p->subscription->deploy(

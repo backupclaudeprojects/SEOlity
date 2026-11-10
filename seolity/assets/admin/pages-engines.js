@@ -90,9 +90,12 @@
 			if ( ! area.value.trim() ) {
 				return Promise.resolve();
 			}
-			return SL.api( 'subscription/account', { body: { engine: e.engine, value: area.value, activate: 0 } } ).then( function () {
+			return SL.api( 'subscription/account', { body: { engine: e.engine, value: area.value, activate: 0 } } ).then( function ( r ) {
+				var sy = r && r.synced && r.synced.repos ? r.synced : null;
 				area.value = '';
-				SL.toast( t( 'Login saved. Now press “Test connection”.' ), 'success' );
+				SL.toast( sy && sy.repos.length
+					? t( 'Login saved and replaced on GitHub (%s).', sy.repos.join( ', ' ) ) + ( sy.restarted ? ' ' + t( 'The runner that still had the old login was restarted.' ) : '' ) + ' ' + t( 'Now press “Test connection”.' )
+					: t( 'Login saved. Now press “Test connection”.' ), 'success' );
 				m.close();
 				done();
 			} );

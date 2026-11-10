@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEOlity 1.0.0\n"
-"POT-Creation-Date: 2026-11-09 14:27+0000\n"
+"POT-Creation-Date: 2026-11-10 09:09+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -7589,6 +7589,16 @@ msgstr "روی رایانه خودتان «claude setup-token» را اجرا ک
 
 msgid "Save login"
 msgstr "ذخیره ورود"
+
+#, php-format
+msgid "Login saved and replaced on GitHub (%s)."
+msgstr "ورود ذخیره شد و در گیت‌هاب هم جایگزین شد (%s)."
+
+msgid "The runner that still had the old login was restarted."
+msgstr "اجراکننده‌ای که هنوز ورود قدیمی را داشت، از نو راه‌اندازی شد."
+
+msgid "Now press “Test connection”."
+msgstr "حالا «آزمایش اتصال» را بزنید."
 
 msgid "Login saved. Now press “Test connection”."
 msgstr "ورود ذخیره شد. حالا «آزمایش اتصال» را بزنید."

@@ -123,9 +123,9 @@
     2  .gitignore                                                 Added by code-review-graph
    12  .mcp.json
    26  CLAUDE.md                                                  CLAUDE.md — instructions for Claude working on SEOlity
-  127  PROJECT_MAP.md                                             PROJECT_MAP — SEOlity (ARIAGH.SEOLITY)
-  127  PROJECT_MAP.md                                             PROJECT_MAP — SEOlity (ARIAGH.SEOLITY)
-  127  PROJECT_MAP.md                                             PROJECT_MAP — SEOlity (ARIAGH.SEOLITY)
+  128  PROJECT_MAP.md                                             PROJECT_MAP — SEOlity (ARIAGH.SEOLITY)
+  128  PROJECT_MAP.md                                             PROJECT_MAP — SEOlity (ARIAGH.SEOLITY)
+  128  PROJECT_MAP.md                                             PROJECT_MAP — SEOlity (ARIAGH.SEOLITY)
    44  README.md                                                  ARIAGH.SEOLITY — AI SEO plugin for WordPress (SEOlity)
    34  docs/SESSION-ROADMAP.md                                    SEOlity — session roadmap (read this first; replaces the old chat history)
     8  extras/README.md                                           extras/ — not part of the SEOlity plugin
@@ -149,9 +149,9 @@
   540  seolity/assets/admin/pages-comp.js                         Competitor workspace: real Google results per tracked query (stored as history), one panel per
   824  seolity/assets/admin/pages-connect.js                      SEOlity admin pages for connections that run outside WordPress:
   200  seolity/assets/admin/pages-coverage.js                     SEOlity admin — Index coverage: Search Console "Pages" exports, Search Console messages,
-  303  seolity/assets/admin/pages-engines.js                      AI engines → Installation & diagnostics: one place to see whether Claude Code and Codex can
+  306  seolity/assets/admin/pages-engines.js                      AI engines → Installation & diagnostics: one place to see whether Claude Code and Codex can
   190  seolity/assets/admin/pages-focus.js                        SEOlity admin page: Rank Math & focus keywords — GSC-driven focus keyword
-  475  seolity/assets/admin/pages-guide.js                        SEOlity admin page: Connection guide — step-by-step instructions with
+  476  seolity/assets/admin/pages-guide.js                        SEOlity admin page: Connection guide — step-by-step instructions with
   894  seolity/assets/admin/pages-intel.js                        SEOlity admin pages: Competitors, Experiments, Redirects, 404 Monitor,
   513  seolity/assets/admin/pages-map.js                          Site map explorer: every URL of the site — crawl, XML sitemap, WordPress and Search Console —
   295  seolity/assets/admin/pages-network.js                      SEOlity "Server & speed" page: where the host is (Iran / abroad), how AI and Google
@@ -161,11 +161,11 @@
   372  seolity/assets/admin/pages-tech.js                         Indexability & crawl budget: which URL groups are technically indexable vs. which should be,
  1809  seolity/assets/admin/ui.js                                 SEOlity UI toolkit (no build step, no framework).
   271  seolity/cloudflare/worker.js                               SEOlity relay — Cloudflare Worker (deployed automatically by the SEOlity plugin).
-  629  seolity/docs/ARCHITECTURE.md                               SEOlity — Architecture
+  632  seolity/docs/ARCHITECTURE.md                               SEOlity — Architecture
   896  seolity/docs/CONNECT.md                                    SEOlity — Connection guide / راهنمای اتصال
   940  seolity/docs/FEATURES.md                                   SEOlity — Feature Catalog
    53  seolity/knowledge/README.md                                SEOlity Knowledge Base
-  233  seolity/readme.txt                                         Road to position 1: the SEO roadmap is ONE path (treasure-map style) instead of two separate pa
+  238  seolity/readme.txt                                         Fix: after "log out of all devices" in Claude (every token revoked) a new token saved in SEOlit
    15  seolity/runner/README.md                                   SEOlity – Subscription AI runner
   366  seolity/runner/runner.mjs                                  SEOlity – Subscription AI runner (GitHub Actions)
    66  seolity/runner/seolity-ai.yml                              SEOlity – Subscription AI runner
@@ -197,14 +197,14 @@
   362  seolity/src/AI/Remote/LocalCli.php                         Subscription AI on THIS server: runs the official Claude Code / OpenAI Codex CLI directly from
   199  seolity/src/AI/Remote/NodeLocator.php                      Finds every Node.js on this server that PHP can really run — not just what the PHP worker's
   308  seolity/src/AI/Remote/ProcessRunner.php                    The one place SEOlity starts programs (node, npm, the official Claude Code / Codex CLIs).
- 1117  seolity/src/AI/Remote/SubscriptionRunner.php               Subscription AI through GitHub Actions.
+ 1184  seolity/src/AI/Remote/SubscriptionRunner.php               Subscription AI through GitHub Actions.
   163  seolity/src/AI/Schema.php                                  JSON-Schema builder + validator for structured AI output.
   793  seolity/src/AI/Tasks.php                                   Versioned task catalog for the AI SEO Engine.
   667  seolity/src/Activity/Activity.php                          Live activity & timeline: everything SEOlity does on the site, as it happens.
   192  seolity/src/Activity/AiJobs.php                            AI edits that run on the server, not in the browser tab.
   301  seolity/src/Admin/Admin.php                                Admin shell: menu, SPA bootstrap, secure exports, admin bar badge,
   313  seolity/src/Admin/EditorIntegration.php                    Classic Editor (content + WooCommerce short description), Gutenberg sidebar,
- 2045  seolity/src/Admin/I18n.php                                 GENERATED by tools/i18n/build.py — do not edit by hand.
+ 2048  seolity/src/Admin/I18n.php                                 GENERATED by tools/i18n/build.py — do not edit by hand.
    34  seolity/src/Admin/Icons.php                                Server-rendered line icons (same 24px / 1.75 stroke set as SL.ICONS in
   635  seolity/src/Agent/Agent.php                                Every content change goes through the change manager (versioned, undo in AI Center → AI
   321  seolity/src/Alerts/AlertService.php                        AI Alerts (section 29): traffic/CTR/ranking drops, lost pages & keywords,
@@ -213,7 +213,7 @@
   123  seolity/src/Analysis/ProblemAreas.php                      Where the site's SEO problems are: technical / indexing, on-page, internal links, content,
   242  seolity/src/Analysis/Text.php                              Unicode / Persian-aware text utilities used by every analyzer.
   141  seolity/src/Api/ContentList.php                            Content inventory for the Content screen (posts, pages, CPTs, terms) with
- 1685  seolity/src/Api/Router.php                                 REST API (namespace seolity/v1).
+ 1689  seolity/src/Api/Router.php                                 REST API (namespace seolity/v1).
    32  seolity/src/Autoloader.php                                 PSR-4 autoloader for the SEOlity namespace (no Composer required).
   142  seolity/src/Briefing/DailyBriefing.php                     health, competitor moves, new errors, experiments and top actions. Uses AI
   207  seolity/src/Chat/ChatActions.php                           Turns what the AI chat proposes into real items of the plugin:
@@ -281,8 +281,8 @@
   190  seolity/src/Serp/SerpService.php                           Live SERP data (SerpApi) + AI SERP analysis.
   245  seolity/src/Serp/Sources.php                               Where Google results come from. Every source returns the same normalized shape
   300  seolity/src/Storage/GitHubArchive.php                      GitHub data storage: keeps the WordPress database small by moving cold data
-  447  seolity/src/Storage/GitHubClient.php                       Minimal GitHub REST client (Contents + Git Data APIs).
-  576  seolity/src/Storage/GitHubHub.php                          One place for everything SEOlity does on GitHub, with one-click setup:
+  453  seolity/src/Storage/GitHubClient.php                       Minimal GitHub REST client (Contents + Git Data APIs).
+  577  seolity/src/Storage/GitHubHub.php                          One place for everything SEOlity does on GitHub, with one-click setup:
   484  seolity/src/Technical/Indexability.php                     Indexability & crawl budget audit.
   124  seolity/src/Technical/PageSpeed.php                        Core Web Vitals via PageSpeed Insights API (lab + CrUX field data).
   265  seolity/src/Technical/RobotsService.php                    Robots.txt intelligence (section 24): Google-compatible rule matching,
@@ -308,6 +308,7 @@
   360  seolity/tools/i18n/fa-2.tsv
   171  seolity/tools/i18n/fa-20.tsv
    79  seolity/tools/i18n/fa-21.tsv
+    3  seolity/tools/i18n/fa-22.tsv
   335  seolity/tools/i18n/fa-3.tsv
   260  seolity/tools/i18n/fa-4.tsv
   252  seolity/tools/i18n/fa-5.tsv

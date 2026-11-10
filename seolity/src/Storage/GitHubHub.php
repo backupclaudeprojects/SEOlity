@@ -411,11 +411,12 @@ final class GitHubHub {
 		if ( is_wp_error( $res ) ) {
 			return $res;
 		}
-		// The builder needs an AI account in this repository.
+		// The builder needs an AI account in this repository. The saved login is always written again:
+		// a copy from before "sign out of all devices" (or an expired one) would fail every run.
 		$names = $this->gh()->secret_names( $repo );
 		$names = is_wp_error( $names ) ? array() : $names;
 		foreach ( array( 'CLAUDE_CODE_OAUTH_TOKEN' => 'claude_oauth_token', 'CODEX_AUTH_JSON' => 'codex_auth_json' ) as $secret => $local ) {
-			if ( ! in_array( $secret, $names, true ) && $s->has_secret( $local ) ) {
+			if ( $s->has_secret( $local ) ) {
 				$v = $s->secret( $local );
 				$this->gh()->put_secret( $repo, $secret, is_array( $v ) ? wp_json_encode( $v ) : (string) $v );
 				$names[] = $secret;
