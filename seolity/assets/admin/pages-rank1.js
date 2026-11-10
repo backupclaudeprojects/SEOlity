@@ -120,6 +120,9 @@
 		}
 
 		function focusCard( fc, r ) {
+			try {
+				w.localStorage.setItem( 'seolity_rank1_focus', fc.query );
+			} catch ( e ) {}
 			var card = h( 'section', { class: 'sl-panel sl-r1__focus' } );
 			var now = fc.last7 && fc.last7.position !== null ? fc.last7.position : null;
 			card.appendChild( h( 'div', { class: 'sl-r1__fhead' },
@@ -161,6 +164,9 @@
 				}, 'sm' ) : null,
 				h( 'a', { class: 'sl-btn sl-btn--sm', href: fc.google, target: '_blank', rel: 'noopener noreferrer' }, SL.icon( 'external', 14 ), ' ', t( 'Open in Google' ) )
 			) );
+			if ( ! r.serp.automatic && App.serpBookmarklet ) {
+				g.appendChild( h( 'details', { class: 'sl-r1__bm' }, h( 'summary', { text: t( 'Send the Google results to SEOlity (free, no key)' ) } ), App.serpBookmarklet() ) );
+			}
 			g.appendChild( h( 'p', { class: 'sl-muted sl-small', text: r.serp.automatic ? t( 'Search Console is the real average; “Check Google now” shows today’s results from your results source (one search of its quota).' ) : t( 'Open it in a private (incognito) window so your own history does not change the results. To let the AI see the page that ranks first, use the free “your browser” Google source (Competitors page) — one click on its bookmark sends the results to SEOlity.' ) } ) );
 			card.appendChild( g );
 			card.appendChild( plan( fc ) );

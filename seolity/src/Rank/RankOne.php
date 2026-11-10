@@ -305,9 +305,39 @@ final class RankOne {
 		return 'https://www.google.com/search?' . http_build_query( array( 'q' => $query, 'gl' => $gl, 'hl' => $hl, 'pws' => '0', 'num' => '20' ) );
 	}
 
+	/**
+	 * The newest Google results for a search: the results API cache or the stored snapshots (where
+	 * the "your browser" bookmark and the competitor tracking save them).
+	 */
+	private function latest_serp( $query ) {
+		$cached = $this->plugin->serp->cached( $query );
+		$db     = $this->plugin->db;
+		$snap   = $db->row( "SELECT * FROM {serp_snapshots} WHERE project_id = %d AND query_hash = %s AND engine = 'google' ORDER BY checked_at DESC, id DESC LIMIT 1", array( $this->pid(), Database::hash( $query ) ) );
+		if ( $snap ) {
+			$at = strtotime( $snap['checked_at'] . ' UTC' );
+			if ( ! $cached || empty( $cached['fetched'] ) || $at >= strtotime( (string) $cached['fetched'] ) ) {
+				$rows = $db->rows( 'SELECT position, url, domain, title, snippet FROM {serp_results} WHERE snapshot_id = %d ORDER BY position LIMIT 100', array( (int) $snap['id'] ) );
+				if ( $rows ) {
+					return array(
+						'results'   => array_map(
+							static function ( $r ) {
+								return array( 'position' => (int) $r['position'], 'url' => $r['url'], 'domain' => $r['domain'], 'title' => (string) $r['title'], 'snippet' => (string) $r['snippet'] );
+							},
+							$rows
+						),
+						'questions' => (array) json_decode( (string) $snap['questions'], true ),
+						'fetched'   => gmdate( 'c', $at ),
+						'source'    => (string) $snap['source'],
+					);
+				}
+			}
+		}
+		return $cached;
+	}
+
 	/** Last known Google results for the search (live check or browser import): leader + our place. */
 	private function serp_view( $query ) {
-		$serp = $this->plugin->serp->cached( $query );
+		$serp = $this->latest_serp( $query );
 		if ( ! $serp || empty( $serp['results'] ) ) {
 			return null;
 		}
@@ -339,6 +369,7 @@ final class RankOne {
 		if ( is_wp_error( $res ) ) {
 			return $res;
 		}
+		$this->plugin->intel->snapshot( $query, $res, 'api' ); // Keep the history like the competitor tracking does.
 		return $this->serp_view( $query );
 	}
 
@@ -387,7 +418,7 @@ final class RankOne {
 				$fresh = $this->plugin->serp->fetch( $q, '', 10 );
 				$serp  = is_wp_error( $fresh ) ? null : $this->serp_view( $q );
 			}
-			$full = $this->plugin->serp->cached( $q );
+			$full = $this->latest_serp( $q );
 			$input = array(
 				'search'          => $q,
 				'market'          => $this->plugin->serp->locale( '' ),
