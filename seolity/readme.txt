@@ -4,7 +4,7 @@ Tags: seo, ai, search console, woocommerce, schema
 Requires at least: 6.2
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.17.0
+Stable tag: 1.17.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,11 @@ Yes. The interface is fully translated and RTL-native, text analysis understands
 Enable "Delete all data on uninstall" in Settings → Privacy, then delete the plugin.
 
 == Changelog ==
+
+= 1.17.1 =
+* Fix: after "log out of all devices" in Claude (every token revoked) a new token saved in SEOlity did not reach every place the old one was kept, so runs kept failing with "OAuth token revoked". Saving a login now replaces the copy in the runner repository AND in the site's own knowledge repository, and stops runner runs that started with the old login (a GitHub run keeps the secrets it started with).
+* Fix: "Collect knowledge" always writes the saved login to the knowledge repository again; before, an existing (possibly revoked) copy was never replaced.
+* The save message says which GitHub repositories were updated and whether the runner was restarted. New troubleshooting entry in the guide.
 
 = 1.17.0 =
 * Road to position 1: the SEO roadmap is ONE path (treasure-map style) instead of two separate parts — start (data & analysis), one station per area in the order it must be done (the open issues and the AI's strategy tasks of that area together), the goal (position 1 on Google). Done stations glow, the current one pulses with a "you are here" pin, the road draws itself; click a station to open its tasks. A mission card shows the progress, the wins so far and the AI guide's diagnosis. The AI now picks the target searches to win, who ranks first and the gap to close.

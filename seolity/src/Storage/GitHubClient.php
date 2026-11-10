@@ -427,6 +427,12 @@ final class GitHubClient {
 		return $out;
 	}
 
+	/** Stop a workflow run (it keeps the secrets it started with, so a new login needs a new run). */
+	public function cancel_run( $repo, $run_id ) {
+		$res = $this->request( 'POST', '/repos/' . $repo . '/actions/runs/' . (int) $run_id . '/cancel' );
+		return is_wp_error( $res ) ? $res : true;
+	}
+
 	/** Connection test for the Settings screen. */
 	public function test( $repo ) {
 		if ( ! self::valid_repo( $repo ) ) {

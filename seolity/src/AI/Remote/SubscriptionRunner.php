@@ -528,6 +528,15 @@ final class SubscriptionRunner {
 		$run = null;
 		if ( GitHubClient::valid_repo( $this->repo() ) && $this->plugin->github->has_token() ) {
 			$runs = $this->plugin->github->active_runs( $this->repo(), self::WORKFLOW );
+			$skip = array_map( 'intval', (array) $this->state_value( 'cancelled_runs' ) );
+			$runs = is_wp_error( $runs ) ? $runs : array_values(
+				array_filter(
+					$runs,
+					function ( $x ) use ( $skip ) {
+						return ! in_array( (int) $x['id'], $skip, true );
+					}
+				)
+			);
 			if ( ! is_wp_error( $runs ) && $runs ) {
 				$r = $runs[0];
 				$engines = array( 'http' );
@@ -790,15 +799,70 @@ final class SubscriptionRunner {
 		return $this->status();
 	}
 
-	/** Push one engine credential to the runner repository after it changes. */
-	public function sync_secret( $local_key ) {
+	/**
+	 * Push one engine credential to every GitHub repository that keeps a copy of it, after it changes.
+	 *
+	 * - The runner repository (once it is set up).
+	 * - The knowledge repository, when it is the site's own and not the runner repository: the
+	 *   knowledge builder reads its own copy of the secret, and a login revoked by "sign out of all
+	 *   devices" would otherwise stay there forever.
+	 * - With $fresh_login (the administrator saved a new login), runs of the runner that started
+	 *   with the old secret are stopped: a GitHub run keeps the secrets it started with, so the
+	 *   next job must start a new run.
+	 *
+	 * @return array|false|\WP_Error { repos[], restarted } — false when there is nothing to sync.
+	 */
+	public function sync_secret( $local_key, $fresh_login = false ) {
+		$name = '';
 		foreach ( self::ENGINE_SECRETS as $pair ) {
-			if ( $pair[1] === $local_key && GitHubClient::valid_repo( $this->repo() ) && $this->plugin->github->has_token() && ! empty( $this->state()['setup'] ) ) {
-				$value = $this->raw_secret( $local_key );
-				return $this->plugin->github->put_secret( $this->repo(), $pair[0], '' === $value ? 'disabled' : $value );
+			if ( $pair[1] === $local_key ) {
+				$name = $pair[0];
 			}
 		}
-		return false;
+		if ( '' === $name || ! $this->plugin->github->has_token() ) {
+			return false;
+		}
+		$value = $this->raw_secret( $local_key );
+		$out   = array( 'repos' => array(), 'restarted' => 0 );
+		$main  = $this->repo();
+		if ( GitHubClient::valid_repo( $main ) && ! empty( $this->state()['setup'] ) ) {
+			$res = $this->plugin->github->put_secret( $main, $name, '' === $value ? 'disabled' : $value );
+			if ( is_wp_error( $res ) ) {
+				return $res;
+			}
+			$out['repos'][] = $main;
+		}
+		$kb = (string) $this->plugin->settings->get( 'kb_repo' );
+		if ( '' !== $value && GitHubClient::valid_repo( $kb ) && $kb !== $main && ! $this->plugin->githubhub->shared_knowledge() ) {
+			$names = $this->plugin->github->secret_names( $kb ); // Fails when the repository does not exist (yet): then there is no copy.
+			if ( ! is_wp_error( $names ) && ! is_wp_error( $this->plugin->github->put_secret( $kb, $name, $value ) ) ) {
+				$out['repos'][] = $kb;
+			}
+		}
+		if ( $fresh_login && in_array( $main, $out['repos'], true ) ) {
+			$out['restarted'] = $this->restart_runs();
+		}
+		return $out['repos'] ? $out : false;
+	}
+
+	/** Stop the runner's queued and running runs so the next job starts with the current secrets. */
+	private function restart_runs() {
+		$runs = $this->plugin->github->active_runs( $this->repo(), self::WORKFLOW );
+		if ( is_wp_error( $runs ) || ! $runs ) {
+			return 0;
+		}
+		$cancelled = (array) $this->state_value( 'cancelled_runs' );
+		$n         = 0;
+		foreach ( $runs as $run ) {
+			if ( ! is_wp_error( $this->plugin->github->cancel_run( $this->repo(), $run['id'] ) ) ) {
+				$cancelled[] = (int) $run['id'];
+				$n++;
+			}
+		}
+		// A cancelled run reads "in progress" for a few seconds: never treat it as warm, and allow a new dispatch at once.
+		$this->set_state( array( 'cancelled_runs' => array_slice( array_values( array_unique( $cancelled ) ), -20 ), 'last_dispatch' => 0 ) );
+		delete_transient( 'seolity_sub_warm' );
+		return $n;
 	}
 
 	/**
@@ -901,6 +965,9 @@ final class SubscriptionRunner {
 		$setup = $this->setup();
 		if ( ! $step( 'install', __( 'Runner repository (public, free GitHub minutes), runner, workflow, queue branch and secrets', 'seolity' ), is_wp_error( $setup ) ? $setup : true, 'https://github.com/' . $repo ) ) {
 			return $done( false );
+		}
+		if ( ! empty( $o['credential'] ) ) {
+			$this->sync_secret( $cred_key, true ); // A new login: refresh the knowledge repository's copy and restart a run that still has the old one.
 		}
 
 		// 7. GitHub Actions enabled + workflow registered.
