@@ -54,6 +54,8 @@ defined( 'ABSPATH' ) || exit;
  * @property-read Integrations\RankMath         $rankmath
  * @property-read Integrations\Cloudflare       $cloudflare
  * @property-read Storage\GitHubHub             $githubhub
+ * @property-read Redirects\Chains              $chains
+ * @property-read Rank\RankOne                  $rank1
  * @property-read Competitors\CompetitorService $competitors
  * @property-read Experiments\ExperimentService $experiments
  * @property-read Experiments\Learning       $learning
@@ -150,6 +152,8 @@ final class Plugin {
 			'redirects'       => Redirects\Manager::class,
 			'not_found'       => Redirects\NotFoundMonitor::class,
 			'nf_triage'       => Redirects\NotFoundTriage::class,
+			'chains'          => Redirects\Chains::class,
+			'rank1'           => Rank\RankOne::class,
 			'schema'          => Schema\SchemaService::class,
 			'images'          => Images\ImageSeo::class,
 			'links'           => Links\InternalLinker::class,

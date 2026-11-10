@@ -54,6 +54,11 @@ final class NotFoundMonitor {
 
 	public function query( array $f ) {
 		$db    = $this->plugin->db;
+		// New entries are sorted by evidence in the background (probes without value are hidden).
+		if ( empty( $f['no_classify'] ) && (int) $this->plugin->db->value( "SELECT COUNT(*) FROM {not_found} WHERE project_id = %d AND status = 'open' AND verdict IS NULL", array( $this->plugin->db->project_id() ) ) ) {
+			$this->plugin->queue->push( 'not_found_classify', array(), array( 'unique' => true, 'priority' => 1 ) );
+			\SEOlity\Queue\Scheduler::kick();
+		}
 		$where = array( 'project_id = %d', 'status = %s' );
 		$args  = array( $db->project_id(), ! empty( $f['status'] ) ? $f['status'] : 'open' );
 		if ( ! empty( $f['search'] ) ) {
@@ -70,6 +75,10 @@ final class NotFoundMonitor {
 				'hits_7d'    => (int) $db->value( "SELECT COALESCE(SUM(hits),0) FROM {not_found} WHERE project_id = %d AND status = 'open' AND last_seen >= %s", array( $db->project_id(), gmdate( 'Y-m-d H:i:s', time() - 7 * DAY_IN_SECONDS ) ) ),
 				'new_24h'    => (int) $db->value( 'SELECT COUNT(*) FROM {not_found} WHERE project_id = %d AND first_seen >= %s', array( $db->project_id(), gmdate( 'Y-m-d H:i:s', time() - DAY_IN_SECONDS ) ) ),
 				'with_referrer' => (int) $db->value( "SELECT COUNT(*) FROM {not_found} WHERE project_id = %d AND status = 'open' AND referrer <> ''", array( $db->project_id() ) ),
+				'noise'      => (int) $db->value( "SELECT COUNT(*) FROM {not_found} WHERE project_id = %d AND status = 'noise'", array( $db->project_id() ) ),
+				'important'  => (int) $db->value( "SELECT COUNT(*) FROM {not_found} WHERE project_id = %d AND status = 'open' AND verdict = 'important'", array( $db->project_id() ) ),
+				'sorting'    => (int) $db->value( "SELECT COUNT(*) FROM {not_found} WHERE project_id = %d AND status = 'open' AND verdict IS NULL", array( $db->project_id() ) ),
+				'no_target'  => (int) $db->value( "SELECT COUNT(*) FROM {not_found} WHERE project_id = %d AND status = 'open' AND suggested_target = ''", array( $db->project_id() ) ),
 			),
 		);
 	}
@@ -89,7 +98,26 @@ final class NotFoundMonitor {
 	}
 
 	public function set_status( $id, $status ) {
-		return (bool) $this->plugin->db->update( 'not_found', array( 'status' => in_array( $status, array( 'open', 'ignored' ), true ) ? $status : 'ignored' ), array( 'id' => (int) $id ) );
+		$status = in_array( $status, array( 'open', 'ignored', 'noise' ), true ) ? $status : 'ignored';
+		$data   = array( 'status' => $status );
+		if ( 'open' === $status ) {
+			// Brought back by the owner: never hidden again automatically.
+			$data['verdict']        = 'owner_kept';
+			$data['verdict_reason'] = __( 'You brought it back to the list.', 'seolity' );
+		} elseif ( 'noise' === $status ) {
+			$data['verdict']        = 'owner_hidden';
+			$data['verdict_reason'] = __( 'You hid it as not important.', 'seolity' );
+		}
+		return (bool) $this->plugin->db->update( 'not_found', $data, array( 'id' => (int) $id ) );
+	}
+
+	/** Same status for many entries (hide / bring back / ignore a selection). */
+	public function set_status_many( array $ids, $status ) {
+		$n = 0;
+		foreach ( array_slice( array_unique( array_map( 'intval', $ids ) ), 0, 500 ) as $id ) {
+			$n += $this->set_status( $id, $status ) ? 1 : 0;
+		}
+		return $n;
 	}
 
 	/** Background: compute suggestions for unresolved 404s. */

@@ -40,9 +40,14 @@ final class ChatService {
 		}
 		$conversation_id = preg_match( '/^[a-f0-9]{32}$/', (string) $conversation_id ) ? $conversation_id : md5( wp_generate_password( 20, false ) . microtime() );
 		$page            = isset( $opts['page'] ) ? $this->page_url( $opts['page'] ) : '';
-		$this->store( $conversation_id, 'user', $message, $page ? array( 'page' => $page ) : array() );
+		$package         = self::package( isset( $opts['items'] ) ? $opts['items'] : null );
+		$umeta           = $page ? array( 'page' => $page ) : array();
+		if ( $package ) {
+			$umeta['package'] = array( 'type' => $package['type'], 'count' => count( $package['ids'] ) );
+		}
+		$this->store( $conversation_id, 'user', $message, $umeta );
 		$aid = $this->plugin->activity->start( 'chat', __( 'Chat answer', 'seolity' ) . ': ' . mb_substr( $message, 0, 70 ), array( 'ref' => 'chat:' . $conversation_id, 'step' => __( 'Reading your site data…', 'seolity' ) ) );
-		$id  = $this->store( $conversation_id, 'assistant', '', array( 'status' => 'pending', 'activity' => $aid, 'question' => $message, 'page' => $page, 'started' => gmdate( 'c' ) ) );
+		$id  = $this->store( $conversation_id, 'assistant', '', array( 'status' => 'pending', 'activity' => $aid, 'question' => $message, 'page' => $page, 'package' => $package, 'started' => gmdate( 'c' ) ) );
 		$this->plugin->activity->merge_meta( $aid, array( 'message_id' => (int) $id ) );
 		ignore_user_abort( true ); // A reload must not lose the answer.
 		if ( function_exists( 'set_time_limit' ) ) {
@@ -80,6 +85,20 @@ final class ChatService {
 		$question = isset( $meta['question'] ) ? (string) $meta['question'] : '';
 		$context  = $this->context( $question, isset( $meta['page'] ) ? (string) $meta['page'] : '' );
 		$context  = $this->with_tools( $context, $question, $history );
+		$package  = ! empty( $meta['package'] ) ? (array) $meta['package'] : $this->last_package( $row );
+		if ( $package && '404' === $package['type'] ) {
+			// The owner's selection from the 404 page, each URL with the evidence that decides its value.
+			$rows = $db->rows( 'SELECT * FROM {not_found} WHERE project_id = %d AND id IN (' . implode( ',', array_map( 'intval', $package['ids'] ) ) . ') LIMIT 100', array( $this->plugin->db->project_id() ) );
+			$context['selected_404s'] = array(
+				'note' => 'The owner selected these 404 URLs to discuss. Judge each from its evidence; to act on them propose kind review_404s (it prepares 301 / 410 / hide decisions for exactly these URLs, applied only after approval).',
+				'urls' => array_map(
+					function ( $r ) {
+						return $this->plugin->nf_triage->evidence( $r ) + array( 'status_in_list' => $r['status'], 'suggested_target' => $r['suggested_target'] );
+					},
+					$rows
+				),
+			);
+		}
 		$t0       = microtime( true );
 		$res      = $this->plugin->ai->run(
 			'chat',
@@ -100,7 +119,7 @@ final class ChatService {
 		// What the AI proposed becomes real items: roadmap tasks, changes waiting for review &
 		// apply, follow-ups and notifications (never applied without the owner's approval).
 		$created = empty( $meta['created'] ) && ! empty( $res['data']['proposals'] ) && current_user_can( \SEOlity\Core\Capabilities::AI )
-			? $this->plugin->chat_actions->apply( (array) $res['data']['proposals'], (string) $row['conversation_id'] )
+			? $this->plugin->chat_actions->apply( (array) $res['data']['proposals'], (string) $row['conversation_id'], $package ? $package : array() )
 			: ( isset( $meta['created'] ) ? (array) $meta['created'] : array() );
 		$db->update(
 			'chat',
@@ -129,6 +148,27 @@ final class ChatService {
 			array( 'id' => (int) $id )
 		);
 		return true;
+	}
+
+	/** A validated selection package: { type: '404', ids: int[] } or null. */
+	private static function package( $raw ) {
+		if ( ! is_array( $raw ) || empty( $raw['type'] ) || '404' !== $raw['type'] || empty( $raw['ids'] ) ) {
+			return null;
+		}
+		$ids = array_slice( array_values( array_unique( array_filter( array_map( 'intval', (array) $raw['ids'] ) ) ) ), 0, 100 );
+		return $ids ? array( 'type' => '404', 'ids' => $ids ) : null;
+	}
+
+	/** Follow-up questions in the same conversation keep talking about the last attached package. */
+	private function last_package( array $row ) {
+		$prev = $this->plugin->db->rows( "SELECT meta FROM {chat} WHERE user_id = %d AND conversation_id = %s AND role = 'assistant' AND id < %d ORDER BY id DESC LIMIT 10", array( (int) $row['user_id'], $row['conversation_id'], (int) $row['id'] ) );
+		foreach ( $prev as $p ) {
+			$m = (array) json_decode( (string) $p['meta'], true );
+			if ( ! empty( $m['package'] ) ) {
+				return self::package( $m['package'] );
+			}
+		}
+		return null;
 	}
 
 	/** Try a failed or unwanted answer again. */

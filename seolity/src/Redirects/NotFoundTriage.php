@@ -22,6 +22,8 @@ final class NotFoundTriage {
 	const MAX_URLS = 100;
 	const BATCH    = 25;
 	const JUNK_RE  = '#(wp-login|xmlrpc|\.env|\.git|wp-config|phpmyadmin|/cgi-bin|\.(?:php|asp|aspx|jsp|bak|sql|zip|tar|gz)$|/wp-content/(?:plugins|themes)/|/(?:admin|administrator|login|user)/?$)#i';
+	/** Requests no real visitor or Google ever makes: security scanners looking for files a WordPress site does not have. */
+	const PROBE_RE = '#(phpinfo|_profiler|/vendor/|/wp-includes/|/actuator|server-status|/HNAP1|/boaform|/owa/|/telescope|/\.well-known/(?!security\.txt)|/(?:backup|bak|old|test|tmp|temp|debug)(?:/|$)|\.(?:ini|log|ya?ml|swp|orig|old|save|cfg|conf|config|properties|toml|pem|key)$|/(?:shell|cmd|eval|upload|uploadify)\b)#i';
 
 	/** @var Plugin */
 	private $plugin;
@@ -30,16 +32,26 @@ final class NotFoundTriage {
 		$this->plugin = $plugin;
 	}
 
-	public function start( $instructions = '' ) {
+	/**
+	 * @param string $instructions The owner's rules for this review.
+	 * @param int[]  $ids          Only these logged URLs (a selection); empty = all open ones.
+	 */
+	public function start( $instructions = '', array $ids = array() ) {
 		if ( ! $this->plugin->ai->is_ready() ) {
 			return new \WP_Error( 'seolity_ai', __( 'Connect an AI engine first (Settings → AI).', 'seolity' ), array( 'status' => 400 ) );
 		}
-		$open = (int) $this->plugin->db->value( "SELECT COUNT(*) FROM {not_found} WHERE project_id = %d AND status = 'open'", array( $this->plugin->db->project_id() ) );
+		$ids = array_slice( array_values( array_unique( array_filter( array_map( 'intval', $ids ) ) ) ), 0, self::MAX_URLS );
+		if ( $ids ) {
+			$open = (int) $this->plugin->db->value( 'SELECT COUNT(*) FROM {not_found} WHERE project_id = %d AND id IN (' . implode( ',', $ids ) . ')', array( $this->plugin->db->project_id() ) );
+		} else {
+			$open = (int) $this->plugin->db->value( "SELECT COUNT(*) FROM {not_found} WHERE project_id = %d AND status = 'open'", array( $this->plugin->db->project_id() ) );
+		}
 		if ( ! $open ) {
 			return new \WP_Error( 'seolity_404', __( 'There are no open 404 URLs to review.', 'seolity' ), array( 'status' => 400 ) );
 		}
-		$title = __( 'AI review of 404 errors: 301, 410 or leave as 404', 'seolity' );
-		$id    = $this->plugin->operations->create( '404_triage', array( 'title' => $title, 'instructions' => sanitize_textarea_field( (string) $instructions ), 'input' => array( 'open' => $open ) ) );
+		/* translators: %d: number of URLs */
+		$title = $ids ? sprintf( __( 'AI review of %d selected 404 URLs', 'seolity' ), $open ) : __( 'AI review of 404 errors: 301, 410 or leave as 404', 'seolity' );
+		$id    = $this->plugin->operations->create( '404_triage', array( 'title' => $title, 'instructions' => sanitize_textarea_field( (string) $instructions ), 'input' => array( 'open' => $open, 'ids' => $ids ) ) );
 		$aid   = $this->plugin->activity->start( 'agent', __( 'Reviewing 404 errors', 'seolity' ), array( 'detail' => $title, 'dock' => true, 'status' => 'queued', 'step' => __( 'Queued — starting in a moment…', 'seolity' ), 'meta' => array( 'type' => 'operation', 'operation_id' => (int) $id ) ) );
 		$this->plugin->operations->update( $id, array( 'activity_id' => $aid ) );
 		$job = $this->plugin->queue->push( 'not_found_triage', array( 'id' => (int) $id, 'user_id' => get_current_user_id() ), array( 'unique' => 'nft_' . (int) $id, 'priority' => 0, 'max_attempts' => 1, 'timeout' => 1800 ) );
@@ -72,7 +84,7 @@ final class NotFoundTriage {
 	}
 
 	/** Everything that tells whether one 404 has value. */
-	private function evidence( array $r ) {
+	public function evidence( array $r ) {
 		global $wpdb;
 		$db   = $this->plugin->db;
 		$pid  = $db->project_id();
@@ -92,6 +104,9 @@ final class NotFoundTriage {
 		$slug    = $segs ? sanitize_title( end( $segs ) ) : '';
 		$trashed = $slug ? $wpdb->get_var( $wpdb->prepare( "SELECT post_title FROM {$wpdb->posts} WHERE post_name IN (%s,%s) AND post_status = 'trash' LIMIT 1", $slug, $slug . '__trashed' ) ) : null; // phpcs:ignore WordPress.DB
 		$ref     = (string) $r['referrer'];
+		if ( $ref && Manager::normalize_source( $ref ) === Manager::normalize_source( $path ) && ( ! wp_parse_url( $ref, PHP_URL_HOST ) || wp_parse_url( $ref, PHP_URL_HOST ) === wp_parse_url( home_url(), PHP_URL_HOST ) ) ) {
+			$ref = ''; // Scanners send the URL itself as referrer: that is not a link from anywhere.
+		}
 		$ref_host = $ref ? (string) wp_parse_url( $ref, PHP_URL_HOST ) : '';
 		$own      = (string) wp_parse_url( home_url(), PHP_URL_HOST );
 		$cands    = array();
@@ -117,9 +132,75 @@ final class NotFoundTriage {
 				$links
 			) : array(),
 			'deleted_post_with_slug' => $trashed ? $trashed : null,
-			'looks_like_probe_or_junk' => (bool) preg_match( self::JUNK_RE, $path ),
+			'looks_like_probe_or_junk' => (bool) ( preg_match( self::JUNK_RE, $path ) || preg_match( self::PROBE_RE, $path ) ),
 			'candidates'             => $cands,
 		);
+	}
+
+	/** Any real sign that this URL matters for search or visitors. */
+	public static function has_value( array $e ) {
+		return is_array( $e['search_console'] )
+			|| ! empty( $e['internal_links_from'] )
+			|| 0 === strpos( (string) $e['referrer'], 'external:' )
+			|| ( 0 === strpos( (string) $e['referrer'], 'internal:' ) && empty( $e['looks_like_probe_or_junk'] ) ) // Scanners fake an internal referrer; a real link shows up in internal_links_from.
+			|| 'Googlebot' === $e['last_request_by']
+			|| ! empty( $e['deleted_post_with_slug'] );
+	}
+
+	/** Short human list of the value signals (for the reason text). */
+	private static function signals( array $e ) {
+		$out = array();
+		if ( is_array( $e['search_console'] ) ) {
+			/* translators: 1 impressions 2 clicks */
+			$out[] = sprintf( __( 'Search Console: %1$d impressions, %2$d clicks', 'seolity' ), $e['search_console']['impressions'], $e['search_console']['clicks'] );
+		}
+		if ( ! empty( $e['internal_links_from'] ) ) {
+			/* translators: %d: pages */
+			$out[] = sprintf( __( 'linked from %d of your pages', 'seolity' ), count( $e['internal_links_from'] ) );
+		}
+		if ( $e['referrer'] && 'none' !== $e['referrer'] ) {
+			$out[] = __( 'referrer', 'seolity' ) . ': ' . $e['referrer'];
+		}
+		if ( 'Googlebot' === $e['last_request_by'] ) {
+			$out[] = __( 'Googlebot requests it', 'seolity' );
+		}
+		if ( ! empty( $e['deleted_post_with_slug'] ) ) {
+			$out[] = __( 'a deleted post had this address', 'seolity' );
+		}
+		return implode( ' · ', $out );
+	}
+
+	/**
+	 * Sort new 404s by real evidence (no AI): scanner probes with no value at all are hidden from
+	 * the list ("not important" — a 404 is the right answer for them); URLs with any value are
+	 * marked important with the reason; the rest stay in the list for the AI review.
+	 *
+	 * @return int How many are still waiting to be sorted.
+	 */
+	public function classify( $limit = 60 ) {
+		$db   = $this->plugin->db;
+		$pid  = $db->project_id();
+		$rows = $db->rows( "SELECT * FROM {not_found} WHERE project_id = %d AND status = 'open' AND verdict IS NULL ORDER BY hits DESC LIMIT %d", array( $pid, max( 1, (int) $limit ) ) );
+		foreach ( $rows as $r ) {
+			$e = $this->evidence( $r );
+			if ( self::has_value( $e ) ) {
+				/* translators: %s: signals */
+				$db->update( 'not_found', array( 'verdict' => 'important', 'verdict_reason' => mb_substr( sprintf( __( 'Has value: %s.', 'seolity' ), self::signals( $e ) ), 0, 590 ) ), array( 'id' => (int) $r['id'] ) );
+			} elseif ( $e['looks_like_probe_or_junk'] ) {
+				$db->update(
+					'not_found',
+					array(
+						'status'         => 'noise',
+						'verdict'        => 'noise_probe',
+						'verdict_reason' => __( 'A security scanner looking for a file this site never had. Google has never shown it (no Search Console history), no page links to it and no real visitor came from anywhere. A 404 is exactly the right answer; it does not affect rankings.', 'seolity' ),
+					),
+					array( 'id' => (int) $r['id'] )
+				);
+			} else {
+				$db->update( 'not_found', array( 'verdict' => 'unclear', 'verdict_reason' => __( 'No sign of value yet (no Search Console history, links or referrers), but not a typical probe either: the AI review decides.', 'seolity' ) ), array( 'id' => (int) $r['id'] ) );
+			}
+		}
+		return (int) $db->value( "SELECT COUNT(*) FROM {not_found} WHERE project_id = %d AND status = 'open' AND verdict IS NULL", array( $pid ) );
 	}
 
 	/** Queue handler. */
@@ -133,7 +214,10 @@ final class NotFoundTriage {
 		$aid  = (int) $op['activity_id'];
 		$prev = Activity::set_current( $aid );
 		$db   = $this->plugin->db;
-		$rows = $db->rows( "SELECT * FROM {not_found} WHERE project_id = %d AND status = 'open' ORDER BY (referrer <> '' AND referrer IS NOT NULL) DESC, hits DESC, last_seen DESC LIMIT %d", array( $db->project_id(), self::MAX_URLS ) );
+		$only = isset( $op['input']['ids'] ) ? array_filter( array_map( 'intval', (array) $op['input']['ids'] ) ) : array();
+		$rows = $only
+			? $db->rows( 'SELECT * FROM {not_found} WHERE project_id = %d AND id IN (' . implode( ',', $only ) . ') LIMIT %d', array( $db->project_id(), self::MAX_URLS ) )
+			: $db->rows( "SELECT * FROM {not_found} WHERE project_id = %d AND status = 'open' ORDER BY (referrer <> '' AND referrer IS NOT NULL) DESC, hits DESC, last_seen DESC LIMIT %d", array( $db->project_id(), self::MAX_URLS ) );
 		$site = $this->site_context();
 		/* translators: %d: URLs */
 		$act->step( $aid, sprintf( __( 'Collecting evidence for %d URLs (Search Console, links, referrers, candidates)…', 'seolity' ), count( $rows ) ), 10 );
@@ -170,8 +254,9 @@ final class NotFoundTriage {
 		\SEOlity\AI\Engine::with_instructions( $prev_i );
 		$act->step( $aid, __( 'Checking every proposed target…', 'seolity' ), 80 );
 
-		$items = array();
-		$count = array( 'redirect_301' => 0, 'gone_410' => 0, 'keep_404' => 0, 'fix_internal_link' => 0 );
+		$items  = array();
+		$hidden = 0;
+		$count  = array( 'redirect_301' => 0, 'gone_410' => 0, 'keep_404' => 0, 'fix_internal_link' => 0 );
 		foreach ( $decisions as $id => $x ) {
 			$e      = $ev[ $id ];
 			$dec    = $x['decision'];
@@ -195,6 +280,10 @@ final class NotFoundTriage {
 				$items[] = $base + array( 'kind' => 'note', 'source' => $e['url'], 'posts' => $e['internal_links_from'] );
 			} else {
 				$items[] = $base + array( 'kind' => 'keep_404', 'source' => $e['url'] );
+				if ( $conf >= 60 && ! self::has_value( $e ) ) {
+					$hidden++;
+					$db->update( 'not_found', array( 'status' => 'noise', 'verdict' => 'noise_ai', 'verdict_reason' => mb_substr( $reason, 0, 590 ) ), array( 'id' => (int) $id ) );
+				}
 			}
 		}
 		// Most valuable first: 301s, then 410s, then the rest.
@@ -216,6 +305,8 @@ final class NotFoundTriage {
 			$verdict['summary'],
 			/* translators: 1..4 counts */
 			sprintf( __( 'Decisions: %1$d × 301 to an equivalent page, %2$d × 410 gone, %3$d × leave as 404, %4$d × fix the internal link.', 'seolity' ), $count['redirect_301'], $count['gone_410'], $count['keep_404'], $count['fix_internal_link'] ),
+			/* translators: %d: URLs */
+			$hidden ? sprintf( __( '%d URLs without any value (no Search Console history, no links, no real visitors) were moved to “Hidden: not important” in the 404 list. Nothing on the site changed; you can bring any of them back.', 'seolity' ), $hidden ) : '',
 			__( 'Nothing changes until you approve. Untick anything you disagree with; every 301 and 410 is checked on the live site afterwards.', 'seolity' ),
 		);
 		$ops->staged( $op_id, $items, array_values( array_filter( $plan ) ) );

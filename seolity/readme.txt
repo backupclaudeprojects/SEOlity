@@ -4,7 +4,7 @@ Tags: seo, ai, search console, woocommerce, schema
 Requires at least: 6.2
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.18.0
+Stable tag: 1.19.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,13 @@ Yes. The interface is fully translated and RTL-native, text analysis understands
 Enable "Delete all data on uninstall" in Settings → Privacy, then delete the plugin.
 
 == Changelog ==
+
+= 1.19.0 =
+* Road to #1 (new page): every search the site appears for, with its real Google position (Search Console), an honest chance of #1 (already #1 / very close / realistic / hard / long shot — from the numbers, not hope) and what #1 would bring (marked as an estimate). Focus on ONE search: the AI compares the page with the result that ranks first and gives an honest verdict, a realistic time frame, the gaps, the few steps that move this search (each prepared for review with one click) and what is not worth the time. Progress and wins are shown only from Search Console data after the focus started. Live check: the configured Google results source, or "Open in Google" for a private window (scraping Google from the server is deliberately not done).
+* 404 monitor: new URLs are sorted by real evidence (Search Console history, real links, real referrers, Googlebot, deleted posts). Security-scanner probes without any value (phpinfo, _profiler, .env, …) are moved to "Hidden: not important"; URLs with value are marked with the reason; the AI review also hides the ones it judges worthless. Nothing on the site changes; any URL can be brought back.
+* 404 monitor: select URLs (also "the ones without a suggestion") and hide / bring back, let the AI decide for exactly those, or send them as a package to the AI chat and talk about them — the chat can prepare the decisions for exactly those URLs.
+* Redirect chains as a picture: today (A → B → C) and after the fix (A → C, B → C), loops marked. Fix by pointing every step to the final page, or let the AI choose the best final page from checked live pages (topic match first, then the page that matters more, e.g. the shop or a category). Reviewed, verified and undoable like every operation.
+* Fix: chains that run through Rank Math redirects were not detected (only SEOlity's own rules were), and "Flatten chains" changed only SEOlity's copy, not the rule in Rank Math.
 
 = 1.18.0 =
 * "Optimize with SEOlity AI" now optimizes the whole page in one go: the content from top to bottom (or writes it when it is empty, e.g. a new category), the SEO title, the meta description and the focus keyword for Rank Math / Yoast / SEOPress / AIOSEO, plus — opt-in — a better page title (H1). Rank Math's secondary keywords are kept.

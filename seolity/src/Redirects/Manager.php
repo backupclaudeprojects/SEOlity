@@ -221,39 +221,75 @@ final class Manager {
 		);
 	}
 
-	/** Detect chains and loops among stored redirects. */
+	/**
+	 * Detect chains and loops among stored redirects — SEOlity's own and the ones that live in
+	 * Rank Math (status "external"); a chain mixes both freely.
+	 *
+	 * @return array[] { id, chain: paths, loop, hops: [{ id, source, to, type }] }, one per
+	 *                 chain start (a source nobody redirects to) plus one per loop.
+	 */
 	public function chains() {
 		$map = array();
-		foreach ( $this->plugin->db->rows( "SELECT id, source, target FROM {redirects} WHERE project_id = %d AND status = 'active' AND is_regex = 0 AND target <> ''", array( $this->plugin->db->project_id() ) ) as $r ) {
+		foreach ( $this->plugin->db->rows( "SELECT id, source, target, type FROM {redirects} WHERE project_id = %d AND status IN ('active','external') AND is_regex = 0 AND target <> ''", array( $this->plugin->db->project_id() ) ) as $r ) {
 			if ( $this->is_local( $r['target'] ) ) {
-				$map[ $r['source'] ] = array( 'id' => (int) $r['id'], 'to' => self::normalize_source( $r['target'] ) );
+				$map[ self::normalize_source( $r['source'] ) ] = array( 'id' => (int) $r['id'], 'to' => self::normalize_source( $r['target'] ), 'type' => (int) $r['type'] );
 			}
 		}
-		$out = array();
+		$targets = array();
+		foreach ( $map as $r ) {
+			$targets[ $r['to'] ] = true;
+		}
+		$out   = array();
+		$looped = array();
 		foreach ( $map as $src => $r ) {
 			$chain = array( $src );
+			$hops  = array( array( 'id' => $r['id'], 'source' => $src, 'to' => $r['to'], 'type' => $r['type'] ) );
 			$cur   = $r['to'];
-			while ( isset( $map[ $cur ] ) && count( $chain ) < 10 && ! in_array( $cur, $chain, true ) ) {
+			while ( isset( $map[ $cur ] ) && count( $chain ) < 12 && ! in_array( $cur, $chain, true ) ) {
 				$chain[] = $cur;
+				$hops[]  = array( 'id' => $map[ $cur ]['id'], 'source' => $cur, 'to' => $map[ $cur ]['to'], 'type' => $map[ $cur ]['type'] );
 				$cur     = $map[ $cur ]['to'];
 			}
-			if ( count( $chain ) > 1 || in_array( $cur, $chain, true ) ) {
-				$out[] = array( 'id' => $r['id'], 'chain' => array_merge( $chain, array( $cur ) ), 'loop' => in_array( $cur, $chain, true ) );
+			$loop = in_array( $cur, $chain, true );
+			if ( count( $chain ) < 2 && ! $loop ) {
+				continue; // One hop is a normal redirect.
 			}
+			if ( $loop ) {
+				// Every member of a loop reaches it: keep one entry per loop.
+				$members = array_slice( $chain, array_search( $cur, $chain, true ) );
+				sort( $members );
+				$key = implode( '|', $members );
+				if ( isset( $looped[ $key ] ) && isset( $targets[ $src ] ) ) {
+					continue;
+				}
+				$looped[ $key ] = true;
+			} elseif ( isset( $targets[ $src ] ) ) {
+				continue; // Not a start: it is the middle of a longer chain listed from its start.
+			}
+			$out[] = array( 'id' => $r['id'], 'chain' => array_merge( $chain, array( $cur ) ), 'loop' => $loop, 'hops' => $hops );
 		}
 		return $out;
 	}
 
-	/** Point every chain start directly to its final destination. */
+	/** Point every redirect of a chain directly to its final destination (Rank Math rules included). */
 	public function fix_chains() {
 		$fixed = 0;
+		$done  = array();
 		foreach ( $this->chains() as $c ) {
 			if ( $c['loop'] ) {
 				continue;
 			}
 			$final = end( $c['chain'] );
-			$this->plugin->db->update( 'redirects', array( 'target' => home_url( $final ) ), array( 'id' => $c['id'] ) );
-			$fixed++;
+			foreach ( $c['hops'] as $hop ) {
+				if ( isset( $done[ $hop['id'] ] ) || $hop['to'] === $final ) {
+					continue;
+				}
+				$done[ $hop['id'] ] = true;
+				// Through update(): a rule that lives in Rank Math is changed there, not only in SEOlity's copy.
+				if ( ! is_wp_error( $this->update( $hop['id'], array( 'target' => home_url( $final ) ) ) ) ) {
+					$fixed++;
+				}
+			}
 		}
 		$this->refresh_cache();
 		return $fixed;

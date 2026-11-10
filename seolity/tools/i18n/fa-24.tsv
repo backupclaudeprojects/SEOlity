@@ -1,0 +1,141 @@
+Road to #1	مسیر رتبه ۱
+Select the URLs on the 404 page and send them to the chat first.	اول در صفحه ۴۰۴ آدرس‌ها را انتخاب کنید و به چت بفرستید.
+Being prepared for exactly these URLs — it will appear in the floating popup for review. URLs without value are hidden from the 404 list; 301 / 410 change nothing until you approve.	برای همین آدرس‌ها در حال آماده‌سازی است و در پنجره شناور برای بررسی می‌آید. آدرس‌های بی‌ارزش از لیست ۴۰۴ پنهان می‌شوند؛ ۳۰۱ و ۴۱۰ تا تأیید شما چیزی را عوض نمی‌کنند.
+Remove the redirect of %s (it answers as a page again)	حذف ریدایرکت %s (دوباره به‌عنوان صفحه جواب می‌دهد)
+Choose a search first.	اول یک جست‌وجو را انتخاب کنید.
+Waiting for data: Google Search Console reports with a delay of 2–3 days, and a change needs 1–3 weeks to show in rankings.	در انتظار داده: سرچ کنسول گوگل با ۲ تا ۳ روز تأخیر گزارش می‌دهد و هر تغییر ۱ تا ۳ هفته طول می‌کشد تا در رتبه دیده شود.
+Position 1 for “%s” — measured, not estimated: the average position of the last 7 days in Search Console is 1. Outstanding work! Keep the page fresh and pick the next search.	رتبه ۱ برای «%s» — اندازه‌گیری‌شده، نه تخمینی: میانگین جایگاه ۷ روز اخیر در سرچ کنسول ۱ است. کارتان عالی بود! صفحه را به‌روز نگه دارید و سراغ جست‌وجوی بعدی بروید.
+Real progress: from %1$s to %2$s (average of the last 7 days, Search Console). The work is paying off — keep going with the next step.	پیشرفت واقعی: از %1$s به %2$s (میانگین ۷ روز اخیر، سرچ کنسول). زحمت‌تان دارد جواب می‌دهد؛ با قدم بعدی ادامه دهید.
+Down from %1$s to %2$s for now. Rankings often wobble for a week or two after changes; if it stays down for 3 weeks, review the last change.	فعلاً از %1$s به %2$s پایین آمده. رتبه‌ها معمولاً یکی دو هفته بعد از تغییرات نوسان دارند؛ اگر ۳ هفته پایین ماند، آخرین تغییر را بازبینی کنید.
+Holding at %s. No real movement yet — the next step of the plan is what moves it.	روی %s ثابت مانده. هنوز حرکت واقعی نداشته؛ قدم بعدی برنامه است که آن را جابه‌جا می‌کند.
+No automatic Google results source is set up. Open the search in Google in a private window, or set up a free source (Settings → Crawler & audits; one needs no key at all).	هیچ منبع خودکار نتایج گوگل تنظیم نشده. جست‌وجو را در یک پنجره ناشناس در گوگل باز کنید، یا یک منبع رایگان تنظیم کنید (تنظیمات ← خزنده و ممیزی؛ یکی اصلاً کلید نمی‌خواهد).
+Choose a search to focus on first.	اول یک جست‌وجو را برای تمرکز انتخاب کنید.
+Plan to rank #1 for “%s”	برنامه رتبه ۱ برای «%s»
+Reading the page, its Search Console history and the Google results…	خواندن صفحه، سابقه سرچ کنسول آن و نتایج گوگل…
+AI is comparing your page with the result that ranks first…	هوش مصنوعی صفحه شما را با نتیجه رتبه اول مقایسه می‌کند…
+Plan ready	برنامه آماده است
+Plan ready — open “Road to #1”	برنامه آماده است؛ «مسیر رتبه ۱» را باز کنید
+Step not found.	قدم پیدا نشد.
+Goal: position 1 on Google for “%s”.	هدف: رتبه ۱ گوگل برای «%s».
+There are no redirect chains or loops.	هیچ زنجیره یا حلقه ریدایرکتی وجود ندارد.
+Fix redirect chains: AI chooses the best final page	رفع زنجیره‌های ریدایرکت: هوش مصنوعی بهترین صفحه مقصد را انتخاب می‌کند
+Fix redirect chains: point every step to the final page	رفع زنجیره‌های ریدایرکت: هر قدم مستقیم به صفحه مقصد
+Reviewing redirect chains	بررسی زنجیره‌های ریدایرکت
+Checking where each chain ends on the live site…	بررسی اینکه هر زنجیره روی سایت زنده به کجا ختم می‌شود…
+AI is choosing the best final page for each chain…	هوش مصنوعی برای هر زنجیره بهترین صفحه مقصد را انتخاب می‌کند…
+Preparing the new redirects…	آماده‌سازی ریدایرکت‌های جدید…
+Every step now goes straight to the page the chain already ends on.	حالا هر قدم مستقیم به همان صفحه‌ای می‌رود که زنجیره به آن ختم می‌شد.
+%1$d chains/loops; %2$d redirects get a new target so that every old address reaches its final page in one step.	%1$d زنجیره/حلقه؛ %2$d ریدایرکت مقصد جدید می‌گیرند تا هر آدرس قدیمی با یک قدم به صفحه نهایی برسد.
+%d chains were left as they are: they end on a page that does not answer, or no safe final page was found (fix them by hand).	%d زنجیره دست‌نخورده ماندند: یا به صفحه‌ای ختم می‌شوند که جواب نمی‌دهد، یا صفحه مقصد مطمئنی پیدا نشد (دستی درستشان کنید).
+Rules that live in Rank Math are changed in Rank Math.	قانون‌هایی که در رنک‌مث هستند، در خود رنک‌مث تغییر می‌کنند.
+Nothing changes until you approve. Every new redirect is checked on the live site and can be undone.	تا تأیید نکنید چیزی عوض نمی‌شود. هر ریدایرکت جدید روی سایت زنده بررسی می‌شود و قابل برگشت است.
+You brought it back to the list.	خودتان آن را به لیست برگرداندید.
+You hid it as not important.	خودتان آن را به‌عنوان غیرمهم پنهان کردید.
+AI review of %d selected 404 URLs	بررسی هوش مصنوعی برای %d آدرس ۴۰۴ انتخاب‌شده
+Search Console: %1$d impressions, %2$d clicks	سرچ کنسول: %1$d نمایش، %2$d کلیک
+linked from %d of your pages	از %d صفحه شما لینک دارد
+referrer	ارجاع‌دهنده
+Googlebot requests it	گوگل‌بات درخواستش می‌کند
+a deleted post had this address	یک نوشته حذف‌شده این آدرس را داشته
+Has value: %s.	ارزش دارد: %s.
+A security scanner looking for a file this site never had. Google has never shown it (no Search Console history), no page links to it and no real visitor came from anywhere. A 404 is exactly the right answer; it does not affect rankings.	یک اسکنر امنیتی دنبال فایلی گشته که این سایت هیچ‌وقت نداشته. گوگل هیچ‌وقت نشانش نداده (سابقه‌ای در سرچ کنسول نیست)، هیچ صفحه‌ای به آن لینک نداده و هیچ بازدیدکننده واقعی از جایی نیامده. ۴۰۴ دقیقاً جواب درست است و روی رتبه اثری ندارد.
+No sign of value yet (no Search Console history, links or referrers), but not a typical probe either: the AI review decides.	هنوز نشانه‌ای از ارزش ندارد (سابقه سرچ کنسول، لینک یا ارجاع‌دهنده نیست)، ولی کاوش معمول اسکنر هم نیست؛ بررسی هوش مصنوعی تصمیم می‌گیرد.
+%d URLs without any value (no Search Console history, no links, no real visitors) were moved to “Hidden: not important” in the 404 list. Nothing on the site changed; you can bring any of them back.	%d آدرس بدون هیچ ارزشی (بدون سابقه سرچ کنسول، لینک یا بازدیدکننده واقعی) در لیست ۴۰۴ به «پنهان: غیرمهم» منتقل شدند. چیزی در سایت عوض نشد؛ هرکدام را می‌توانید برگردانید.
+I selected %s broken (404) URLs. For each one: does it matter for ranking #1 on Google, and what should happen (301 to which page, 410, or hide as not important)? If they do not matter, prepare hiding/removing them.	%s آدرس خراب (۴۰۴) را انتخاب کردم. برای هرکدام بگو: برای رتبه ۱ گوگل مهم است یا نه، و چه کار باید کرد (۳۰۱ به کدام صفحه، ۴۱۰، یا پنهان‌کردن به‌عنوان غیرمهم)؟ اگر مهم نیستند، پنهان‌کردن/حذفشان را آماده کن.
+%s 404 URLs attached	%s آدرس ۴۰۴ پیوست شد
+Only a redirect	فقط یک ریدایرکت
+%s clicks (28 days)	%s کلیک (۲۸ روز)
+loop	حلقه
+Today	الان
+After the fix	بعد از اصلاح
+AI chooses the best final page	هوش مصنوعی بهترین صفحه مقصد را انتخاب کند
+Point every step to the final page	هر قدم مستقیم به صفحه مقصد
+Optional rule, e.g. “old product addresses go to their category”, “prefer the shop page”.	قانون اختیاری؛ مثلاً «آدرس‌های قدیمی محصول به دسته خودشان بروند»، «صفحه فروشگاه را ترجیح بده».
+For each chain the AI picks, from checked live pages only, the final page that matches the old addresses best and matters most for the site (importance, real clicks) — usually where the chain ends, sometimes a stronger page like the shop or a category. You approve every redirect.	هوش مصنوعی برای هر زنجیره، فقط از بین صفحه‌های زنده‌ای که بررسی شده‌اند، صفحه مقصدی را انتخاب می‌کند که با آدرس‌های قدیمی بیشترین تطابق را دارد و برای سایت مهم‌تر است (اهمیت، کلیک واقعی)؛ معمولاً همان انتهای زنجیره، گاهی صفحه قوی‌تری مثل فروشگاه یا یک دسته. هر ریدایرکت را خودتان تأیید می‌کنید.
+Every old address will redirect in one step to the page its chain ends on. You approve every redirect; each is checked on the live site and can be undone.	هر آدرس قدیمی با یک قدم به صفحه‌ای ریدایرکت می‌شود که زنجیره‌اش به آن ختم می‌شود. هر ریدایرکت را خودتان تأیید می‌کنید؛ همه روی سایت زنده بررسی می‌شوند و قابل برگشت‌اند.
+Prepare the fix	آماده‌سازی اصلاح
+%1$s chains (%2$s loops) with %3$s redirects. Each extra step costs visitors and Googlebot one more request and loses a little signal; a loop is a dead end. Worth fixing, rarely an emergency.	%1$s زنجیره (%2$s حلقه) با %3$s ریدایرکت. هر قدم اضافه یک درخواست بیشتر برای بازدیدکننده و گوگل‌بات است و کمی از اعتبار را هدر می‌دهد؛ حلقه یک بن‌بست است. ارزش اصلاح دارد، ولی به‌ندرت فوری است.
+To review	برای بررسی
+With real value	با ارزش واقعی
+Hidden: not important	پنهان: غیرمهم
+Sorting %s new URLs by real evidence (Search Console history, links, referrers, Googlebot). Scanner probes without any value are moved to “Hidden: not important”.	در حال دسته‌بندی %s آدرس جدید با شواهد واقعی (سابقه سرچ کنسول، لینک‌ها، ارجاع‌دهنده‌ها، گوگل‌بات). کاوش‌های اسکنر که هیچ ارزشی ندارند به «پنهان: غیرمهم» می‌روند.
+%s URLs are back in the list.	%s آدرس به لیست برگشت.
+%s URLs hidden as not important.	%s آدرس به‌عنوان غیرمهم پنهان شد.
+Ask the AI about these	درباره این‌ها از هوش مصنوعی بپرس
+Let the AI decide for these	هوش مصنوعی برای این‌ها تصمیم بگیرد
+AI review of the selected URLs	بررسی هوش مصنوعی آدرس‌های انتخاب‌شده
+Your rule, e.g. “if they do not matter for rankings, hide them; real pages get a 301”.	قانون شما؛ مثلاً «اگر برای رتبه مهم نیستند پنهانشان کن؛ صفحه‌های واقعی ۳۰۱ بگیرند».
+The AI judges only these %s URLs from real evidence and prepares 301 / 410 / leave decisions for your approval; URLs without any value are hidden from the list.	هوش مصنوعی فقط همین %s آدرس را با شواهد واقعی بررسی می‌کند و تصمیم‌های ۳۰۱ / ۴۱۰ / رهاکردن را برای تأیید شما آماده می‌کند؛ آدرس‌های بی‌ارزش از لیست پنهان می‌شوند.
+Bring back to the list	برگرداندن به لیست
+Hide as not important	پنهان‌کردن به‌عنوان غیرمهم
+Select the ones without a suggestion	انتخاب آن‌هایی که پیشنهاد ندارند
+These URLs have no value for search: no Search Console history, no page links to them, no real visitor came from anywhere — mostly security scanners. A 404 is the right answer and does not hurt rankings. Nothing on the site was changed; bring any of them back if you disagree.	این آدرس‌ها برای جست‌وجو ارزشی ندارند: نه سابقه سرچ کنسول، نه لینکی از صفحه‌ها، نه بازدیدکننده واقعی از جایی؛ بیشترشان اسکنرهای امنیتی‌اند. ۴۰۴ جواب درست است و به رتبه آسیبی نمی‌زند. چیزی در سایت عوض نشده؛ اگر موافق نیستید هرکدام را برگردانید.
+Has value	ارزش دارد
+Bring back	برگرداندن
+Chain today:	زنجیره فعلی:
+Weekly average position	میانگین هفتگی جایگاه
+position %s	جایگاه %s
+One search at a time: where you really rank in Google, an honest chance of position 1, the AI’s plan against the page that ranks first — and real progress, measured in Search Console.	هر بار یک جست‌وجو: جایگاه واقعی شما در گوگل، شانس صادقانه رتبه ۱، برنامه هوش مصنوعی در برابر صفحه رتبه اول؛ و پیشرفت واقعی که در سرچ کنسول اندازه گرفته می‌شود.
+Connect Google Search Console first	اول سرچ کنسول گوگل را وصل کنید
+Positions here are only real ones from Google itself — connect Search Console and wait for the first data.	جایگاه‌های این صفحه فقط واقعی و از خود گوگل‌اند؛ سرچ کنسول را وصل کنید و منتظر اولین داده بمانید.
+Positions: Google Search Console, average of %1$s – %2$s (Google reports 2–3 days late). “If #1” is an estimate at a typical #1 click rate and is marked as such. No promises — only measured results.	جایگاه‌ها: سرچ کنسول گوگل، میانگین %1$s تا %2$s (گوگل با ۲ تا ۳ روز تأخیر گزارش می‌دهد). «اگر رتبه ۱» یک تخمین بر اساس نرخ کلیک معمول رتبه ۱ است و همین‌طور علامت خورده. وعده‌ای نمی‌دهیم؛ فقط نتیجه اندازه‌گیری‌شده.
+Pick ONE search below and press “Focus on this”. Finish it, then go to the next — that is how #1 is reached, search by search.	از پایین فقط یک جست‌وجو انتخاب کنید و «روی این تمرکز کن» را بزنید. تمامش کنید، بعد سراغ بعدی بروید؛ رتبه ۱ همین‌طور یکی‌یکی به دست می‌آید.
+searches where you are #1	جست‌وجو که در آن رتبه ۱ هستید
+in the top 3	در ۳ رتبه اول
+climbed at least 1 position this month	این ماه دست‌کم ۱ پله بالا رفته
+Best climb: “%1$s” from %2$s to %3$s	بهترین صعود: «%1$s» از %2$s به %3$s
+Focused search	جست‌وجوی در تمرکز
+At the start	در شروع
+Goal	هدف
+Google check	بررسی در گوگل
+your page is #%s	صفحه شما رتبه %s است
+your site is not in the first %s results	سایت شما در %s نتیجه اول نیست
+#1 is %s	رتبه ۱: %s
+Checked in Google.	در گوگل بررسی شد.
+Open in Google	باز کردن در گوگل
+Search Console is the real average; “Check Google now” shows today’s results from your results source (one search of its quota).	سرچ کنسول میانگین واقعی است؛ «بررسی در گوگل همین حالا» نتایج امروز را از منبع نتایج شما نشان می‌دهد (یک جست‌وجو از سهمیه‌اش).
+Open it in a private (incognito) window so your own history does not change the results. To let the AI see the page that ranks first, use the free “your browser” Google source (Competitors page) — one click on its bookmark sends the results to SEOlity.	آن را در پنجره ناشناس (incognito) باز کنید تا سابقه خودتان نتایج را تغییر ندهد. برای اینکه هوش مصنوعی صفحه رتبه اول را ببیند، از منبع رایگان «مرورگر خودتان» استفاده کنید (صفحه رقبا)؛ با یک کلیک روی بوکمارکش، نتایج به سئولیتی فرستاده می‌شود.
+Done — next search	تمام شد؛ جست‌وجوی بعدی
+Skip this search	رد کردن این جست‌وجو
+Plan again	برنامه دوباره
+Make the plan with AI	ساخت برنامه با هوش مصنوعی
+The AI is comparing your page with the result that ranks first — the plan appears here in a minute or two.	هوش مصنوعی دارد صفحه شما را با نتیجه رتبه اول مقایسه می‌کند؛ برنامه تا یکی دو دقیقه دیگر همین‌جا ظاهر می‌شود.
+No plan yet. The AI compares your page with the page that ranks first, says honestly how realistic #1 is, and gives the few steps that move THIS search.	هنوز برنامه‌ای نیست. هوش مصنوعی صفحه شما را با صفحه رتبه اول مقایسه می‌کند، صادقانه می‌گوید رتبه ۱ چقدر واقع‌بینانه است و همان چند قدمی را می‌دهد که همین جست‌وجو را جابه‌جا می‌کند.
+Realistic time: %1$s–%2$s weeks	زمان واقع‌بینانه: %1$s تا %2$s هفته
+What it takes:	چه چیزی لازم است:
+Who is #1 and why:	چه کسی رتبه ۱ است و چرا:
+What your page is missing	صفحه شما چه کم دارد
+Steps, most effective first	قدم‌ها، اثرگذارترین اول
+Impact: %s	اثر: %s
+Why it moves this search: %s	چرا این جست‌وجو را جابه‌جا می‌کند: %s
+Prepared — open	آماده شد؛ باز کن
+Add to the roadmap	افزودن به نقشه راه
+Prepare it	آماده‌اش کن
+Prepared.	آماده شد.
+Not worth your time for this search	برای این جست‌وجو ارزش وقت‌گذاشتن ندارد
+How we will know it worked:	از کجا می‌فهمیم جواب داده:
+Plan from %s	برنامه از %s
+made without live Google results	بدون نتایج زنده گوگل ساخته شده
+The plan is ready.	برنامه آماده است.
+All your searches, best chance of real gain first	همه جست‌وجوهای شما، بیشترین شانس سود واقعی اول
+Every chance	همه شانس‌ها
+Very close	خیلی نزدیک
+Realistic	واقع‌بینانه
+Hard	سخت
+Long shot for now	فعلاً دور از دسترس
+Already #1	همین حالا رتبه ۱
+Brand	برند
+%s of your pages compete	%s صفحه شما با هم رقابت می‌کنند
+28 days before: %s	۲۸ روز قبل: %s
+If #1 (estimate)	اگر رتبه ۱ (تخمین)
+Chance	شانس
+In focus	در تمرکز
+Focus on this	روی این تمرکز کن
+Leave “%s” and focus on this search instead? One search at a time works best.	«%s» را رها کنیم و روی این جست‌وجو تمرکز کنیم؟ هر بار یک جست‌وجو بهترین نتیجه را می‌دهد.
+No searches match.	جست‌وجویی پیدا نشد.
+Buying	خرید
+Comparing	مقایسه
+Learning	یادگیری
+chain_fix	اصلاح زنجیره
+review_404s	بررسی ۴۰۴‌ها
+A loop has no end: let the AI choose which real page answers.	حلقه انتهایی ندارد؛ بگذارید هوش مصنوعی انتخاب کند کدام صفحه واقعی جواب بدهد.

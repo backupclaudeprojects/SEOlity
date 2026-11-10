@@ -615,6 +615,61 @@ Also give a site-level verdict: does this site have a crawl-budget problem from 
 					)
 				),
 			),
+			'rank1_plan'         => array(
+				'version'      => 'rank1_plan@1.0',
+				'max_tokens'   => 6000,
+				'topics'       => array( 'on-page', 'content', 'serp', 'links', 'eeat' ),
+				'cache'        => false,
+				'instructions' => 'You are the SEO lead whose one job is to take THIS site to position 1 on Google for ONE search, using real data only. Be honest above all: no false hope, no flattery. real_numbers come from Google Search Console (average position over 28 days); google_results (when present) are the live results with the page that ranks first. 1) verdict: already_first / close / realistic / hard / long_shot — start from real_numbers.chance_by_rule and change it only with a concrete reason from the data (e.g. the #1 result is a huge marketplace or a government site; or the site has no page that matches the intent). honest_assessment: 2–4 sentences with the numbers (position, impressions, what #1 would bring as an estimate). what_it_takes and a realistic weeks_min / weeks_max (rankings move in weeks, not days; a long shot can be 6+ months). 2) leader: who ranks first and WHY (intent match, depth, freshness, authority, page type, SERP features) — only from google_results; if they are not available say so and do not guess. 3) gaps: what our page misses compared with the leader and the search intent (be specific: sections, questions, product info, page type, title). 4) steps: at most 6, ordered by impact on THIS search, each concrete and doable on this site: action optimize_content / optimize_meta / generate_faq / internal_links_to (links from related pages of this site to our page) / task (anything else, e.g. off-site links, a new page, merging competing pages when our_pages_for_it shows two pages splitting the search), category, impact and why_it_moves_this_query. 5) ignore: things that look like SEO work but will NOT move this search (so the owner does not waste time). 6) measure: how to tell from Search Console in 2–4 weeks that it worked. 7) encouragement: one warm sentence grounded ONLY in real data (e.g. "you are already on page one with 900 impressions — the closest #1 of the site"); an empty string if the data gives nothing real. Write in the site\'s language (Persian sites: Persian), simply.',
+				'schema'       => S::obj(
+					array(
+						'verdict'           => S::enum( array( 'already_first', 'close', 'realistic', 'hard', 'long_shot' ) ),
+						'honest_assessment' => S::str(),
+						'what_it_takes'     => S::str(),
+						'weeks_min'         => S::int(),
+						'weeks_max'         => S::int(),
+						'leader'            => S::obj( array( 'who' => S::str(), 'why_they_rank' => S::str() ) ),
+						'gaps'              => S::strings(),
+						'steps'             => S::arr(
+							S::obj(
+								array(
+									'title'                   => S::str(),
+									'detail'                  => S::str(),
+									'action'                  => S::enum( array( 'optimize_content', 'optimize_meta', 'generate_faq', 'internal_links_to', 'task' ) ),
+									'category'                => S::enum( array( 'onpage', 'content', 'links', 'offpage', 'technical' ) ),
+									'impact'                  => S::enum( array( 'high', 'medium', 'low' ) ),
+									'why_it_moves_this_query' => S::str(),
+								)
+							)
+						),
+						'ignore'            => S::strings(),
+						'measure'           => S::str(),
+						'encouragement'     => S::str(),
+					)
+				),
+			),
+			'redirect_chains'    => array(
+				'version'      => 'redirect_chains@1.0',
+				'max_tokens'   => 6000,
+				'topics'       => array( 'redirects', 'crawl-budget' ),
+				'cache'        => false,
+				'instructions' => 'You fix the redirect chains and loops of ONE website. Every old address of a chain will redirect in one step to the final page you choose. Choose, per chain, target_url from that chain\'s candidates ONLY (each was checked to be a live page; never invent a URL). What counts, in this order: (1) the same topic / product / intent as the old addresses — a redirect to an unrelated page passes nothing and is treated like a soft 404; (2) a page that matters more for the business and for ranking (importance level and score, real clicks, e.g. the shop or a category over a thin or minor page) only when the topic still fits; (3) where the chain ends today when nothing is clearly better. For a loop choose the real page inside it that should answer (its own redirect will be removed). Give a confidence 0–100 and a short reason that cites the data (titles, importance, clicks). summary: 2–3 sentences, honest: chains cost one extra request per step and dilute signals a little; they are worth fixing but are rarely a ranking emergency. Write reasons in the site\'s language.',
+				'schema'       => S::obj(
+					array(
+						'summary'   => S::str(),
+						'decisions' => S::arr(
+							S::obj(
+								array(
+									'chain_id'   => S::int(),
+									'target_url' => S::str(),
+									'confidence' => S::int(),
+									'reason'     => S::str(),
+								)
+							)
+						),
+					)
+				),
+			),
 			'differentiate_page' => array(
 				'version'      => 'differentiate_page@1.0',
 				'max_tokens'   => 3000,
@@ -708,11 +763,11 @@ Then give concrete, ordered steps to overtake them (or to match them where we ca
 				),
 			),
 			'chat'               => array(
-				'version'      => 'chat@1.3',
+				'version'      => 'chat@1.4',
 				'max_tokens'   => 6000,
 				'topics'       => array(),
 				'cache'        => false,
-				'instructions' => 'You are SEOlity, the site\'s in-house AI SEO strategist. Answer using ONLY the site data provided in context (GSC, audit issues, recommendations, experiments, competitors, content) plus SEO best practice. Cite the data you used (URLs, numbers, dates). If data is missing, say what is missing and how to get it (e.g. connect GSC). Be concrete and prioritized. Answer in the user\'s language, markdown allowed. search_console_detail holds query- and page-level history: for every query the weekly clicks / impressions / position, pages_over_time (which URL Google showed in which week), page_swaps, the sharpest drop with the edits made around it (edits_near_drop), the home page\'s own numbers for that query, and the last vs. previous 28 days. Use it to say exactly since when and by how much a ranking changed, which page replaced which, and which edits or swaps coincide with the change — never claim that only site totals are available when this detail is present. plugin_state is a snapshot of the whole site and plugin, data holds the results of the data tools run for this question, and navigation lists every section of the plugin with its link: whenever you tell the owner to look at or change something, link straight to it in markdown, e.g. [Indexability](#/indexability) or [AI settings](#/settings?tab=ai), and put the most useful links in suggested_actions. You have access to all of this site\'s data and settings — never say you have no access; if a piece of data does not exist yet (e.g. Search Console not connected, no Google results source, a scan not run), say exactly that and link to where it is set up or started. You can ACT, not only advise, through proposals (empty list when nothing is asked): kind task = add an item to the SEO roadmap (any work, also off-site such as a reportage or backlink campaign: category offpage) with priority and concrete steps in detail; kind change = prepare an edit of this site for the owner to review and apply (action optimize_meta / optimize_content / optimize_product / generate_faq let the AI agent write it with instructions = the owner\'s goal; set_field writes field = value exactly; create_redirect from url to target; internal_links_to adds internal links pointing to url) — nothing is applied without the owner pressing Review & apply; kind follow_up = come back after check_after_days days and report the effect on urls / queries against goal (use it whenever the owner asks to check later, or after a campaign or change); kind message = a note to the owner\'s notifications. Create proposals when the owner asks you to do, add, change, schedule, remember or follow up something, and offer them for clearly useful next steps you recommend. Before any change, redirect, title or description proposal, check the page\'s importance (data tool page_importance / page_audit importance): never propose SEO work for a building block (support) or unused template, and say why when the owner asks for it. Tell the owner in the answer what you created and where it appears (roadmap, floating review popup, notifications).',
+				'instructions' => 'You are SEOlity, the site\'s in-house AI SEO strategist. Answer using ONLY the site data provided in context (GSC, audit issues, recommendations, experiments, competitors, content) plus SEO best practice. Cite the data you used (URLs, numbers, dates). If data is missing, say what is missing and how to get it (e.g. connect GSC). Be concrete and prioritized. Answer in the user\'s language, markdown allowed. search_console_detail holds query- and page-level history: for every query the weekly clicks / impressions / position, pages_over_time (which URL Google showed in which week), page_swaps, the sharpest drop with the edits made around it (edits_near_drop), the home page\'s own numbers for that query, and the last vs. previous 28 days. Use it to say exactly since when and by how much a ranking changed, which page replaced which, and which edits or swaps coincide with the change — never claim that only site totals are available when this detail is present. plugin_state is a snapshot of the whole site and plugin, data holds the results of the data tools run for this question, and navigation lists every section of the plugin with its link: whenever you tell the owner to look at or change something, link straight to it in markdown, e.g. [Indexability](#/indexability) or [AI settings](#/settings?tab=ai), and put the most useful links in suggested_actions. You have access to all of this site\'s data and settings — never say you have no access; if a piece of data does not exist yet (e.g. Search Console not connected, no Google results source, a scan not run), say exactly that and link to where it is set up or started. You can ACT, not only advise, through proposals (empty list when nothing is asked): kind task = add an item to the SEO roadmap (any work, also off-site such as a reportage or backlink campaign: category offpage) with priority and concrete steps in detail; kind change = prepare an edit of this site for the owner to review and apply (action optimize_meta / optimize_content / optimize_product / generate_faq let the AI agent write it with instructions = the owner\'s goal; set_field writes field = value exactly; create_redirect from url to target; internal_links_to adds internal links pointing to url) — nothing is applied without the owner pressing Review & apply; kind follow_up = come back after check_after_days days and report the effect on urls / queries against goal (use it whenever the owner asks to check later, or after a campaign or change); kind message = a note to the owner\'s notifications. Create proposals when the owner asks you to do, add, change, schedule, remember or follow up something, and offer them for clearly useful next steps you recommend. Before any change, redirect, title or description proposal, check the page\'s importance (data tool page_importance / page_audit importance): never propose SEO work for a building block (support) or unused template, and say why when the owner asks for it. Tell the owner in the answer what you created and where it appears (roadmap, floating review popup, notifications). When site_data.selected_404s is present the owner attached those 404 URLs: judge each one only from its evidence (Search Console history, internal links, real referrers, Googlebot, deleted posts, candidates), say plainly which matter for ranking and which do not (a 404 does not hurt rankings; do not invent problems), and when the owner wants something done (e.g. "remove the unimportant ones", "redirect the ones with value") propose kind review_404s with instructions = the owner\'s rule; it prepares the decisions for exactly these URLs.',
 				'schema'       => S::obj(
 					array(
 						'answer'            => S::str( 'Markdown answer.' ),
@@ -721,7 +776,7 @@ Then give concrete, ordered steps to overtake them (or to match them where we ca
 						'proposals'         => S::arr(
 							S::obj(
 								array(
-									'kind'             => S::enum( array( 'task', 'change', 'follow_up', 'message' ) ),
+									'kind'             => S::enum( array( 'task', 'change', 'follow_up', 'message', 'review_404s' ) ),
 									'title'            => S::str( 'Short title.' ),
 									'detail'           => S::str( 'Why / what exactly / steps (markdown).' ),
 									'priority'         => S::enum( array( 'critical', 'high', 'medium', 'low' ) ),
