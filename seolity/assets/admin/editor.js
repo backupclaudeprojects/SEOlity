@@ -89,7 +89,75 @@
 		var el = d.getElementById( 'seolity_focus_keyword' );
 		return el ? el.value.split( ',' )[ 0 ].trim() : '';
 	}
+	/**
+	 * A category / tag description. Depending on the SEO plugin it is the plain #description
+	 * textarea, a rich editor whose textarea is also named "description" (Rank Math's option), or
+	 * #tag-description on the add screen. Every copy is written so the one that is submitted
+	 * always carries the new text.
+	 */
+	function termDescriptionAdapter() {
+		function areas() {
+			var list = Array.prototype.slice.call( d.querySelectorAll( 'textarea[name="description"], #tag-description' ) );
+			return list.filter( function ( ta, i ) {
+				return list.indexOf( ta ) === i;
+			} );
+		}
+		function visible( ta ) {
+			var ed = ta.id && w.tinymce && w.tinymce.get( ta.id );
+			if ( ed && ! ed.isHidden() ) {
+				return true;
+			}
+			return !! ( ta.offsetWidth || ta.offsetHeight || ta.getClientRects().length );
+		}
+		return {
+			label: t( 'Description' ),
+			get: function () {
+				var list = areas();
+				var best = list.filter( visible )[ 0 ] || list[ 0 ];
+				if ( ! best ) {
+					return '';
+				}
+				var ed = best.id && w.tinymce && w.tinymce.get( best.id );
+				return ed && ! ed.isHidden() ? ed.getContent() : best.value;
+			},
+			set: function ( html ) {
+				areas().forEach( function ( ta ) {
+					var ed = ta.id && w.tinymce && w.tinymce.get( ta.id );
+					if ( ed ) {
+						ed.setContent( html );
+						ed.save();
+						ed.fire( 'change' );
+					}
+					ta.value = html;
+					ta.dispatchEvent( new Event( 'input', { bubbles: true } ) );
+					ta.dispatchEvent( new Event( 'change', { bubbles: true } ) );
+				} );
+			},
+			count: function () {
+				return areas().length;
+			},
+		};
+	}
+	SL.termDescriptionAdapter = termDescriptionAdapter;
+
+	/** The page title / H1 field on this screen (post title or category name). */
+	function titleAdapter() {
+		if ( ctx.object_type === 'term' ) {
+			var n = d.querySelector( '#edittag input[name="name"], input#name' );
+			return n ? Editors.element( n ) : null;
+		}
+		return contentAdapter( 'post_title' );
+	}
+	SL.titleAdapter = titleAdapter;
+
 	function contentAdapter( field ) {
+		if ( field === 'term_description' || ( ctx.object_type === 'term' && ( ! field || field === 'post_content' || field === 'custom' ) ) ) {
+			return termDescriptionAdapter();
+		}
+		if ( field === 'user_description' ) {
+			var bio = d.getElementById( 'description' );
+			return bio ? Editors.element( bio ) : null;
+		}
 		if ( field === 'post_excerpt' ) {
 			if ( d.getElementById( 'excerpt' ) ) {
 				return Editors.classic( 'excerpt' );
@@ -144,7 +212,12 @@
 			var target = btn.getAttribute( 'data-target' );
 			var editorId = btn.getAttribute( 'data-editor' );
 			var adapter;
-			if ( target ) {
+			var editorEl = editorId ? d.getElementById( editorId ) : null;
+			if ( ctx.object_type === 'term' && ( field === 'term_description' || ( editorEl && editorEl.name === 'description' ) || ( ! editorId && ! target ) ) ) {
+				// A category description (plain or rich editor): always the real description field.
+				field = 'term_description';
+				adapter = termDescriptionAdapter();
+			} else if ( target ) {
 				var el = d.querySelector( target );
 				adapter = el && w.tinymce && w.tinymce.get( el.id ) ? Editors.classic( el.id ) : el ? Editors.element( el ) : null;
 			} else if ( editorId ) {
@@ -152,7 +225,7 @@
 			} else {
 				adapter = contentAdapter( field );
 			}
-			if ( btn._seolityAdapter ) {
+			if ( btn._seolityAdapter && field !== 'term_description' ) {
 				adapter = btn._seolityAdapter;
 			}
 			if ( adapter ) {
@@ -288,6 +361,14 @@
 	SL.resolveEditor = function ( params ) {
 		if ( ! params || ! ctx.object_id || Number( params.object_id || params.id ) !== Number( ctx.object_id ) ) {
 			return null;
+		}
+		// Post 402 and category 402 are different items: only the same kind of screen may take the result.
+		if ( params.object_type && ( params.object_type === 'term' ) !== ( ctx.object_type === 'term' ) ) {
+			return null;
+		}
+		if ( ctx.object_type === 'term' ) {
+			var td = termDescriptionAdapter();
+			return td.count() ? td : null;
 		}
 		if ( params.field === 'custom' ) {
 			return SL.elementorAdapter ? SL.elementorAdapter( params.element_id ) : null;

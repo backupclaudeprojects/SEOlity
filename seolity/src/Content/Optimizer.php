@@ -36,15 +36,17 @@ final class Optimizer {
 	 * @return array|\WP_Error
 	 */
 	public function optimize( array $p ) {
-		$type    = sanitize_key( $p['object_type'] );
-		$id      = (int) $p['object_id'];
-		$field   = sanitize_key( $p['field'] );
-		$ctx     = $id ? Objects::context( $this->plugin, $type, $id ) : null;
+		$type  = sanitize_key( $p['object_type'] );
+		$id    = (int) $p['object_id'];
+		$field = self::normalize_field( $type, sanitize_key( $p['field'] ) );
+		$ctx   = $id ? Objects::context( $this->plugin, $type, $id ) : null;
 		$content = isset( $p['content'] ) ? (string) $p['content'] : ( $ctx ? (string) $ctx['content'] : '' );
-		if ( '' === trim( wp_strip_all_tags( $content ) ) && empty( $p['generate'] ) ) {
+		$title   = isset( $p['title'] ) && '' !== $p['title'] ? (string) $p['title'] : ( $ctx ? $ctx['title'] : '' );
+		// An empty category / page description is written from scratch (the usual case for categories).
+		$empty = '' === trim( wp_strip_all_tags( $content ) ) || trim( wp_strip_all_tags( $content ) ) === trim( wp_strip_all_tags( $title ) );
+		if ( $empty && empty( $p['generate'] ) && ! $id && '' === trim( $title ) ) {
 			return new \WP_Error( 'seolity_empty', __( 'There is no content to optimize yet. Write a draft or use "Generate".', 'seolity' ), array( 'status' => 400 ) );
 		}
-		$title   = isset( $p['title'] ) && '' !== $p['title'] ? (string) $p['title'] : ( $ctx ? $ctx['title'] : '' );
 		$keyword = isset( $p['focus_keyword'] ) && '' !== $p['focus_keyword'] ? (string) $p['focus_keyword'] : ( $ctx ? (string) $ctx['focus_keyword'] : '' );
 		$queries = array();
 		if ( $ctx && ! empty( $ctx['url'] ) && $this->plugin->gsc_oauth->is_connected() ) {
@@ -60,7 +62,11 @@ final class Optimizer {
 			'object_type'        => $object_kind,
 			'title'              => $title,
 			'focus_keyword'      => $keyword,
-			'goal'               => isset( $p['goal'] ) ? sanitize_text_field( $p['goal'] ) : 'improve rankings and usefulness',
+			'goal'               => isset( $p['goal'] ) && '' !== trim( (string) $p['goal'] ) ? sanitize_text_field( $p['goal'] ) : 'position 1 on Google for the main search intent of this page',
+			'default_instructions' => self::default_instruction( $this->plugin ),
+			'owner_instructions' => isset( $p['instructions'] ) ? mb_substr( sanitize_textarea_field( (string) $p['instructions'] ), 0, 3000 ) : '',
+			'write_from_scratch' => $empty,
+			'current_title'      => $title,
 			'current_meta_title' => $ctx ? (string) $ctx['meta_title'] : '',
 			'current_meta_description' => $ctx ? (string) $ctx['meta_description'] : '',
 			'url'                => $ctx ? (string) $ctx['url'] : '',
@@ -117,7 +123,13 @@ final class Optimizer {
 				$changes['content'] = $cid;
 			}
 			if ( in_array( $type, array( 'post', 'term' ), true ) && in_array( $field, array( 'post_content', 'term_description' ), true ) ) {
-				foreach ( array( 'meta_title' => 'suggested_title', 'meta_description' => 'suggested_meta_description', 'focus_keyword' => 'focus_keyword' ) as $meta_field => $key ) {
+				// The whole page: SEO title, meta description, focus keyword (written to Rank Math / Yoast / …)
+				// and, only when the AI found a clearly better one, the page title (H1).
+				$h1_field = 'term' === $type ? 'term_name' : 'post_title';
+				if ( isset( $ai['suggested_h1'] ) && ( '' === trim( (string) $ai['suggested_h1'] ) || trim( (string) $ai['suggested_h1'] ) === trim( (string) $title ) ) ) {
+					$ai['suggested_h1'] = '';
+				}
+				foreach ( array( 'meta_title' => 'suggested_title', 'meta_description' => 'suggested_meta_description', 'focus_keyword' => 'focus_keyword', $h1_field => 'suggested_h1' ) as $meta_field => $key ) {
 					if ( ! empty( $ai[ $key ] ) ) {
 						$mid = $this->plugin->changes->propose(
 							array(
@@ -150,6 +162,31 @@ final class Optimizer {
 			'meta'      => $res['meta'],
 			'queries'   => array_slice( $queries, 0, 10 ),
 		);
+	}
+
+	/**
+	 * The field a content edit really belongs to: a category's text is its description, never
+	 * "post_content" (the classic-editor button on a category page used to send that).
+	 */
+	public static function normalize_field( $type, $field ) {
+		if ( 'term' === $type && in_array( $field, array( '', 'post_content', 'custom', 'description' ), true ) ) {
+			return 'term_description';
+		}
+		if ( 'user' === $type && in_array( $field, array( '', 'post_content', 'custom', 'description' ), true ) ) {
+			return 'user_description';
+		}
+		return '' === $field ? 'post_content' : $field;
+	}
+
+	/** Built-in default instruction of "Optimize with SEOlity AI" (used when the setting is empty). */
+	public static function builtin_instruction() {
+		return __( 'Optimize the whole page for position 1 on Google for its main search intent, from top to bottom: an opening that answers the searcher at once, a clear H2/H3 structure, every question and sub-topic a complete answer covers, natural use of the focus keyword and related terms, useful lists or tables, internal links where they help and a clear next step for the reader. Use the real Search Console queries of the page. Then write the SEO title, the meta description and the focus keyword for the SEO plugin. Keep every fact, price and link; never invent anything.', 'seolity' );
+	}
+
+	/** The default instruction in effect (Settings → AI, or the built-in one). */
+	public static function default_instruction( Plugin $plugin ) {
+		$own = trim( (string) $plugin->settings->get( 'ai_optimize_prompt' ) );
+		return '' !== $own ? $own : self::builtin_instruction();
 	}
 
 	/** Local-only analysis (no AI cost), also used by the editor sidebar live score. */

@@ -74,11 +74,11 @@ final class Tasks {
 	private static function define() {
 		return array(
 			'optimize_content'   => array(
-				'version'      => 'optimize_content@1.3',
+				'version'      => 'optimize_content@1.4',
 				'max_tokens'   => 12000,
 				'topics'       => array( 'content', 'on-page', 'eeat', 'semantic' ),
 				'cache'        => false,
-				'instructions' => 'Rewrite and optimize the provided content for the given field and object type. Preserve every factual claim, product spec, price, brand name, link (href) and shortcode exactly; never invent facts, statistics, reviews, certifications or guarantees. Improve: search-intent match, clarity, structure (H2/H3, lists, tables when useful), topical completeness (semantic terms, entities, sub-questions), natural keyword placement (title-like opening, intro, one subheading) and a helpful CTA when appropriate. Keep HTML clean (p, h2, h3, ul, ol, li, strong, em, table, a). Do not output H1 inside body content. Keep length appropriate for the field (short descriptions stay short). Write in the content language.',
+				'instructions' => 'Rewrite and optimize the provided content for the given field and object type. Preserve every factual claim, product spec, price, brand name, link (href) and shortcode exactly; never invent facts, statistics, reviews, certifications or guarantees. Improve: search-intent match, clarity, structure (H2/H3, lists, tables when useful), topical completeness (semantic terms, entities, sub-questions), natural keyword placement (title-like opening, intro, one subheading) and a helpful CTA when appropriate. Keep HTML clean (p, h2, h3, ul, ol, li, strong, em, table, a). Do not output H1 inside body content. Keep length appropriate for the field (short descriptions stay short). Write in the content language. Follow default_instructions, then owner_instructions (the site owner\'s request for this page; it wins over default_instructions and style defaults, never over the factual rules above). When write_from_scratch is true the field is empty (or holds only the title): write it from scratch for this page (object type, title, URL, the real queries) — for a category or product category: an intro that answers what a searcher wants, what is in the category and how to choose, without inventing products, prices or claims. Always fill suggested_title, suggested_meta_description and focus_keyword (the main query the page should rank #1 for, as people really search it). suggested_h1: a better page title / H1 only when current_title is clearly weak for the intent; otherwise an empty string.',
 				'schema'       => S::obj(
 					array(
 						'optimized_content'  => S::str( 'Optimized HTML for the field.' ),
@@ -91,6 +91,7 @@ final class Tasks {
 						'search_intent'      => S::enum( array( 'informational', 'commercial', 'transactional', 'navigational' ) ),
 						'suggested_title'    => S::str( 'SEO title ≤ 60 chars.' ),
 						'suggested_meta_description' => S::str( 'Meta description 120-158 chars.' ),
+						'suggested_h1'       => S::str( 'Better page title / H1, or an empty string when the current one is fine.' ),
 						'information_gain'   => S::strings( 'Unique, helpful additions beyond typical competitor content.' ),
 						'warnings'           => S::strings( 'Anything the editor must verify (facts, claims).' ),
 					)

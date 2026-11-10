@@ -547,6 +547,9 @@ Upgrade: settings `sub_cli_*` and the saved secrets are reused unchanged; new se
 ### 15f. Login copies on GitHub (1.17.1)
 A subscription login lives in up to three places: the plugin settings (encrypted), the runner repository secret and the knowledge repository secret. `SubscriptionRunner::sync_secret( $key, $fresh_login )` writes every copy (the knowledge repository only when it is the site's own, not the shared one, and exists). With `$fresh_login` it cancels queued/running runs of `seolity-ai.yml` (`GitHubClient::cancel_run`), because a GitHub run keeps the secrets it started with; cancelled run ids are remembered so `warm_run()` never routes a job to them, and the dispatch throttle is reset. `GitHubHub::collect_knowledge()` always rewrites the saved login before dispatching.
 
+### 15g. Whole-page optimize (1.18)
+`Optimizer::optimize()` normalizes the field (`normalize_field`: a term's text is `term_description`), sends `default_instructions` (setting `ai_optimize_prompt`, else `Optimizer::builtin_instruction()`), `owner_instructions` (the window's box) and `write_from_scratch` to `optimize_content@1.4`, and proposes content + `meta_title` + `meta_description` + `focus_keyword` + (when the AI suggests one) `post_title` / `term_name`. In the editor (`assets/admin/editor.js`): `termDescriptionAdapter()` reads the visible description editor and writes every `textarea[name=description]`; `SL.resolveEditor` only hands a result to the same kind of screen; `SL.titleAdapter()` fills the H1 field. `SL.optimizerResult` applies meta via the API and mirrors it into the SEO plugin's on-screen fields with `SL.seoSync` (works without `wp.data`), keeping Rank Math secondary keywords (`SL.withPrimaryKeyword`).
+
 ## 16. Compatibility
 
 * **WooCommerce**: product SEO (title, descriptions, short description, attributes, images, schema,

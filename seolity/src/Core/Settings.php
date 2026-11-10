@@ -120,6 +120,7 @@ final class Settings {
 			// How the AI talks to the owner (chat, diagnoses, notifications) — not the tone of site content.
 			'ai_tone'              => array( 'enum', 'teacher', array( 'teacher', 'friendly', 'professional', 'expert' ) ),
 			'ai_brand_voice'       => array( 'text', '' ),
+			'ai_optimize_prompt'   => array( 'text', '' ),
 			'ai_use_knowledge'     => array( 'bool', true ),
 			'ai_media_on_upload'   => array( 'bool', false ),
 			// Google Search Console.

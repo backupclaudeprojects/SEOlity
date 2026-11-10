@@ -104,7 +104,7 @@ final class EditorIntegration {
 
 	private function config( array $extra = array() ) {
 		$admin = new Admin( $this->plugin );
-		return array_merge( $admin->js_config( 'editor' ), array( 'engine' => $this->plugin->meta->engine(), 'aiReady' => $this->plugin->ai->is_ready() ), $extra );
+		return array_merge( $admin->js_config( 'editor' ), array( 'engine' => $this->plugin->meta->engine(), 'aiReady' => $this->plugin->ai->is_ready(), 'optimizeDefault' => \SEOlity\Content\Optimizer::default_instruction( $this->plugin ) ), $extra );
 	}
 
 	private function enqueue_core( array $extra = array() ) {

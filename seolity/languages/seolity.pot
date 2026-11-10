@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEOlity 1.0.0\n"
-"POT-Creation-Date: 2026-11-10 09:09+0000\n"
+"POT-Creation-Date: 2026-11-10 09:29+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2332,6 +2332,9 @@ msgid "Term not found."
 msgstr ""
 
 msgid "There is no content to optimize yet. Write a draft or use \"Generate\"."
+msgstr ""
+
+msgid "Optimize the whole page for position 1 on Google for its main search intent, from top to bottom: an opening that answers the searcher at once, a clear H2/H3 structure, every question and sub-topic a complete answer covers, natural use of the focus keyword and related terms, useful lists or tables, internal links where they help and a clear next step for the reader. Use the real Search Console queries of the page. Then write the SEO title, the meta description and the focus keyword for the SEO plugin. Keep every fact, price and link; never invent anything."
 msgstr ""
 
 msgid "Unknown bulk task."
@@ -5956,6 +5959,9 @@ msgid "Apply all"
 msgstr ""
 
 msgid "All changes applied."
+msgstr ""
+
+msgid "Description"
 msgstr ""
 
 msgid "Save the item first."
@@ -10499,13 +10505,22 @@ msgstr ""
 msgid "Focus keyword (optional — SEOlity can pick it from Search Console)"
 msgstr ""
 
-msgid "Goal (optional), e.g. rank for “buy espresso machine”, improve conversions…"
+msgid "Your instruction for this page (optional, added to the default instruction), e.g. write a complete intro for this category, mention fast delivery in Tehran, add an FAQ…"
 msgstr ""
 
-msgid "Analyze & optimize"
+msgid "Optimize the whole page"
 msgstr ""
 
-msgid "SEOlity analyzes your text, the real queries you rank for and SEO best practices, then proposes an improved version. Nothing changes until you apply it."
+msgid "Default instruction (always used)"
+msgstr ""
+
+msgid "Change it in SEOlity → Settings → AI."
+msgstr ""
+
+msgid "SEOlity rewrites the whole page from top to bottom (or writes it when it is empty) and also writes the SEO title, the meta description and the focus keyword for your SEO plugin — from the real search queries, the SEO knowledge base and your instruction. Nothing changes until you review and apply it."
+msgstr ""
+
+msgid "Your instruction"
 msgstr ""
 
 msgid "Selected text"
@@ -10529,7 +10544,10 @@ msgstr ""
 msgid "Please review:"
 msgstr ""
 
-msgid "Also suggested"
+msgid "Page title (H1)"
+msgstr ""
+
+msgid "Also update on this page"
 msgstr ""
 
 msgid "AI Suggested"
@@ -10553,6 +10571,9 @@ msgstr ""
 msgid "Applied. Undo anytime from version history."
 msgstr ""
 
+msgid "Everything is on the page. Press Update / Save to keep it."
+msgstr ""
+
 msgid "Applied to the editor — save the page to keep it"
 msgstr ""
 
@@ -10562,13 +10583,16 @@ msgstr ""
 msgid "Copied. Open the page in its editor — the card there inserts the text with one click."
 msgstr ""
 
-msgid "Apply to editor"
+msgid "Apply to the page"
 msgstr ""
 
 msgid "Apply changes"
 msgstr ""
 
 msgid "Copy & open the editor"
+msgstr ""
+
+msgid "Then press Update / Save on the page."
 msgstr ""
 
 msgid "SEOlity tasks"
@@ -10906,6 +10930,9 @@ msgid "Daily Google URL Inspection (pages per day, 0 = off)"
 msgstr ""
 
 msgid "Brand voice & editorial rules"
+msgstr ""
+
+msgid "Default instruction for “Optimize with SEOlity AI” (empty = built-in)"
 msgstr ""
 
 msgid "Use the SEO knowledge base in prompts"

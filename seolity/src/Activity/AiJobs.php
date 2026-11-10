@@ -140,6 +140,7 @@ final class AiJobs {
 						'title'         => isset( $p['title'] ) ? (string) $p['title'] : '',
 						'focus_keyword' => isset( $p['focus_keyword'] ) ? (string) $p['focus_keyword'] : '',
 						'goal'          => isset( $p['goal'] ) ? (string) $p['goal'] : '',
+						'instructions'  => isset( $p['instructions'] ) ? (string) $p['instructions'] : '',
 					)
 				);
 			} elseif ( 'meta' === $type ) {
