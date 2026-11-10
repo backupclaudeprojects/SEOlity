@@ -4,7 +4,7 @@ Tags: seo, ai, search console, woocommerce, schema
 Requires at least: 6.2
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.19.1
+Stable tag: 1.19.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,9 @@ Yes. The interface is fully translated and RTL-native, text analysis understands
 Enable "Delete all data on uninstall" in Settings → Privacy, then delete the plugin.
 
 == Changelog ==
+
+= 1.19.2 =
+* Fix: the "your browser" bookmark said "no results found" on current Google result pages. Version 2 of the bookmark reads result titles in the classic and the newer layouts and falls back to the result links; ads, Google's own links and the page header are skipped; a CAPTCHA page or a page without a search gets a clear message. Delete the old bookmark and drag the new one (v2) again.
 
 = 1.19.1 =
 * Fix: Google results sent with the free "your browser" bookmark were saved for the competitor pages only; "Road to #1" and its AI plan now read them too (the newest of the results API cache and the stored results). The bookmark button is also on the "Road to #1" page, and an import of the focused search returns there. Live checks are kept in the results history.
