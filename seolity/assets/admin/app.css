@@ -963,3 +963,27 @@ button.sl-segcard { cursor: pointer; }
 @media (max-width: 640px) { .sl-r1__pos { gap: 6px; } .sl-r1__pos > div { min-width: 56px; padding: 6px; } .sl-r1__step { flex-direction: column; } }
 .sl-r1__bm { margin: 8px 0; }
 .sl-r1__bm summary { cursor: pointer; font-weight: 600; font-size: 13px; }
+
+/* 404: decisions waiting for approval (1.20) */
+.sl-404-pending { border: 2px solid color-mix(in srgb, var(--sl-warn) 35%, var(--sl-border)); }
+.sl-404-pending__row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--sl-line); flex-wrap: wrap; }
+.sl-404-pending__op:not(:empty) { padding: 8px 0 14px; }
+
+/* Site rules (1.20) */
+.sl-rules__form .sl-seg { margin: 6px 0 12px; }
+.sl-rules__picker { position: relative; }
+.sl-rules__opts:not(:empty) { border: 1px solid var(--sl-border); border-radius: var(--sl-radius-sm); margin-top: 4px; max-height: 240px; overflow: auto; background: var(--sl-surface); }
+.sl-rules__opts .sl-option { display: block; width: 100%; text-align: start; padding: 8px 12px; border: 0; background: none; cursor: pointer; font: inherit; }
+.sl-rules__opts .sl-option:hover, .sl-rules__opts .sl-option:focus { background: var(--sl-brand-50); }
+.sl-rules__sug { padding: 12px 0; border-top: 1px solid var(--sl-line); display: grid; gap: 8px; }
+.sl-rules__sughead { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.sl-rules__pages { display: grid; gap: 4px; }
+.sl-rules__h { margin: 18px 0 8px; }
+.sl-rules__rule { display: flex; justify-content: space-between; gap: 14px; align-items: flex-start; padding: 14px 16px; margin-bottom: 10px; border: 1px solid var(--sl-border); border-inline-start: 5px solid var(--sl-brand); border-radius: var(--sl-radius); background: var(--sl-surface); box-shadow: var(--sl-shadow); }
+.sl-rules__rule.is-off { opacity: .6; border-inline-start-color: var(--sl-faint); }
+.sl-rules__main p { margin: 6px 0 0; line-height: 1.8; }
+.sl-rules__acts { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+@media (max-width: 640px) { .sl-rules__rule { flex-direction: column; } }
+.sl-r1__state { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding: 8px 10px; border-radius: var(--sl-radius-sm); background: var(--sl-surface-2); }
+.sl-r1__redo { display: grid; gap: 6px; }
+.sl-r1__rule { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 10px 0 0; padding: 8px 12px; border-radius: var(--sl-radius-sm); background: var(--sl-brand-50); font-size: 13.5px; }

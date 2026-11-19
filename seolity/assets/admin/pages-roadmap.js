@@ -479,7 +479,7 @@
 		var row = h( 'div', { class: 'sl-card sl-rm-item is-' + it.status } );
 		row.appendChild( h( 'div', { class: 'sl-row' }, doneBadge( it ), it.priority ? SL.badge( PRIO[ it.priority ] || it.priority, PRIO_CLS[ it.priority ] || '' ) : null, h( 'b', { dir: 'auto', class: 'sl-rm-item__title', text: it.title } ) ) );
 		if ( it.url ) {
-			row.appendChild( h( 'a', { href: it.url, target: '_blank', rel: 'noopener', dir: 'ltr', class: 'sl-small', text: decodeURI( it.url ) } ) );
+			row.appendChild( h( 'a', { href: it.url, target: '_blank', rel: 'noopener', dir: 'ltr', class: 'sl-small', text: SL.dec( it.url ) } ) );
 		}
 		if ( it.reason ) {
 			row.appendChild( h( 'p', { class: 'sl-small' }, h( 'b', { text: t( 'AI recommendation:' ) + ' ' } ), h( 'span', { dir: 'auto', text: it.reason } ) ) );

@@ -1,0 +1,60 @@
+Site rules	قوانین سایت
+AI optimize	بهینه‌سازی AI
+No usable redirect pairs (an old address and a live target page are needed).	جفت ریدایرکت قابل‌استفاده‌ای نبود (یک آدرس قدیمی و یک صفحه مقصد زنده لازم است).
+Checking redirects from the chat	بررسی ریدایرکت‌های چت
+%d redirects are being checked; they wait in the 404 monitor under “Decisions waiting for your approval”. Nothing changes until you approve.	%d ریدایرکت در حال بررسی است؛ در پایشگر ۴۰۴ زیر «تصمیم‌های منتظر تأیید شما» منتظر می‌مانند. تا تأیید نکنید چیزی عوض نمی‌شود.
+Saved as a site rule — every AI part of SEOlity now follows it. Edit or remove it on the Site rules page.	به‌عنوان قانون سایت ذخیره شد؛ از این به بعد همه بخش‌های هوش مصنوعی سئولیتی آن را رعایت می‌کنند. در صفحه «قوانین سایت» قابل ویرایش یا حذف است.
+Site rule: the search “%1$s” belongs to %2$s, so it is not set as a focus keyword here.	قانون سایت: جست‌وجوی «%1$s» مال %2$s است، پس اینجا به‌عنوان کلمه کلیدی کانونی گذاشته نمی‌شود.
+Site rule: “%1$s” belongs to %2$s — it is not set as this page’s focus keyword.	قانون سایت: «%1$s» مال %2$s است؛ به‌عنوان کلمه کلیدی کانونی این صفحه گذاشته نشد.
+A search can only be given to a page: choose the page that should rank for it.	جست‌وجو را فقط می‌شود به یک صفحه داد: صفحه‌ای را انتخاب کنید که باید برایش رتبه بگیرد.
+Write the rule, or choose a search and the page it belongs to.	قانون را بنویسید، یا یک جست‌وجو و صفحه صاحبش را انتخاب کنید.
+“%s” belongs to one page	«%s» مال یک صفحه است
+Checking every redirect on the live site…	بررسی همه ریدایرکت‌ها روی سایت زنده…
+Redirects proposed in the chat. Each one was checked: the target must be a live page, no loop may be created and the old address must really be gone.	ریدایرکت‌های پیشنهادی در چت. هرکدام بررسی شده: مقصد باید صفحه زنده باشد، حلقه ساخته نشود و آدرس قدیمی واقعاً از بین رفته باشد.
+Nothing changes until you approve. Every redirect is verified on the live site and can be undone.	تا تأیید نکنید چیزی عوض نمی‌شود. هر ریدایرکت روی سایت زنده بررسی می‌شود و قابل برگشت است.
+Prepare this step first.	اول این قدم را آماده کنید.
+AI decisions	تصمیم‌های هوش مصنوعی
+Decisions waiting for your approval	تصمیم‌های منتظر تأیید شما
+Prepared by the AI (from the review, a selection or the chat). Open one, untick what you disagree with and approve: every redirect is checked first and can be undone.	این‌ها را هوش مصنوعی آماده کرده (از بررسی، موارد انتخاب‌شده یا چت). یکی را باز کنید، تیک مواردی را که قبول ندارید بردارید و تأیید کنید؛ هر ریدایرکت اول بررسی می‌شود و قابل برگشت است.
+Being prepared…	در حال آماده‌سازی…
+Waiting for approval	منتظر تأیید
+Review & approve	بررسی و تأیید
+Site rule: this search belongs to	قانون سایت: این جست‌وجو مال این صفحه است:
+In the roadmap as a task for you	در نقشه راه به‌عنوان کار برای شما
+Ready — review and apply	آماده است؛ بررسی و اعمال کنید
+Could not be prepared	آماده نشد
+What should be different? e.g. “shorter”, “do not change the title”, “mention free delivery”.	چه چیزی فرق کند؟ مثلاً «کوتاه‌تر»، «عنوان را عوض نکن»، «ارسال رایگان را بگو».
+Prepare again	دوباره آماده کن
+Being prepared again with your instruction.	با دستور شما دوباره در حال آماده‌سازی است.
+Redo with my instruction	دوباره با دستور من
+Reject what was prepared for this step? Nothing on the site changes, and you can prepare the step again.	چیزی که برای این قدم آماده شده رد شود؟ چیزی در سایت عوض نمی‌شود و می‌توانید این قدم را دوباره آماده کنید.
+Open in the roadmap	باز کردن در نقشه راه
+Choose which page should rank	انتخاب کنید کدام صفحه رتبه بگیرد
+Search pages, posts, products, categories…	جست‌وجوی برگه‌ها، نوشته‌ها، محصولات، دسته‌ها…
+Use this address: %s	همین آدرس: %s
+Your lasting decisions about the site. Every AI part of SEOlity follows them — the chat, the roadmap, Road to #1, page optimization and focus keywords — and nothing that breaks a rule is proposed or applied.	تصمیم‌های ماندگار شما درباره سایت. همه بخش‌های هوش مصنوعی سئولیتی (چت، نقشه راه، مسیر رتبه ۱، بهینه‌سازی صفحه و کلمات کلیدی کانونی) آن‌ها را رعایت می‌کنند و هیچ پیشنهادی که قانونی را بشکند داده یا اعمال نمی‌شود.
+Rule saved — SEOlity follows it from now on.	قانون ذخیره شد؛ سئولیتی از این به بعد آن را رعایت می‌کند.
+The search, e.g. خرید کیمچی	جست‌وجو، مثلاً خرید کیمچی
+Optional note for the AI (why, exceptions…)	توضیح اختیاری برای هوش مصنوعی (چرا، استثناها…)
+The rule in your own words, e.g. “never redirect products to the home page”, “prices are always in Toman”.	قانون را با زبان خودتان بنویسید؛ مثلاً «هیچ‌وقت محصولات را به صفحه اصلی ریدایرکت نکن»، «قیمت‌ها همیشه به تومان است».
+The page that should rank for it…	صفحه‌ای که باید برایش رتبه بگیرد…
+Page that owns it	صفحه صاحب آن
+Pages that must stop competing for it (optional)	صفحه‌هایی که نباید برایش رقابت کنند (اختیاری)
+Add a page that must not target this search…	افزودن صفحه‌ای که نباید روی این جست‌وجو باشد…
+A search belongs to one page	یک جست‌وجو مال یک صفحه
+General rule	قانون کلی
+Add a rule	افزودن قانون
+Write the search and choose the page that owns it.	جست‌وجو را بنویسید و صفحه صاحبش را انتخاب کنید.
+Write the rule first.	اول قانون را بنویسید.
+Searches where your own pages compete	جست‌وجوهایی که صفحه‌های خودتان با هم رقابت می‌کنند
+Google splits these searches between two or more of your pages (Search Console, last 28 days), so none of them gets the full strength. Choose the page that should rank; the others will stop competing and link to it instead.	گوگل این جست‌وجوها را بین دو یا چند صفحه شما تقسیم کرده (سرچ کنسول، ۲۸ روز اخیر)، پس هیچ‌کدام قدرت کامل نمی‌گیرد. صفحه‌ای را که باید رتبه بگیرد انتخاب کنید؛ بقیه دیگر رقابت نمی‌کنند و به جایش به آن لینک می‌دهند.
+%s impressions	%s نمایش
+%1$s impressions · position %2$s	%1$s نمایش · جایگاه %2$s
+This page should rank	این صفحه رتبه بگیرد
+Add your first rule above, or tell the AI in the chat, e.g. “from now on «خرید کیمچی» belongs to the kimchi category page”.	اولین قانون را بالا اضافه کنید، یا در چت به هوش مصنوعی بگویید؛ مثلاً «از این به بعد «خرید کیمچی» مال صفحه دسته کیمچی است».
+Rules SEOlity follows (%s)	قوانینی که سئولیتی رعایت می‌کند (%s)
+from the chat	از چت
+by you	توسط شما
+Paused	متوقف
+Must stop competing:	نباید رقابت کنند:
+Delete this rule? The AI will no longer follow it.	این قانون حذف شود؟ هوش مصنوعی دیگر آن را رعایت نمی‌کند.

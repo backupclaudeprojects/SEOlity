@@ -26,7 +26,7 @@
 	}
 
 	function link( url ) {
-		return url ? h( 'a', { href: url, target: '_blank', rel: 'noopener', dir: 'ltr', class: 'sl-small sl-clip', title: url, text: decodeURI( SL.path( url ) ) } ) : '—';
+		return url ? h( 'a', { href: url, target: '_blank', rel: 'noopener', dir: 'ltr', class: 'sl-small sl-clip', title: url, text: SL.dec( SL.path( url ) ) } ) : '—';
 	}
 
 	/** Google tracking card: budget, tracked queries, check now, suggested competitors. */

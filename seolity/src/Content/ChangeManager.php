@@ -46,6 +46,13 @@ final class ChangeManager {
 			return new \WP_Error( 'seolity_object', __( 'Object not found.', 'seolity' ) );
 		}
 		$after = (string) $c['after'];
+		if ( in_array( $field, array( 'focus_keyword', 'focus_keywords' ), true ) ) {
+			$hit = $this->plugin->site_rules->conflicts( Objects::url( $type, $id ), array_map( 'trim', explode( ',', $after ) ) );
+			if ( $hit ) {
+				/* translators: 1 query 2 page */
+				return new \WP_Error( 'seolity_rule', sprintf( __( 'Site rule: the search “%1$s” belongs to %2$s, so it is not set as a focus keyword here.', 'seolity' ), $hit[0]['query'], urldecode( SiteRules::pkey( $hit[0]['url'] ) ) ), array( 'status' => 409 ) );
+			}
+		}
 		if ( trim( $after ) === trim( $before ) ) {
 			return new \WP_Error( 'seolity_nochange', __( 'Suggested value is identical to the current value.', 'seolity' ) );
 		}

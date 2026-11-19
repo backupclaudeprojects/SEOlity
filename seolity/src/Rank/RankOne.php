@@ -147,9 +147,11 @@ final class RankOne {
 			}
 			$priority = (int) round( $gain * self::CHANCE[ $chance ] * ( 'buy' === $intent ? 1.5 : ( 'compare' === $intent ? 1.2 : 1 ) ) * ( $is_brand ? 0.3 : 1 ) );
 			$p0       = isset( $prev[ $h ] ) ? $prev[ $h ] : null;
+			$rule     = $this->plugin->site_rules->owner_of( $x['query'] );
 			$items[]  = array(
 				'query'         => $x['query'],
-				'page'          => $x['pages'][0]['url'],
+				'page'          => $rule ? $rule['url'] : $x['pages'][0]['url'],
+				'rule'          => $rule ? $rule['id'] : '',
 				'competing'     => $competing,
 				'clicks'        => $x['clicks'],
 				'impressions'   => $x['impressions'],
@@ -215,7 +217,10 @@ final class RankOne {
 		$an    = $this->plugin->gsc_analytics;
 		$end   = $an->latest_date();
 		$start = $this->window( $query, gmdate( 'Y-m-d', strtotime( "$end -27 days" ) ), $end );
-		if ( '' === $page ) {
+		$rule = $this->plugin->site_rules->owner_of( $query );
+		if ( $rule ) {
+			$page = $rule['url']; // The owner decided which page ranks for this search.
+		} elseif ( '' === $page ) {
 			$pages = $an->query_pages( $query, 28 );
 			$page  = $pages ? (string) $pages[0]['page'] : '';
 		}
@@ -228,6 +233,7 @@ final class RankOne {
 			'steps_done' => array(),
 		);
 		$this->save_state( $s );
+		$this->plugin->site_profile->flush();
 		$this->plugin->audit_log->log( 'rank1.focus', 'site', null, array( 'query' => $query ) );
 		return $this->focus_view();
 	}
@@ -293,7 +299,8 @@ final class RankOne {
 			'series'  => $this->series( $f['query'] ),
 			'news'    => $news,
 			'plan'    => $plan,
-			'steps'   => isset( $f['steps_done'] ) ? (array) $f['steps_done'] : array(),
+			'steps'   => $this->steps_view( isset( $f['steps_done'] ) ? (array) $f['steps_done'] : array() ),
+			'rule'    => $this->plugin->site_rules->owner_of( $f['query'] ),
 			'serp'    => $this->serp_view( $f['query'] ),
 			'google'  => $this->google_link( $f['query'] ),
 		);
@@ -454,6 +461,7 @@ final class RankOne {
 					'people_also_ask'  => $full && isset( $full['questions'] ) ? $full['questions'] : array(),
 				) : 'not available — judge only from Search Console and the page',
 				'owner_note'      => isset( $a['instructions'] ) ? (string) $a['instructions'] : '',
+				'site_rules'      => array_values( array_filter( array_merge( $this->plugin->site_rules->owner_of( $q ) ? array( \SEOlity\Content\SiteRules::sentence( $this->plugin->site_rules->owner_of( $q ) ) ) : array(), $page ? $this->plugin->site_rules->for_url( $page ) : array() ) ) ),
 			);
 			$act->step( $aid, __( 'AI is comparing your page with the result that ranks first…', 'seolity' ), 45 );
 			$res = $this->plugin->ai->run( 'rank1_plan', $input, array( 'knowledge_query' => $q ) );
@@ -505,9 +513,71 @@ final class RankOne {
 		$out = $this->plugin->chat_actions->apply( array( $p ) );
 		$res = $out ? $out[0] : array( 'ok' => false, 'note' => __( 'Not added.', 'seolity' ) );
 		if ( ! empty( $res['ok'] ) ) {
-			$s['focus']['steps_done'][ (int) $index ] = array( 'at' => gmdate( 'c' ), 'route' => isset( $res['route'] ) ? $res['route'] : '' );
+			$s['focus']['steps_done'][ (int) $index ] = array( 'at' => gmdate( 'c' ), 'route' => isset( $res['route'] ) ? $res['route'] : '', 'id' => isset( $res['id'] ) ? (int) $res['id'] : 0, 'kind' => isset( $res['kind'] ) ? $res['kind'] : '' );
 			$this->save_state( $s );
 		}
 		return $res;
+	}
+
+	/** Prepared steps with the live state of what was prepared (task, change being prepared, waiting, applied). */
+	private function steps_view( array $done ) {
+		$out = array();
+		foreach ( $done as $i => $d ) {
+			$d   = (array) $d;
+			$rid = isset( $d['id'] ) ? (int) $d['id'] : 0;
+			if ( $rid ) {
+				$rec            = $this->plugin->recommendations->get( $rid );
+				$op             = $this->plugin->operations->for_issue( $rid );
+				$d['issue']     = $rec ? (string) $rec['status'] : 'gone';
+				$d['op_id']     = $op ? (int) $op['id'] : 0;
+				$d['op_status'] = $op ? (string) $op['status'] : '';
+			}
+			$out[ $i ] = $d;
+		}
+		return (object) $out;
+	}
+
+	/** Reject what a step prepared and make the step available again. */
+	public function reset_step( $index ) {
+		$s = $this->state();
+		if ( ! $s['focus'] || ! isset( $s['focus']['steps_done'][ (int) $index ] ) ) {
+			return $this->focus_view();
+		}
+		$d   = (array) $s['focus']['steps_done'][ (int) $index ];
+		$rid = isset( $d['id'] ) ? (int) $d['id'] : 0;
+		if ( $rid ) {
+			$op = $this->plugin->operations->for_issue( $rid );
+			if ( $op && 'awaiting_approval' === $op['status'] ) {
+				$this->plugin->operations->reject( (int) $op['id'] );
+			}
+			$this->plugin->recommendations->set_state( $rid, 'dismissed' );
+		}
+		unset( $s['focus']['steps_done'][ (int) $index ] );
+		$this->save_state( $s );
+		return $this->focus_view();
+	}
+
+	/** Prepare a step again with the owner's short instruction. */
+	public function redo_step( $index, $instructions ) {
+		$s = $this->state();
+		if ( ! $s['focus'] || ! isset( $s['focus']['steps_done'][ (int) $index ] ) ) {
+			return new \WP_Error( 'seolity_rank1', __( 'Step not found.', 'seolity' ), array( 'status' => 404 ) );
+		}
+		$d   = (array) $s['focus']['steps_done'][ (int) $index ];
+		$rid = isset( $d['id'] ) ? (int) $d['id'] : 0;
+		$txt = sanitize_textarea_field( (string) $instructions );
+		if ( ! $rid ) {
+			return new \WP_Error( 'seolity_rank1', __( 'Prepare this step first.', 'seolity' ), array( 'status' => 400 ) );
+		}
+		$op = $this->plugin->operations->for_issue( $rid );
+		if ( $op && 'awaiting_approval' === $op['status'] ) {
+			$this->plugin->operations->reject( (int) $op['id'] );
+		}
+		if ( 'task' === ( isset( $d['kind'] ) ? $d['kind'] : '' ) ) {
+			$this->plugin->recommendations->set_state( $rid, 'open', array( 'instructions' => $txt ) );
+			return $this->focus_view();
+		}
+		$res = $this->plugin->agent->start( $rid, $txt );
+		return is_wp_error( $res ) ? $res : $this->focus_view();
 	}
 }

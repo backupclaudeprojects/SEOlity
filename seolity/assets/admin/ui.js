@@ -47,10 +47,28 @@
 			return s;
 		}
 	};
+	/**
+	 * Decode an address for display without ever throwing: broken sequences such as "%d" (real
+	 * 404 URLs contain them) stay as they are while valid ones are decoded.
+	 */
+	SL.dec = function ( s ) {
+		s = String( null === s || undefined === s ? '' : s );
+		try {
+			return decodeURI( s );
+		} catch ( e ) {
+			return s.replace( /(%[0-9a-f]{2})+/gi, function ( m ) {
+				try {
+					return decodeURIComponent( m );
+				} catch ( e2 ) {
+					return m;
+				}
+			} );
+		}
+	};
 	SL.path = function ( url ) {
 		try {
 			var u = new URL( url );
-			return decodeURIComponent( u.pathname + u.search ) || '/';
+			return SL.dec( u.pathname + u.search ) || '/';
 		} catch ( e ) {
 			return url || '';
 		}

@@ -154,6 +154,8 @@ final class Plugin {
 			'nf_triage'       => Redirects\NotFoundTriage::class,
 			'chains'          => Redirects\Chains::class,
 			'rank1'           => Rank\RankOne::class,
+			'site_rules'      => Content\SiteRules::class,
+			'site_profile'    => Content\SiteProfile::class,
 			'schema'          => Schema\SchemaService::class,
 			'images'          => Images\ImageSeo::class,
 			'links'           => Links\InternalLinker::class,

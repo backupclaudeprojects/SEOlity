@@ -222,6 +222,12 @@ final class Router {
 			return $p->agent->start( (int) $r->get_param( 'rec_id' ), null === $instr ? null : wp_unslash( (string) $instr ) );
 		} );
 		/* ---------------- Operations: preview → approve → apply → verify → rollback ---------------- */
+		$this->route( 'GET', '/operations', 'view', function ( Req $r ) use ( $p ) {
+			$csv = function ( $k ) use ( $r ) {
+				return array_filter( array_map( 'trim', explode( ',', (string) $r->get_param( $k ) ) ) );
+			};
+			return $p->operations->recent( array( 'types' => $csv( 'types' ), 'statuses' => $csv( 'statuses' ), 'limit' => self::int( $r, 'limit', 10 ) ) );
+		} );
 		$this->route( 'GET', '/operations/(?P<id>\d+)', 'view', function ( Req $r ) use ( $p ) {
 			$op = $p->operations->get( self::int( $r, 'id' ) );
 			return $op ? $op : new \WP_Error( 'seolity_op', __( 'Operation not found.', 'seolity' ), array( 'status' => 404 ) );
@@ -993,6 +999,40 @@ final class Router {
 		$this->route( 'POST', '/rank1/step', 'ai', function ( Req $r ) use ( $p ) {
 			return $p->rank1->do_step( self::int( $r, 'index' ) );
 		} );
+		$this->route( 'POST', '/rank1/step/reset', 'apply', function ( Req $r ) use ( $p ) {
+			return array( 'focus' => $p->rank1->reset_step( self::int( $r, 'index' ) ) );
+		} );
+		$this->route( 'POST', '/rank1/step/redo', 'ai', function ( Req $r ) use ( $p ) {
+			$f = $p->rank1->redo_step( self::int( $r, 'index' ), wp_unslash( (string) $r->get_param( 'instructions' ) ) );
+			return is_wp_error( $f ) ? $f : array( 'focus' => $f );
+		} );
+		/* ---------------- Site rules ---------------- */
+		$this->route( 'GET', '/site-rules', 'view', function () use ( $p ) {
+			return array( 'rules' => $p->site_rules->all(), 'suggestions' => $p->site_rules->suggestions() );
+		} );
+		$this->route( 'POST', '/site-rules', 'apply', function ( Req $r ) use ( $p ) {
+			$rule = $p->site_rules->save(
+				array(
+					'id'     => self::key( $r, 'id' ),
+					'title'  => wp_unslash( (string) $r->get_param( 'title' ) ),
+					'text'   => wp_unslash( (string) $r->get_param( 'text' ) ),
+					'query'  => wp_unslash( (string) $r->get_param( 'query' ) ),
+					'url'    => (string) $r->get_param( 'url' ),
+					'avoid'  => (array) $r->get_param( 'avoid' ),
+					'active' => null === $r->get_param( 'active' ) ? true : (bool) $r->get_param( 'active' ),
+					'source' => 'owner',
+				)
+			);
+			return is_wp_error( $rule ) ? $rule : array( 'rule' => $rule, 'rules' => $p->site_rules->all() );
+		} );
+		$this->route( 'POST', '/site-rules/(?P<id>[a-z0-9]+)/delete', 'apply', function ( Req $r ) use ( $p ) {
+			$p->site_rules->delete( self::key( $r, 'id' ) );
+			return array( 'rules' => $p->site_rules->all() );
+		} );
+		$this->route( 'POST', '/site-rules/(?P<id>[a-z0-9]+)/active', 'apply', function ( Req $r ) use ( $p ) {
+			$p->site_rules->set_active( self::key( $r, 'id' ), (bool) $r->get_param( 'active' ) );
+			return array( 'rules' => $p->site_rules->all() );
+		} );
 		$this->route( 'GET', '/redirects/chains', 'view', function () use ( $p ) {
 			return $p->chains->view();
 		} );
@@ -1041,7 +1081,8 @@ final class Router {
 			return array( 'updated' => $p->not_found->set_status_many( array_map( 'intval', (array) $r->get_param( 'ids' ) ), self::key( $r, 'status' ) ) );
 		} );
 		$this->route( 'POST', '/404/suggest', 'ai', function () use ( $p ) {
-			$p->queue->push( 'not_found_suggest', array(), array( 'unique' => true, 'priority' => 2 ) );
+			delete_transient( 'seolity_slug_index' );
+			$p->queue->push( 'not_found_suggest', array( 'again' => 1 ), array( 'unique' => true, 'priority' => 2 ) );
 			Scheduler::kick();
 			return array( 'queued' => true );
 		} );

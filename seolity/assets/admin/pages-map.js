@@ -38,7 +38,7 @@
 
 	function path( u ) {
 		try {
-			return decodeURI( new URL( u ).pathname );
+			return SL.dec( new URL( u ).pathname );
 		} catch ( e ) {
 			return u;
 		}
@@ -134,7 +134,7 @@
 	function pixelMap( box, f ) {
 		App.load( box, SL.api( 'sitemap/map/pixels' ), function ( r ) {
 			var items = r.items.filter( function ( i ) {
-				return ( ! f.status || i[ 1 ] === f.status ) && ( ! f.q || decodeURI( i[ 0 ] ).toLowerCase().indexOf( f.q.toLowerCase() ) >= 0 );
+				return ( ! f.status || i[ 1 ] === f.status ) && ( ! f.q || SL.dec( i[ 0 ] ).toLowerCase().indexOf( f.q.toLowerCase() ) >= 0 );
 			} ).sort( function ( a, b ) {
 				return a[ 0 ] < b[ 0 ] ? -1 : 1;
 			} );
@@ -188,7 +188,7 @@
 					return;
 				}
 				tip.hidden = false;
-				tip.textContent = decodeURI( it[ 0 ] ) + ' — ' + ( ST[ it[ 1 ] ] ? ST[ it[ 1 ] ][ 1 ] : it[ 1 ] ) + ( it[ 2 ] ? ' · ' + t( '%s clicks', it[ 2 ] ) : '' );
+				tip.textContent = SL.dec( it[ 0 ] ) + ' — ' + ( ST[ it[ 1 ] ] ? ST[ it[ 1 ] ][ 1 ] : it[ 1 ] ) + ( it[ 2 ] ? ' · ' + t( '%s clicks', it[ 2 ] ) : '' );
 				var rc = wrap.getBoundingClientRect();
 				tip.style.left = Math.min( rc.width - 220, e.clientX - rc.left + 12 ) + 'px';
 				tip.style.top = ( e.clientY - rc.top + 12 ) + 'px';

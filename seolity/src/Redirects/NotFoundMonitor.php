@@ -121,8 +121,9 @@ final class NotFoundMonitor {
 	}
 
 	/** Background: compute suggestions for unresolved 404s. */
-	public function suggest_pending() {
-		$rows = $this->plugin->db->rows( "SELECT * FROM {not_found} WHERE project_id = %d AND status = 'open' AND suggested_target IS NULL ORDER BY hits DESC LIMIT 25", array( $this->plugin->db->project_id() ) );
+	public function suggest_pending( $again = false ) {
+		$cond = $again ? "(suggested_target IS NULL OR suggested_target = '' OR suggestion_score < 60)" : 'suggested_target IS NULL';
+		$rows = $this->plugin->db->rows( "SELECT * FROM {not_found} WHERE project_id = %d AND status = 'open' AND $cond ORDER BY hits DESC LIMIT 60", array( $this->plugin->db->project_id() ) );
 		$ai   = 0;
 		foreach ( $rows as $r ) {
 			$cands = $this->candidates( $r['url'] );
@@ -146,27 +147,109 @@ final class NotFoundMonitor {
 		return true;
 	}
 
-	/** Candidate targets ranked by slug/title similarity. */
+	/**
+	 * Comparable form of a slug or title: decoded, Persian/Arabic letters unified, zero-width
+	 * non-joiners and punctuation removed — so "کره‌ای" = "کرهای", "؛" / "؟" / "%d" do not matter.
+	 */
+	public static function slug_key( $text ) {
+		$t = Text::normalize( rawurldecode( (string) $text ) );
+		$t = preg_replace( '/\.(html?|php|aspx?)$/u', '', $t );
+		$t = preg_replace( '/%[0-9a-f]{0,2}/iu', ' ', $t );
+		$t = str_replace( array( "\u{200C}", "\u{200D}", "\u{200F}", "\u{200E}" ), '', $t );
+		$t = preg_replace( '/[^\p{L}\p{N}]+/u', ' ', $t );
+		return trim( preg_replace( '/\s+/u', ' ', $t ) );
+	}
+
+	/** Every published page/post/product slug as a comparable key (cached for 30 minutes). */
+	private function slug_index() {
+		$idx = get_transient( 'seolity_slug_index' );
+		if ( is_array( $idx ) ) {
+			return $idx;
+		}
+		global $wpdb;
+		$types = array_values( array_diff( get_post_types( array( 'public' => true ) ), array( 'attachment', 'elementor_library' ) ) );
+		$in    = implode( ',', array_fill( 0, count( $types ), '%s' ) );
+		$rows  = $types ? $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_title FROM {$wpdb->posts} WHERE post_status = 'publish' AND post_type IN ($in) ORDER BY ID DESC LIMIT 5000", $types ), ARRAY_A ) : array(); // phpcs:ignore WordPress.DB
+		$idx   = array();
+		foreach ( (array) $rows as $r ) {
+			$idx[] = array( (int) $r['ID'], self::slug_key( $r['post_name'] ), self::slug_key( $r['post_title'] ) );
+		}
+		set_transient( 'seolity_slug_index', $idx, 30 * MINUTE_IN_SECONDS );
+		return $idx;
+	}
+
+	/** Similarity 0–100 of two keys: the better of character similarity and shared words. */
+	private static function key_score( $a, $b ) {
+		if ( '' === $a || '' === $b ) {
+			return 0;
+		}
+		if ( $a === $b ) {
+			return 100;
+		}
+		$ca = str_replace( ' ', '', $a );
+		$cb = str_replace( ' ', '', $b );
+		if ( $ca === $cb ) {
+			return 99;
+		}
+		similar_text( $ca, $cb, $pct );
+		$wa = array_unique( array_filter( explode( ' ', $a ), static function ( $w ) {
+			return mb_strlen( $w ) >= 2;
+		} ) );
+		$wb = array_unique( array_filter( explode( ' ', $b ), static function ( $w ) {
+			return mb_strlen( $w ) >= 2;
+		} ) );
+		$shared  = count( array_intersect( $wa, $wb ) );
+		$jaccard = $wa && $wb ? $shared / count( array_unique( array_merge( $wa, $wb ) ) ) * 100 : 0;
+		return (int) round( max( $pct, $jaccard ) );
+	}
+
+	/**
+	 * Candidate targets ranked by how well they match the broken address: the same address
+	 * without an old prefix (e.g. "/blog/"), the same slug written differently, similar slugs and
+	 * titles, WordPress search, and the parent section.
+	 */
 	public function candidates( $broken ) {
 		$path  = (string) wp_parse_url( $broken, PHP_URL_PATH );
 		$segs  = array_values( array_filter( explode( '/', trim( $path, '/' ) ) ) );
 		$slug  = $segs ? end( $segs ) : '';
-		$slug  = preg_replace( '/\.(html?|php|aspx?)$/', '', urldecode( $slug ) );
-		$words = trim( preg_replace( '/[-_]+/', ' ', $slug ) );
-		if ( '' === $words ) {
+		$key   = self::slug_key( $slug );
+		$words = trim( preg_replace( '/[-_]+/', ' ', preg_replace( '/\.(html?|php|aspx?)$/', '', urldecode( $slug ) ) ) );
+		if ( '' === $key ) {
 			return array( array( 'url' => home_url( '/' ), 'title' => get_bloginfo( 'name' ), 'score' => 20 ) );
 		}
-		$types = array_values( array_diff( get_post_types( array( 'public' => true ) ), array( 'attachment' ) ) );
-		$ids   = get_posts( array( 'post_type' => $types, 'post_status' => 'publish', 's' => $words, 'posts_per_page' => 10, 'fields' => 'ids', 'suppress_filters' => true ) );
-		$like  = get_posts( array( 'post_type' => $types, 'post_status' => 'publish', 'name' => sanitize_title( $slug ), 'posts_per_page' => 1, 'fields' => 'ids' ) );
-		$out   = array();
-		foreach ( array_unique( array_merge( $like, $ids ) ) as $id ) {
-			$post_slug = urldecode( get_post_field( 'post_name', $id ) );
-			similar_text( Text::normalize( $slug ), Text::normalize( $post_slug ), $pct );
-			$title_sim = Text::similarity( $words, get_the_title( $id ) ) * 100;
-			$out[]     = array( 'url' => get_permalink( $id ), 'title' => get_the_title( $id ), 'score' => (int) round( max( $pct, $title_sim ) ) );
+		$out = array();
+		$add = static function ( $id, $score ) use ( &$out ) {
+			$id = (int) $id;
+			if ( $id && ( ! isset( $out[ $id ] ) || $out[ $id ]['score'] < $score ) ) {
+				$out[ $id ] = array( 'url' => get_permalink( $id ), 'title' => get_the_title( $id ), 'score' => (int) $score );
+			}
+		};
+		// 1. The same address in the current structure (old "/blog/x" → "/x" and the other way round).
+		if ( count( $segs ) > 1 && in_array( strtolower( rawurldecode( $segs[0] ) ), array( 'blog', 'mag', 'news', 'article', 'articles', 'post', 'posts', 'fa', 'en' ), true ) ) {
+			$add( url_to_postid( home_url( '/' . implode( '/', array_slice( $segs, 1 ) ) . '/' ) ), 97 );
 		}
-		// Parent path fallback (e.g. category of a deleted product).
+		// 2. Slug and title keys of every published item (handles spelling, half-space and punctuation).
+		foreach ( $this->slug_index() as $row ) {
+			$score = max( self::key_score( $key, $row[1] ), (int) round( 0.95 * self::key_score( $key, $row[2] ) ) );
+			if ( $score >= 55 ) {
+				$add( $row[0], $score );
+			}
+		}
+		// 3. WordPress search on the most telling words (all-words search fails on spelling variants).
+		$long = array_slice( array_filter( explode( ' ', $key ), static function ( $w ) {
+			return mb_strlen( $w ) >= 3;
+		} ), 0, 3 );
+		$types = array_values( array_diff( get_post_types( array( 'public' => true ) ), array( 'attachment', 'elementor_library' ) ) );
+		foreach ( array_unique( array( $words, implode( ' ', $long ) ) ) as $q ) {
+			if ( '' === trim( $q ) ) {
+				continue;
+			}
+			foreach ( get_posts( array( 'post_type' => $types, 'post_status' => 'publish', 's' => $q, 'posts_per_page' => 8, 'fields' => 'ids', 'suppress_filters' => true ) ) as $id ) {
+				$add( $id, max( self::key_score( $key, self::slug_key( get_post_field( 'post_name', $id ) ) ), (int) round( Text::similarity( $words, get_the_title( $id ) ) * 100 ) ) );
+			}
+		}
+		$out = array_values( $out );
+		// 4. Parent path fallback (e.g. category of a deleted product).
 		if ( count( $segs ) > 1 ) {
 			$parent = '/' . implode( '/', array_slice( $segs, 0, -1 ) ) . '/';
 			$pid    = url_to_postid( home_url( $parent ) );
@@ -180,6 +263,6 @@ final class NotFoundMonitor {
 		usort( $out, static function ( $a, $b ) {
 			return $b['score'] <=> $a['score'];
 		} );
-		return $out;
+		return array_slice( $out, 0, 10 );
 	}
 }

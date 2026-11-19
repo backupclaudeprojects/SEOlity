@@ -358,9 +358,26 @@ final class Engine {
 		$tone    = (string) $s->get( 'ai_tone' );
 		$parts[] = '- Tone of every text the owner reads (answers, diagnoses, explanations, notifications — NOT site content, which follows the brand voice): ' . ( isset( $tones[ $tone ] ) ? $tones[ $tone ] : $tones['teacher'] );
 		$parts[] = '- Mindset: the goal is position 1 on Google for this site\'s money queries — always check what the competitors ranking above do better and plan to beat them. Be meticulous, detailed and strict about problems, but positive: also name what is going well and the progress made, with numbers, to keep the owner motivated.';
+		$rules = $this->plugin->site_rules->prompt_lines();
+		if ( $rules ) {
+			$parts[] = '- SITE RULES — binding decisions of the owner. Obey them in every answer, plan and proposal; never propose anything that breaks one (say so and suggest the compliant alternative instead):';
+			foreach ( $rules as $line ) {
+				$parts[] = '  • ' . $line;
+			}
+		}
 		$voice = trim( (string) $s->get( 'ai_brand_voice' ) );
 		if ( '' !== $voice ) {
 			$parts[] = '- Brand voice / editorial rules: ' . $voice;
+		}
+		if ( ! in_array( $task, \SEOlity\Content\SiteProfile::SKIP, true ) ) {
+			$profile = $this->plugin->site_profile->prompt_lines();
+			if ( $profile ) {
+				$parts[] = '';
+				$parts[] = 'WHAT YOU KNOW ABOUT THIS SITE (you know it like its own designer: its structure, the pages and searches it lives on, and the recent work — use it, stay consistent with it, never re-propose what was just done or undone):';
+				foreach ( $profile as $line ) {
+					$parts[] = '- ' . $line;
+				}
+			}
 		}
 		$insights = array_merge( $this->plugin->learning->prompt_insights(), $this->plugin->brain->prompt_lines() );
 		foreach ( array_slice( $this->plugin->followups->learnings(), 0, 6 ) as $l ) {

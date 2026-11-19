@@ -66,6 +66,7 @@ final class Optimizer {
 			'default_instructions' => self::default_instruction( $this->plugin ),
 			'owner_instructions' => isset( $p['instructions'] ) ? mb_substr( sanitize_textarea_field( (string) $p['instructions'] ), 0, 3000 ) : '',
 			'write_from_scratch' => $empty,
+			'site_rules_for_this_page' => $ctx && ! empty( $ctx['url'] ) ? $this->plugin->site_rules->for_url( $ctx['url'] ) : array(),
 			'current_title'      => $title,
 			'current_meta_title' => $ctx ? (string) $ctx['meta_title'] : '',
 			'current_meta_description' => $ctx ? (string) $ctx['meta_description'] : '',
@@ -82,6 +83,12 @@ final class Optimizer {
 		$ai        = $res['data'];
 		$optimized = Guardrails::clean_html( $ai['optimized_content'] );
 		$warnings  = array_merge( (array) $ai['warnings'], Guardrails::inspect_content( $optimized, $content, $ai['focus_keyword'] ) );
+		if ( $ctx && ! empty( $ctx['url'] ) ) {
+			foreach ( $this->plugin->site_rules->conflicts( $ctx['url'], array( (string) $ai['focus_keyword'] ) ) as $rule ) {
+				/* translators: 1 query 2 page */
+				$warnings[] = sprintf( __( 'Site rule: “%1$s” belongs to %2$s — it is not set as this page’s focus keyword.', 'seolity' ), $rule['query'], urldecode( SiteRules::pkey( $rule['url'] ) ) );
+			}
+		}
 
 		$targets = array(
 			'secondary_keywords' => $ai['secondary_keywords'],

@@ -332,7 +332,7 @@
 				function node( p, isFinal, isLoop ) {
 					var n = g.nodes[ p ] || { path: p };
 					return h( 'span', { class: 'sl-chain__node' + ( isFinal ? ' is-final' : '' ) + ( isLoop ? ' is-loop' : '' ) + ( n.is_page ? ' is-page' : '' ), title: ( n.title ? n.title + '\n' : '' ) + ( n.label || t( 'Only a redirect' ) ) + ( n.clicks_28d ? '\n' + t( '%s clicks (28 days)', n.clicks_28d ) : '' ) },
-						h( 'code', { dir: 'ltr', text: decodeURI( p ) } ),
+						h( 'code', { dir: 'ltr', text: SL.dec( p ) } ),
 						n.title ? h( 'small', { dir: 'auto', text: n.title } ) : null,
 						n.label ? h( 'small', { class: 'sl-chain__imp sl-chain__imp--' + n.importance, text: n.label } ) : null
 					);
@@ -485,7 +485,10 @@
 			box.appendChild( h( 'div', { class: 'sl-row' }, App.abtn( t( 'Start the review' ), function () {
 				return SL.api( '404/triage', { body: { instructions: instr.value } } ).then( function ( op ) {
 					instr.remove();
-					App.operationView( box, op, load );
+					App.operationView( box, op, function () {
+						load();
+						loadPending();
+					} );
 				} );
 			}, 'primary' ) ) );
 			return Promise.resolve();
@@ -495,6 +498,59 @@
 			} );
 		} ) ] : null ) );
 		var f = { status: 'open', search: '', page: 1, per_page: 50 };
+		// AI decisions waiting for approval (from the review, a selection or the chat) — always here.
+		var pend = h( 'div' );
+		v.appendChild( pend );
+		var opened = {};
+		var wantOp = Number( ( App.query ? App.query() : {} ).op || 0 );
+		function loadPending() {
+			SL.api( 'operations', { query: { types: '404_triage,bulk_redirect', statuses: 'awaiting_approval,preparing,approved,applying', limit: 6 }, noWait: true } ).then( function ( ops ) {
+				ops = ops || [];
+				if ( wantOp && ! ops.some( function ( o ) {
+					return Number( o.id ) === wantOp;
+				} ) ) {
+					ops.unshift( { id: wantOp, title: t( 'AI decisions' ), status: '' } );
+				}
+				SL.clear( pend );
+				if ( ! ops.length ) {
+					return;
+				}
+				var panel = h( 'section', { class: 'sl-panel sl-404-pending' }, h( 'div', { class: 'sl-panel__title', text: t( 'Decisions waiting for your approval' ) } ), h( 'p', { class: 'sl-muted sl-small', text: t( 'Prepared by the AI (from the review, a selection or the chat). Open one, untick what you disagree with and approve: every redirect is checked first and can be undone.' ) } ) );
+				ops.forEach( function ( o ) {
+					var box = h( 'div', { class: 'sl-404-pending__op' } );
+					var busy = 'preparing' === o.status || 'applying' === o.status || 'approved' === o.status;
+					var open = function () {
+						SL.clear( box );
+						App.load( box, SL.api( 'operations/' + o.id ), function ( op ) {
+							App.operationView( box, op, function () {
+								load();
+								loadPending();
+							} );
+						} );
+					};
+					panel.appendChild( h( 'div', { class: 'sl-404-pending__row' },
+						h( 'div', null, h( 'b', { dir: 'auto', text: o.title || t( 'AI decisions' ) } ), ' ', o.status ? SL.badge( busy ? t( 'Being prepared…' ) : t( 'Waiting for approval' ), busy ? '' : 'warn' ) : null, o.created_at ? h( 'small', { class: 'sl-muted', text: ' · ' + SL.date( o.created_at ) } ) : null ),
+						App.btn( t( 'Review & approve' ), function () {
+							if ( opened[ o.id ] ) {
+								opened[ o.id ] = false;
+								SL.clear( box );
+								return;
+							}
+							opened[ o.id ] = true;
+							open();
+						}, busy ? 'sm' : 'primary' )
+					) );
+					panel.appendChild( box );
+					if ( opened[ o.id ] || ( wantOp && Number( o.id ) === wantOp ) ) {
+						opened[ o.id ] = true;
+						open();
+					}
+				} );
+				wantOp = 0;
+				pend.appendChild( panel );
+			} ).catch( function () {} );
+		}
+		loadPending();
 		var body = h( 'div' );
 		v.appendChild( body );
 		function load() {
@@ -627,7 +683,7 @@
 					} },
 					{ label: t( 'Suggested redirect' ), render: function ( x ) {
 						if ( bulkOn ) {
-							targets[ x.id ] = h( 'input', { class: 'sl-input sl-input--sm', dir: 'ltr', value: x.suggested_target ? decodeURI( x.suggested_target ) : '', placeholder: x.suggested_target === '' ? t( 'no good match — enter a target' ) : t( 'pending' ) } );
+							targets[ x.id ] = h( 'input', { class: 'sl-input sl-input--sm', dir: 'ltr', value: x.suggested_target ? SL.dec( x.suggested_target ) : '', placeholder: x.suggested_target === '' ? t( 'no good match — enter a target' ) : t( 'pending' ) } );
 							return h( 'div', { class: 'sl-stack' }, targets[ x.id ], x.suggested_target ? h( 'small', { class: 'sl-muted', text: t( 'match %s%', x.suggestion_score || 0 ) } ) : null );
 						}
 						return x.suggested_target ? h( 'div', null, App.ext( x.suggested_target ), h( 'small', { class: 'sl-muted', text: ' ' + ( x.suggestion_score || 0 ) + '%' } ) ) : h( 'span', { class: 'sl-muted', text: x.suggested_target === '' ? t( 'no good match' ) : t( 'pending' ) } );
@@ -934,7 +990,7 @@
 					),
 					timeline,
 					h( 'div', { class: 'sl-chips' }, ( f.urls || [] ).map( function ( u ) {
-						return h( 'span', { class: 'sl-chip', dir: 'ltr', text: decodeURI( u.replace( /^https?:\/\/[^/]+/, '' ) ) } );
+						return h( 'span', { class: 'sl-chip', dir: 'ltr', text: SL.dec( u.replace( /^https?:\/\/[^/]+/, '' ) ) } );
 					} ), ( f.queries || [] ).map( function ( q ) {
 						return h( 'span', { class: 'sl-chip', dir: 'auto', text: '«' + q + '»' } );
 					} ) ),

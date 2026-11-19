@@ -4,7 +4,7 @@ Tags: seo, ai, search console, woocommerce, schema
 Requires at least: 6.2
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.19.2
+Stable tag: 1.20.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,16 @@ Yes. The interface is fully translated and RTL-native, text analysis understands
 Enable "Delete all data on uninstall" in Settings → Privacy, then delete the plugin.
 
 == Changelog ==
+
+= 1.20.0 =
+* Site rules (new page): the owner's lasting decisions, binding everywhere. "This search belongs to this page" (other pages must stop competing) or any sentence. Every AI prompt carries them; in code, no other page can get a ruled search as focus keyword; Road to #1 works on the owner page; the optimizer warns. Created from the chat (the AI proposes a rule when you state a lasting decision) or by hand; editable, pausable, removable. Suggestions: searches where your own pages compete, owner chosen in one click.
+* The AI knows the site like its designer: every prompt gets a compact site profile — structure (key pages, categories), the pages and searches the site lives on (with the page that ranks), recent changes and approved work, the current focus.
+* 404 monitor: "Decisions waiting for your approval" panel — AI reviews started from the page, from a selection or from the chat now appear right there with approve / untick / undo (before, they only showed in a task card and looked like nothing happened). A chat link opens the exact review.
+* Chat can prepare real redirects: a list of old address → page becomes one reviewed operation (each pair checked live, existing rules corrected instead of doubled) in the 404 approval panel — no longer sent to the content agent.
+* Road to #1: each prepared step shows its state and offers Review & apply (in a window on the same page), Redo with a short instruction, or Reject — no jump to the roadmap.
+* Better redirect targets for Persian addresses: candidates are found by comparing slugs and titles with half-space, Arabic/Persian letters, punctuation (؛ ؟) and stray "%d" ignored, plus the old "/blog/" structure; "Suggest targets" recomputes weak suggestions.
+* Fix: an address containing an invalid percent sequence (e.g. "%d") crashed the review view with "URI malformed"; all address displays now decode safely.
+* Fix: in the classic editor the SEOlity button could make the media-buttons row taller than WordPress measured, so it covered the toolbar (alignment buttons). The button is compact, never wraps, and WordPress re-measures after load.
 
 = 1.19.2 =
 * Fix: the "your browser" bookmark said "no results found" on current Google result pages. Version 2 of the bookmark reads result titles in the classic and the newer layouts and falls back to the result links; ads, Google's own links and the page header are skipped; a CAPTCHA page or a page without a search gets a clear message. Delete the old bookmark and drag the new one (v2) again.

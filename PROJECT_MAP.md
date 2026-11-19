@@ -6,7 +6,8 @@
 - هوش مصنوعی: API (Anthropic/OpenAI/Gemini/…)، اشتراک Claude/ChatGPT از طریق CLI روی همین سرور یا اجراکننده GitHub Actions، رله Cloudflare.
 
 ## 2. وضعیت فعلی
-- نسخه **1.19.2** (`seolity/seolity.php:6`)، DB schema **1.8.0** (`seolity.php:23`). شاخه `claude/beautiful-ride-7ilxpf`.
+- نسخه **1.20.0** (`seolity/seolity.php:6`)، DB schema **1.8.0** (`seolity.php:23`). شاخه `claude/beautiful-ride-7ilxpf`.
+- 1.20.0: «قوانین سایت» (`Content/SiteRules.php`، `pages-rules.js`) در همه پرامپت‌ها و در کد اجرا می‌شود؛ «شناخت سایت» در هر پرامپت (`Content/SiteProfile.php`)؛ پنل «تصمیم‌های منتظر تأیید» در ۴۰۴؛ ریدایرکت گروهی از چت؛ بررسی/رد/بازسازی قدم‌ها در مسیر رتبه ۱؛ یافتن مقصد برای آدرس‌های فارسی؛ رفع خطای URI malformed و هم‌پوشانی دکمه ویرایشگر.
 - 1.19.0: صفحه «مسیر رتبه ۱» (`Rank/RankOne.php`، `pages-rank1.js`: هر کوئری جدا، شانس صادقانه، برنامه هوش مصنوعی در برابر رتبه اول، پیشرفت فقط با داده سرچ کنسول)؛ ۴۰۴: دسته‌بندی با شواهد واقعی و پنهان‌کردن کاوش‌های اسکنر (`NotFoundTriage::classify`، ستون‌های verdict)، انتخاب و ارسال بسته به چت (`review_404s`)؛ زنجیره ریدایرکت گرافیکی + اصلاح با تأیید (`Redirects/Chains.php`، شامل قوانین رنک‌مث).
 - 1.18.0: «بهینه‌سازی با هوش مصنوعی سئولیتی» کل صفحه را یکجا می‌سازد: محتوا (یا نوشتن از صفر)، عنوان سئو، توضیحات متا، کلمه کلیدی Rank Math/Yoast و H1 اختیاری؛ دستور پیش‌فرض (`ai_optimize_prompt`) + دستور کاربر؛ رفع اعمال‌نشدن در صفحه دسته‌بندی (`editor.js`: `termDescriptionAdapter`).
 - 1.17.1: رفع «OAuth token revoked» بعد از خروج از همه دستگاه‌ها: ذخیره ورود جدید، Secret را در مخزن اجراکننده و مخزن دانش جایگزین و اجرای قدیمی را لغو می‌کند (`SubscriptionRunner::sync_secret`، `GitHubClient::cancel_run`).

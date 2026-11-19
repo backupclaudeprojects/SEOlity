@@ -136,7 +136,7 @@
 		function bubble( msg ) {
 			var meta = msg.meta || {};
 			if ( msg.role === 'user' ) {
-				return h( 'div', { class: 'sl-msg sl-msg--user' }, h( 'div', { dir: 'auto', text: msg.content } ), meta.page ? h( 'div', { class: 'sl-msg__page' }, SL.icon( 'content', 12 ), ' ', decodeURIComponent( meta.page.replace( /^https?:\/\/[^/]+/, '' ) ) ) : null, meta.package ? h( 'div', { class: 'sl-msg__page' }, SL.icon( 'layers', 12 ), ' ', t( '%s 404 URLs attached', meta.package.count ) ) : null );
+				return h( 'div', { class: 'sl-msg sl-msg--user' }, h( 'div', { dir: 'auto', text: msg.content } ), meta.page ? h( 'div', { class: 'sl-msg__page' }, SL.icon( 'content', 12 ), ' ', SL.dec( meta.page.replace( /^https?:\/\/[^/]+/, '' ) ) ) : null, meta.package ? h( 'div', { class: 'sl-msg__page' }, SL.icon( 'layers', 12 ), ' ', t( '%s 404 URLs attached', meta.package.count ) ) : null );
 			}
 			var st = meta.status || ( msg.content ? 'done' : 'pending' );
 			if ( st === 'pending' || st === 'waiting' ) {

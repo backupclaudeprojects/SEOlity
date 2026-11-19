@@ -192,7 +192,7 @@
 
 	function safeDecode( u ) {
 		try {
-			return decodeURI( u );
+			return SL.dec( u );
 		} catch ( e ) {
 			return u;
 		}
