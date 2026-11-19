@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEOlity 1.0.0\n"
-"POT-Creation-Date: 2026-11-10 13:00+0000\n"
+"POT-Creation-Date: 2026-11-19 09:57+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1210,6 +1210,9 @@ msgstr ""
 msgid "Road to #1"
 msgstr ""
 
+msgid "Site rules"
+msgstr ""
+
 msgid "Keywords"
 msgstr ""
 
@@ -1369,6 +1372,9 @@ msgid "SEOlity AI is writing ALT text for %d images in the background. Review th
 msgstr ""
 
 msgid "Optimize with SEOlity AI"
+msgstr ""
+
+msgid "AI optimize"
 msgstr ""
 
 msgid "SEO score (live)"
@@ -2113,6 +2119,19 @@ msgstr ""
 msgid "Added to the SEO roadmap."
 msgstr ""
 
+msgid "No usable redirect pairs (an old address and a live target page are needed)."
+msgstr ""
+
+msgid "Checking redirects from the chat"
+msgstr ""
+
+#, php-format
+msgid "%d redirects are being checked; they wait in the 404 monitor under “Decisions waiting for your approval”. Nothing changes until you approve."
+msgstr ""
+
+msgid "Saved as a site rule — every AI part of SEOlity now follows it. Edit or remove it on the Site rules page."
+msgstr ""
+
 msgid "A change needs a page and an action."
 msgstr ""
 
@@ -2184,6 +2203,10 @@ msgid "This field cannot be changed by SEOlity."
 msgstr ""
 
 msgid "Object not found."
+msgstr ""
+
+#, php-format
+msgid "Site rule: the search “%1$s” belongs to %2$s, so it is not set as a focus keyword here."
 msgstr ""
 
 msgid "Suggested value is identical to the current value."
@@ -2343,6 +2366,10 @@ msgstr ""
 msgid "There is no content to optimize yet. Write a draft or use \"Generate\"."
 msgstr ""
 
+#, php-format
+msgid "Site rule: “%1$s” belongs to %2$s — it is not set as this page’s focus keyword."
+msgstr ""
+
 msgid "Optimize the whole page for position 1 on Google for its main search intent, from top to bottom: an opening that answers the searcher at once, a clear H2/H3 structure, every question and sub-topic a complete answer covers, natural use of the focus keyword and related terms, useful lists or tables, internal links where they help and a clear next step for the reader. Use the real Search Console queries of the page. Then write the SEO title, the meta description and the focus keyword for the SEO plugin. Keep every fact, price and link; never invent anything."
 msgstr ""
 
@@ -2418,6 +2445,16 @@ msgid "Building block used by other pages"
 msgstr ""
 
 msgid "Unused / not a page"
+msgstr ""
+
+msgid "A search can only be given to a page: choose the page that should rank for it."
+msgstr ""
+
+msgid "Write the rule, or choose a search and the page it belongs to."
+msgstr ""
+
+#, php-format
+msgid "“%s” belongs to one page"
 msgstr ""
 
 msgid "SEOlity Client"
@@ -3861,6 +3898,15 @@ msgstr ""
 msgid "SEOlity brief — replace the notes below with your own expertise, examples and sources before publishing."
 msgstr ""
 
+msgid "Checking every redirect on the live site…"
+msgstr ""
+
+msgid "Redirects proposed in the chat. Each one was checked: the target must be a live page, no loop may be created and the old address must really be gone."
+msgstr ""
+
+msgid "Nothing changes until you approve. Every redirect is verified on the live site and can be undone."
+msgstr ""
+
 msgid "Working…"
 msgstr ""
 
@@ -3948,6 +3994,9 @@ msgstr ""
 
 #, php-format
 msgid "Goal: position 1 on Google for “%s”."
+msgstr ""
+
+msgid "Prepare this step first."
 msgstr ""
 
 #, php-format
@@ -8367,6 +8416,24 @@ msgstr ""
 msgid "Computing suggestions in the background."
 msgstr ""
 
+msgid "AI decisions"
+msgstr ""
+
+msgid "Decisions waiting for your approval"
+msgstr ""
+
+msgid "Prepared by the AI (from the review, a selection or the chat). Open one, untick what you disagree with and approve: every redirect is checked first and can be undone."
+msgstr ""
+
+msgid "Being prepared…"
+msgstr ""
+
+msgid "Waiting for approval"
+msgstr ""
+
+msgid "Review & approve"
+msgstr ""
+
 msgid "To review"
 msgstr ""
 
@@ -9397,6 +9464,9 @@ msgstr ""
 msgid "Goal"
 msgstr ""
 
+msgid "Site rule: this search belongs to"
+msgstr ""
+
 msgid "Google check"
 msgstr ""
 
@@ -9469,9 +9539,6 @@ msgstr ""
 msgid "Why it moves this search: %s"
 msgstr ""
 
-msgid "Prepared — open"
-msgstr ""
-
 msgid "Add to the roadmap"
 msgstr ""
 
@@ -9492,6 +9559,36 @@ msgid "Plan from %s"
 msgstr ""
 
 msgid "made without live Google results"
+msgstr ""
+
+msgid "In the roadmap as a task for you"
+msgstr ""
+
+msgid "Ready — review and apply"
+msgstr ""
+
+msgid "Could not be prepared"
+msgstr ""
+
+msgid "Review & apply"
+msgstr ""
+
+msgid "What should be different? e.g. “shorter”, “do not change the title”, “mention free delivery”."
+msgstr ""
+
+msgid "Prepare again"
+msgstr ""
+
+msgid "Being prepared again with your instruction."
+msgstr ""
+
+msgid "Redo with my instruction"
+msgstr ""
+
+msgid "Reject what was prepared for this step? Nothing on the site changes, and you can prepare the step again."
+msgstr ""
+
+msgid "Open in the roadmap"
 msgstr ""
 
 msgid "The plan is ready."
@@ -9522,6 +9619,9 @@ msgid "Search"
 msgstr ""
 
 msgid "Brand"
+msgstr ""
+
+msgid "Choose which page should rank"
 msgstr ""
 
 #, php-format
@@ -9811,6 +9911,94 @@ msgid "%s items"
 msgstr ""
 
 msgid "Nothing left to do here"
+msgstr ""
+
+msgid "Search pages, posts, products, categories…"
+msgstr ""
+
+#, php-format
+msgid "Use this address: %s"
+msgstr ""
+
+msgid "Your lasting decisions about the site. Every AI part of SEOlity follows them — the chat, the roadmap, Road to #1, page optimization and focus keywords — and nothing that breaks a rule is proposed or applied."
+msgstr ""
+
+msgid "Rule saved — SEOlity follows it from now on."
+msgstr ""
+
+msgid "The search, e.g. خرید کیمچی"
+msgstr ""
+
+msgid "Optional note for the AI (why, exceptions…)"
+msgstr ""
+
+msgid "The rule in your own words, e.g. “never redirect products to the home page”, “prices are always in Toman”."
+msgstr ""
+
+msgid "The page that should rank for it…"
+msgstr ""
+
+msgid "Page that owns it"
+msgstr ""
+
+msgid "Pages that must stop competing for it (optional)"
+msgstr ""
+
+msgid "Add a page that must not target this search…"
+msgstr ""
+
+msgid "A search belongs to one page"
+msgstr ""
+
+msgid "General rule"
+msgstr ""
+
+msgid "Add a rule"
+msgstr ""
+
+msgid "Write the search and choose the page that owns it."
+msgstr ""
+
+msgid "Write the rule first."
+msgstr ""
+
+msgid "Searches where your own pages compete"
+msgstr ""
+
+msgid "Google splits these searches between two or more of your pages (Search Console, last 28 days), so none of them gets the full strength. Choose the page that should rank; the others will stop competing and link to it instead."
+msgstr ""
+
+#, php-format
+msgid "%s impressions"
+msgstr ""
+
+#, php-format
+msgid "%1$s impressions · position %2$s"
+msgstr ""
+
+msgid "This page should rank"
+msgstr ""
+
+msgid "Add your first rule above, or tell the AI in the chat, e.g. “from now on «خرید کیمچی» belongs to the kimchi category page”."
+msgstr ""
+
+#, php-format
+msgid "Rules SEOlity follows (%s)"
+msgstr ""
+
+msgid "from the chat"
+msgstr ""
+
+msgid "by you"
+msgstr ""
+
+msgid "Paused"
+msgstr ""
+
+msgid "Must stop competing:"
+msgstr ""
+
+msgid "Delete this rule? The AI will no longer follow it."
 msgstr ""
 
 msgid "Site Audit & SEO Doctor"
@@ -11064,9 +11252,6 @@ msgid "Show details"
 msgstr ""
 
 msgid "Open the report"
-msgstr ""
-
-msgid "Review & apply"
 msgstr ""
 
 msgid "AI is doing it"

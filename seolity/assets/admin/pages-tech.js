@@ -205,7 +205,7 @@
 					} } ), h( 'span', { text: t( 'Merge' ) } ) ),
 					h( 'div', { class: 'sl-dup__meta' },
 						h( 'a', { class: 'sl-dup__title', href: p.url, target: '_blank', rel: 'noopener', dir: 'auto', text: p.title || p.url } ),
-						h( 'span', { class: 'sl-dup__url', dir: 'ltr', text: decodeURI( p.url ) } ),
+						h( 'span', { class: 'sl-dup__url', dir: 'ltr', text: SL.dec( p.url ) } ),
 						h( 'div', { class: 'sl-dup__nums' },
 							h( 'div', { class: 'sl-mapcard__m' }, h( 'b', { text: SL.num( p.clicks, 0 ) } ), h( 'span', { text: t( 'Clicks (90 days)' ) } ) ),
 							h( 'div', { class: 'sl-mapcard__m' }, h( 'b', { text: SL.num( p.words, 0 ) } ), h( 'span', { text: t( 'Words' ) } ) ),

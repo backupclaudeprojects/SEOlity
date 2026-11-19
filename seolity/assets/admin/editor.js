@@ -543,5 +543,22 @@
 		} );
 	} );
 
+	// WordPress measures the editor tools (media buttons row) to place the toolbar below them; after
+	// our button and the web font are laid out, let it measure again so nothing overlaps.
+	function relayout() {
+		try {
+			w.dispatchEvent( new Event( 'resize' ) );
+			if ( w.jQuery ) {
+				w.jQuery( d ).trigger( 'wp-collapse-menu' );
+			}
+		} catch ( e ) {}
+	}
+	if ( d.querySelector( '.seolity-media-btn-ai' ) ) {
+		w.addEventListener( 'load', relayout );
+		if ( d.fonts && d.fonts.ready ) {
+			d.fonts.ready.then( relayout );
+		}
+	}
+
 	SL.editorContext = ctx;
 } )( window, document );

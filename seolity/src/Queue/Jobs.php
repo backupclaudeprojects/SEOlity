@@ -189,8 +189,19 @@ final class Jobs {
 		$q->handler( 'images_scan', static function ( $a ) use ( $p ) {
 			return $p->images->scan( isset( $a['offset'] ) ? (int) $a['offset'] : 0 );
 		} );
-		$q->handler( 'not_found_suggest', static function () use ( $p ) {
-			return $p->not_found->suggest_pending();
+		$q->handler( 'not_found_suggest', static function ( $a ) use ( $p ) {
+			return $p->not_found->suggest_pending( ! empty( $a['again'] ) );
+		} );
+		$q->handler( 'redirects_stage', static function ( $a ) use ( $p ) {
+			$op = $p->operations->get( (int) $a['id'] );
+			if ( ! $op || 'preparing' !== $op['status'] ) {
+				return true;
+			}
+			$aid = (int) $op['activity_id'];
+			$p->activity->step( $aid, __( 'Checking every redirect on the live site…', 'seolity' ), 30 );
+			$p->operations->staged( (int) $op['id'], (array) $op['input']['items'], array( __( 'Redirects proposed in the chat. Each one was checked: the target must be a live page, no loop may be created and the old address must really be gone.', 'seolity' ), __( 'Nothing changes until you approve. Every redirect is verified on the live site and can be undone.', 'seolity' ) ) );
+			$p->activity->finish( $aid, 'done', __( 'Ready for your review', 'seolity' ), array( 'summary' => __( 'Ready for your review', 'seolity' ), 'result' => array( 'operation_id' => (int) $op['id'] ) ) );
+			return true;
 		} );
 		$q->handler( 'rank1_plan', static function ( $a ) use ( $p ) {
 			if ( ! empty( $a['user_id'] ) ) {

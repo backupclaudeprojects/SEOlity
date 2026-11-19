@@ -173,11 +173,14 @@ final class EditorIntegration {
 			return;
 		}
 		$field = 'excerpt' === $editor_id ? 'post_excerpt' : ( 'content' === $editor_id ? 'post_content' : 'custom' );
+		// Short label and the same height as WordPress's own buttons: a longer, wrapping button made
+		// the editor tools taller than WordPress measured, so they covered the toolbar (alignment…).
 		printf(
-			'<button type="button" class="button seolity-optimize-btn" data-editor="%1$s" data-field="%2$s">%4$s <span>%3$s</span></button>',
+			'<button type="button" class="button seolity-optimize-btn seolity-media-btn-ai" data-editor="%1$s" data-field="%2$s" title="%3$s" aria-label="%3$s">%5$s <span>%4$s</span></button>',
 			esc_attr( $editor_id ),
 			esc_attr( $field ),
-			esc_html__( 'Optimize with SEOlity AI', 'seolity' ),
+			esc_attr__( 'Optimize with SEOlity AI', 'seolity' ),
+			esc_html__( 'AI optimize', 'seolity' ),
 			Icons::svg( 'sparkles' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static markup.
 		);
 	}

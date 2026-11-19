@@ -147,7 +147,7 @@
 				}
 				if ( it.chain && it.chain.length ) {
 					body.appendChild( h( 'p', { class: 'sl-small sl-muted sl-op__chain', dir: 'ltr', text: t( 'Chain today:' ) + ' ' + it.chain.map( function ( p ) {
-						return decodeURI( p );
+						return SL.dec( p );
 					} ).join( ' → ' ) + ( it.loop ? ' ↺' : '' ) } ) );
 				}
 				if ( 'gone' === it.kind && it.check && ! it.check.ok ) {
@@ -236,11 +236,11 @@
 				case 'change':
 					return ( it.label || t( 'Change' ) ) + ( it.object ? ' — ' + it.object : '' );
 				case 'redirect':
-					return t( '301 redirect %1$s → %2$s', decodeURI( SL.path( it.source ) ), decodeURI( SL.path( it.target ) ) );
+					return t( '301 redirect %1$s → %2$s', SL.dec( SL.path( it.source ) ), SL.dec( SL.path( it.target ) ) );
 				case 'fix_chains':
 					return t( 'Point %s redirect chains straight to their final URL', it.count || '' );
 				case 'redirect_remove':
-					return t( 'Remove the redirect of %s (it answers as a page again)', decodeURI( SL.path( it.source ) ) );
+					return t( 'Remove the redirect of %s (it answers as a page again)', SL.dec( SL.path( it.source ) ) );
 				case 'bulk':
 					return t( 'Optimize %s items with AI in the background', ( it.ids || [] ).length );
 				case 'plan':
@@ -248,11 +248,11 @@
 				case 'setting':
 					return it.label;
 				case 'gone':
-					return t( '410 Gone: %s', decodeURI( SL.path( it.source ) ) );
+					return t( '410 Gone: %s', SL.dec( SL.path( it.source ) ) );
 				case 'keep_404':
-					return t( 'Leave as 404: %s', decodeURI( SL.path( it.source ) ) );
+					return t( 'Leave as 404: %s', SL.dec( SL.path( it.source ) ) );
 				case 'note':
-					return t( 'Fix the internal link by hand: %s', decodeURI( SL.path( it.source ) ) );
+					return t( 'Fix the internal link by hand: %s', SL.dec( SL.path( it.source ) ) );
 			}
 			return it.kind;
 		}

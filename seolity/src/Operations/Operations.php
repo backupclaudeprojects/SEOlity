@@ -113,7 +113,18 @@ final class Operations {
 			$where[] = 'type = %s';
 			$args[]  = (string) $f['type'];
 		}
-		$rows = $this->plugin->db->rows( 'SELECT id, type, issue_id, status, title, error, user_id, created_at, updated_at, finished_at FROM {operations} WHERE ' . implode( ' AND ', $where ) . ' ORDER BY id DESC LIMIT 100', $args );
+		if ( ! empty( $f['types'] ) ) {
+			$types   = array_values( array_filter( array_map( 'sanitize_key', (array) $f['types'] ) ) );
+			$where[] = 'type IN (' . implode( ',', array_fill( 0, count( $types ), '%s' ) ) . ')';
+			$args    = array_merge( $args, $types );
+		}
+		if ( ! empty( $f['statuses'] ) ) {
+			$sts     = array_values( array_filter( array_map( 'sanitize_key', (array) $f['statuses'] ) ) );
+			$where[] = 'status IN (' . implode( ',', array_fill( 0, count( $sts ), '%s' ) ) . ')';
+			$args    = array_merge( $args, $sts );
+		}
+		$limit = isset( $f['limit'] ) ? max( 1, min( 100, (int) $f['limit'] ) ) : 100;
+		$rows  = $this->plugin->db->rows( 'SELECT id, type, issue_id, status, title, error, user_id, created_at, updated_at, finished_at FROM {operations} WHERE ' . implode( ' AND ', $where ) . ' ORDER BY id DESC LIMIT ' . $limit, $args );
 		return $rows;
 	}
 

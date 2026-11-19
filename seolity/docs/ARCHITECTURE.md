@@ -555,6 +555,12 @@ A subscription login lives in up to three places: the plugin settings (encrypted
 - 404: `not_found.verdict` / `verdict_reason` (DB 1.8.0), status `noise`. `NotFoundTriage::classify()` (queue `not_found_classify`, pushed by `NotFoundMonitor::query()`), `has_value()`, `PROBE_RE`; triage `start( $instructions, $ids )`; keep_404 without value → noise. Bulk `/404/bulk-status`. Chat package: `items` on `/chat` → `selected_404s` context, proposal kind `review_404s` (chat@1.4).
 - Chains: `Manager::chains()` includes `external` (Rank Math) rules and returns hops; `Redirects\Chains` (`chains` service, `/redirects/chains*`, queue `redirect_chains_prepare`, task `redirect_chains@1.0`) stages `redirect` items with `replace_id` and `redirect_remove` (loops) — new operation kind, undo = `redirect_restore`.
 
+### 15i. Site rules, site profile, approvals in place (1.20)
+- `Content\SiteRules` (`site_rules`, option `seolity_site_rules`, page `pages-rules.js`, routes `/site-rules*`): query-ownership rules (query, owner url, avoid[]) and text rules; `prompt_lines()` in every system prompt; `conflicts()` enforced in `ChangeManager::propose()` for focus keywords; `for_url()` in optimizer input; `owner_of()` used by `RankOne`; `suggestions()` = searches split between own pages. Chat proposal kinds `rule` and `redirects` (chat@1.5); `redirects` → `bulk_redirect` operation staged by queue `redirects_stage`.
+- `Content\SiteProfile` (`site_profile`, transient 6 h): structure, top pages/queries (+ ruling page), recent changes/operations, rank-1 focus — added to every prompt except short per-item tasks.
+- `GET /operations?types=&statuses=&limit=`; 404 page "Decisions waiting for your approval" (`#/404?op=ID`). `RankOne` steps keep `id/kind`; `steps_view()`, `/rank1/step/reset`, `/rank1/step/redo`.
+- `NotFoundMonitor::slug_key()/candidates()` (Persian-aware slug index). `SL.dec()` safe URL decoding in all admin modules.
+
 ## 16. Compatibility
 
 * **WooCommerce**: product SEO (title, descriptions, short description, attributes, images, schema,

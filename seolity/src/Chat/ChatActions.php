@@ -59,6 +59,12 @@ final class ChatActions {
 					case 'follow_up':
 						$out[] = $this->follow_up( $p, $conversation );
 						break;
+					case 'redirects':
+						$out[] = $this->redirects( $p, $conversation );
+						break;
+					case 'rule':
+						$out[] = $this->rule( $p );
+						break;
 					case 'review_404s':
 						$ids = ! empty( $package['ids'] ) && '404' === $package['type'] ? (array) $package['ids'] : array();
 						if ( ! $ids ) {
@@ -71,7 +77,7 @@ final class ChatActions {
 							'ok'    => ! is_wp_error( $op ),
 							'title' => $p['title'],
 							'note'  => is_wp_error( $op ) ? $op->get_error_message() : __( 'Being prepared for exactly these URLs — it will appear in the floating popup for review. URLs without value are hidden from the 404 list; 301 / 410 change nothing until you approve.', 'seolity' ),
-							'route' => '#/404',
+							'route' => is_wp_error( $op ) ? '#/404' : '#/404?op=' . (int) $op['id'],
 							'id'    => is_wp_error( $op ) ? 0 : (int) $op['id'],
 						);
 						break;
@@ -130,6 +136,65 @@ final class ChatActions {
 			return array( 'kind' => 'task', 'ok' => false, 'title' => $p['title'], 'note' => $imp ? implode( ' ', array_slice( $imp['reasons'], 0, 2 ) ) : __( 'Not added.', 'seolity' ), 'route' => '', 'id' => 0 );
 		}
 		return array( 'kind' => 'task', 'ok' => true, 'title' => $p['title'], 'note' => __( 'Added to the SEO roadmap.', 'seolity' ), 'route' => '#/actions?issue=' . (int) $id, 'id' => (int) $id );
+	}
+
+	/**
+	 * A list of redirects from the chat → one reviewed operation (each pair checked: live target,
+	 * no loop, old address not a live page). Existing rules for a source are corrected, not doubled.
+	 */
+	private function redirects( array $p, $conversation ) {
+		$items = array();
+		$db    = $this->plugin->db;
+		foreach ( array_slice( isset( $p['redirects'] ) ? (array) $p['redirects'] : array(), 0, 60 ) as $i => $pair ) {
+			$src = \SEOlity\Redirects\Manager::normalize_source( isset( $pair['source'] ) ? (string) $pair['source'] : '' );
+			$tgt = $this->abs( isset( $pair['target'] ) ? (string) $pair['target'] : '' );
+			if ( '/' === $src || '' === $tgt ) {
+				continue;
+			}
+			$old = $db->row( "SELECT id FROM {redirects} WHERE project_id = %d AND source_hash = %s AND status IN ('active','external') AND is_regex = 0", array( $db->project_id(), \SEOlity\Core\Database::hash( $src ) ) );
+			$nf  = (int) $db->value( 'SELECT id FROM {not_found} WHERE project_id = %d AND url_hash = %s', array( $db->project_id(), \SEOlity\Core\Database::hash( $src ) ) );
+			$it  = array( 'kind' => 'redirect', 'key' => 'cr' . $i, 'source' => $src, 'target' => $tgt, 'type' => 301, 'origin' => 'chat', 'reason' => (string) $p['detail'] );
+			if ( $old ) {
+				$it['replace_id'] = (int) $old['id'];
+			}
+			if ( $nf ) {
+				$it['not_found_id'] = $nf;
+			}
+			$items[] = $it;
+		}
+		if ( ! $items ) {
+			return array( 'kind' => 'redirects', 'ok' => false, 'title' => $p['title'], 'note' => __( 'No usable redirect pairs (an old address and a live target page are needed).', 'seolity' ), 'route' => '', 'id' => 0 );
+		}
+		$id  = $this->plugin->operations->create( 'bulk_redirect', array( 'title' => (string) $p['title'], 'instructions' => (string) $p['detail'], 'input' => array( 'count' => count( $items ), 'items' => $items, 'conversation' => (string) $conversation ) ) );
+		$aid = $this->plugin->activity->start( 'agent', __( 'Checking redirects from the chat', 'seolity' ), array( 'detail' => (string) $p['title'], 'dock' => true, 'status' => 'queued', 'step' => __( 'Queued — starting in a moment…', 'seolity' ), 'meta' => array( 'type' => 'operation', 'operation_id' => (int) $id ) ) );
+		$this->plugin->operations->update( $id, array( 'activity_id' => $aid ) );
+		$job = $this->plugin->queue->push( 'redirects_stage', array( 'id' => (int) $id ), array( 'unique' => 'rs_' . (int) $id, 'priority' => 0, 'max_attempts' => 1, 'timeout' => 900 ) );
+		$this->plugin->activity->attach_job( $aid, $job );
+		\SEOlity\Activity\AiJobs::run_after_response( $this->plugin );
+		return array(
+			'kind'  => 'redirects',
+			'ok'    => true,
+			'title' => $p['title'],
+			/* translators: %d: redirects */
+			'note'  => sprintf( __( '%d redirects are being checked; they wait in the 404 monitor under “Decisions waiting for your approval”. Nothing changes until you approve.', 'seolity' ), count( $items ) ),
+			'route' => '#/404?op=' . (int) $id,
+			'id'    => (int) $id,
+		);
+	}
+
+	/** A lasting decision of the owner from the chat → a site rule (editable on the Site rules page). */
+	private function rule( array $p ) {
+		$r = $this->plugin->site_rules->save(
+			array(
+				'title'  => (string) $p['title'],
+				'text'   => (string) $p['detail'],
+				'query'  => isset( $p['rule_query'] ) ? (string) $p['rule_query'] : '',
+				'url'    => $this->abs( isset( $p['url'] ) ? (string) $p['url'] : '' ),
+				'avoid'  => array_map( array( $this, 'abs' ), isset( $p['rule_avoid'] ) ? (array) $p['rule_avoid'] : array() ),
+				'source' => 'chat',
+			)
+		);
+		return array( 'kind' => 'rule', 'ok' => ! is_wp_error( $r ), 'title' => $p['title'], 'note' => is_wp_error( $r ) ? $r->get_error_message() : __( 'Saved as a site rule — every AI part of SEOlity now follows it. Edit or remove it on the Site rules page.', 'seolity' ), 'route' => '#/site-rules', 'id' => is_wp_error( $r ) ? 0 : (int) $r['id'] );
 	}
 
 	private function change( array $p ) {

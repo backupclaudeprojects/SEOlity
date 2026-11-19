@@ -280,6 +280,10 @@ input[type="color"].sl-input { padding: 4px; width: 80px; }
 
 /* ---------- WordPress editor screens ---------- */
 .seolity-optimize-btn { margin-inline-start: 4px !important; display: inline-flex !important; align-items: center; gap: 6px; }
+/* In the classic editor's media-buttons row: behave exactly like WordPress's own buttons (1.20). */
+.wp-media-buttons .seolity-media-btn-ai { display: inline-block !important; white-space: nowrap; vertical-align: top; max-width: 100%; }
+.wp-media-buttons .seolity-media-btn-ai svg { width: 16px; height: 16px; vertical-align: middle; margin-top: -3px; margin-inline-end: 4px; }
+.wp-media-buttons .seolity-media-btn-ai span { vertical-align: middle; }
 .seolity-optimize-btn .sl-ic { color: currentColor; }
 .seolity-inline-btn { margin-block-start: 6px !important; }
 .seolity-box__score { display: flex; align-items: center; gap: 10px; margin-block-end: 10px; }

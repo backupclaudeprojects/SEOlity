@@ -138,6 +138,9 @@
 					h( 'div', { class: 'sl-r1__goal' }, h( 'small', { text: t( 'Goal' ) } ), h( 'b', { text: '#1' } ) )
 				)
 			) );
+			if ( fc.rule ) {
+				card.appendChild( h( 'p', { class: 'sl-r1__rule' }, SL.icon( 'shield', 15 ), ' ', t( 'Site rule: this search belongs to' ) + ' ', h( 'span', { dir: 'ltr', text: SL.dec( SL.path( fc.rule.url ) ) } ), ' · ', h( 'a', { class: 'sl-link', href: '#/site-rules', text: t( 'Site rules' ) } ) ) );
+			}
 			card.appendChild( h( 'div', { class: 'sl-r1__news sl-r1__news--' + fc.news.kind }, SL.icon( { won: 'check-circle', up: 'trending', down: 'trending-down', flat: 'pulse', wait: 'clock' }[ fc.news.kind ] || 'info', 18 ), h( 'span', { dir: 'auto', text: fc.news.text } ) ) );
 			var sp = spark( fc.series );
 			if ( sp ) {
@@ -226,13 +229,14 @@
 							h( 'p', { class: 'sl-small', dir: 'auto', text: s.detail } ),
 							s.why_it_moves_this_query ? h( 'p', { class: 'sl-small sl-muted', dir: 'auto', text: t( 'Why it moves this search: %s', s.why_it_moves_this_query ) } ) : null
 						),
-						did ? h( 'a', { class: 'sl-btn sl-btn--sm', href: did.route || '#/actions' }, SL.icon( 'check', 14 ), ' ', t( 'Prepared — open' ) ) : App.cap( 'ai' ) ? App.abtn( 'task' === s.action ? t( 'Add to the roadmap' ) : t( 'Prepare it' ), function () {
+						did ? null : App.cap( 'ai' ) ? App.abtn( 'task' === s.action ? t( 'Add to the roadmap' ) : t( 'Prepare it' ), function () {
 							return SL.api( 'rank1/step', { body: { index: i } } ).then( function ( x ) {
 								SL.toast( x.note || t( 'Prepared.' ), x.ok ? 'success' : 'error' );
 								load();
 							} );
 						}, 'sm' ) : null
-					)
+					),
+					did ? stepState( did, i ) : null
 				);
 			} ) ) );
 			if ( p.ignore && p.ignore.length ) {
@@ -244,6 +248,74 @@
 				box.appendChild( h( 'p', { class: 'sl-small sl-muted', dir: 'auto' }, h( 'b', { text: t( 'How we will know it worked:' ) + ' ' } ), p.measure ) );
 			}
 			box.appendChild( h( 'p', { class: 'sl-muted sl-small', text: t( 'Plan from %s', SL.date( fc.plan.at ) ) + ( fc.plan.serp_used ? '' : ' · ' + t( 'made without live Google results' ) ) } ) );
+			return box;
+		}
+
+		/**
+		 * What a prepared step became, right here: its state, Review & apply (in a window on this
+		 * page), Redo with a short instruction, or Reject — no trip to the roadmap needed.
+		 */
+		function stepState( did, i ) {
+			var box = h( 'div', { class: 'sl-r1__state' } );
+			var st = did.op_status || '';
+			var label;
+			var kind = '';
+			if ( 'task' === did.kind ) {
+				label = 'done' === did.issue ? t( 'Done' ) : 'dismissed' === did.issue ? t( 'Rejected' ) : t( 'In the roadmap as a task for you' );
+			} else if ( 'awaiting_approval' === st ) {
+				label = t( 'Ready — review and apply' );
+				kind = 'warn';
+			} else if ( 'done' === st || 'partial' === st ) {
+				label = t( 'Applied' );
+				kind = 'good';
+			} else if ( 'failed' === st ) {
+				label = t( 'Could not be prepared' );
+				kind = 'bad';
+			} else if ( 'cancelled' === st || 'rejected' === st || 'dismissed' === did.issue ) {
+				label = t( 'Rejected' );
+			} else {
+				label = t( 'Being prepared…' );
+			}
+			box.appendChild( SL.badge( label, kind ) );
+			var acts = h( 'div', { class: 'sl-row' } );
+			if ( did.op_id && 'awaiting_approval' === st && App.cap( 'apply' ) ) {
+				acts.appendChild( App.btn( SL.il( 'review', t( 'Review & apply' ), 14 ), function () {
+					var m = SL.modal( { title: t( 'Review & apply' ), wide: true, onClose: load } );
+					App.load( m.body, SL.api( 'operations/' + did.op_id ), function ( op ) {
+						App.operationView( m.body, op, load );
+					} );
+				}, 'primary' ) );
+			}
+			if ( App.cap( 'ai' ) && 'done' !== st && 'partial' !== st ) {
+				var redo = h( 'div', { class: 'sl-r1__redo' } );
+				redo.hidden = true;
+				var instr = h( 'textarea', { class: 'sl-input', rows: 2, dir: 'auto', placeholder: t( 'What should be different? e.g. “shorter”, “do not change the title”, “mention free delivery”.' ) } );
+				redo.appendChild( instr );
+				redo.appendChild( App.abtn( t( 'Prepare again' ), function () {
+					return SL.api( 'rank1/step/redo', { body: { index: i, instructions: instr.value } } ).then( function () {
+						SL.toast( t( 'Being prepared again with your instruction.' ), 'success' );
+						load();
+					} );
+				}, 'sm' ) );
+				acts.appendChild( App.btn( t( 'Redo with my instruction' ), function () {
+					redo.hidden = ! redo.hidden;
+					if ( ! redo.hidden ) {
+						instr.focus();
+					}
+				}, 'sm' ) );
+				acts.appendChild( App.btn( t( 'Reject' ), function () {
+					SL.confirm( t( 'Reject what was prepared for this step? Nothing on the site changes, and you can prepare the step again.' ), function () {
+						SL.api( 'rank1/step/reset', { body: { index: i } } ).then( load ).catch( SL.fail );
+					} );
+				}, 'sm' ) );
+				box.appendChild( acts );
+				box.appendChild( redo );
+			} else {
+				box.appendChild( acts );
+			}
+			if ( 'task' === did.kind && did.route ) {
+				acts.appendChild( h( 'a', { class: 'sl-link sl-small', href: did.route, text: t( 'Open in the roadmap' ) } ) );
+			}
 			return box;
 		}
 
@@ -292,7 +364,7 @@
 				} ).slice( 0, 100 );
 				table.appendChild( App.table( [
 					{ label: t( 'Search' ), render: function ( x ) {
-						return h( 'div', { class: 'sl-r1__qcell' }, h( 'b', { dir: 'auto', text: x.query } ), x.brand ? SL.badge( t( 'Brand' ) ) : null, x.competing > 1 ? SL.badge( t( '%s of your pages compete', x.competing ), 'warn' ) : null, x.done ? SL.badge( t( 'Done' ), 'good' ) : null );
+						return h( 'div', { class: 'sl-r1__qcell' }, h( 'b', { dir: 'auto', text: x.query } ), x.brand ? SL.badge( t( 'Brand' ) ) : null, x.rule ? SL.badge( t( 'Rule' ), 'brand' ) : x.competing > 1 ? h( 'a', { href: '#/site-rules?query=' + encodeURIComponent( x.query ), title: t( 'Choose which page should rank' ) }, SL.badge( t( '%s of your pages compete', x.competing ), 'warn' ) ) : null, x.done ? SL.badge( t( 'Done' ), 'good' ) : null );
 					} },
 					{ label: t( 'Position' ), render: function ( x ) {
 						var up = x.prev_position !== null && x.prev_position - x.position >= 0.5;
