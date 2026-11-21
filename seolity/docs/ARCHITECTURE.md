@@ -431,7 +431,7 @@ generates prioritized actions, `HealthScore` computes the explainable score.
 ## 11. Knowledge base and GitHub storage
 
 * **Knowledge base (RAG)**: `knowledge/` (bundled Persian + English documents), the same folder on GitHub
-  (default repo `benlifoodaiwriter/aria-ai-runner`, path `seolity/knowledge`) kept fresh by the
+  (default repo `benlifoodplugindata/seolity-knowledge`, path `seolity/knowledge`) kept fresh by the
   `SEOlity knowledge builder` GitHub Action, and user notes. Documents are chunked by `##` headings;
   retrieval scores topic match, term overlap and language. A newer GitHub copy supersedes the bundled
   copy of the same file; identical files are skipped.

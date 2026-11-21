@@ -4,7 +4,7 @@ Tags: seo, ai, search console, woocommerce, schema
 Requires at least: 6.2
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.20.0
+Stable tag: 1.20.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,9 @@ Yes. The interface is fully translated and RTL-native, text analysis understands
 Enable "Delete all data on uninstall" in Settings → Privacy, then delete the plugin.
 
 == Changelog ==
+
+= 1.20.1 =
+* The shared knowledge base and the plugin's home moved from the old GitHub account to benlifoodplugindata (default knowledge repository benlifoodplugindata/seolity-knowledge). Installs still pointing at the old default are moved automatically on update.
 
 = 1.20.0 =
 * Site rules (new page): the owner's lasting decisions, binding everywhere. "This search belongs to this page" (other pages must stop competing) or any sentence. Every AI prompt carries them; in code, no other page can get a ruled search as focus keyword; Road to #1 works on the owner page; the optimizer warns. Created from the chat (the AI proposes a rule when you state a lasting decision) or by hand; editable, pausable, removable. Suggestions: searches where your own pages compete, owner chosen in one click.

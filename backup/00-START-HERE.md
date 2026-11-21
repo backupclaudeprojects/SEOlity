@@ -1,7 +1,7 @@
 # بکاپ و راهنمای ادامه پروژه SEOlity — از اینجا شروع کنید
 
 > تاریخ این بکاپ: 2026-11-09 · نسخه افزونه: **1.15.0** · نسخه پایگاه داده: **1.7.0**
-> مخزن: `benlifoodaiwriter/aria-ai-runner` · شاخه کار: `claude/beautiful-ride-7ilxpf`
+> مخزن: `backupclaudeprojects/SEOlity` · شاخه کار: `claude/beautiful-ride-7ilxpf`
 
 این پوشه هر چیزی را که یک گفتگوی جدید Claude (یا یک برنامه‌نویس) برای ادامه دقیق پروژه لازم دارد در خود دارد.
 
@@ -29,7 +29,7 @@
 این را در یک گفتگوی جدید Claude Code (روی همین مخزن) بفرستید:
 
 ```
-ادامه پروژه SEOlity. مخزن benlifoodaiwriter/aria-ai-runner، شاخه claude/beautiful-ride-7ilxpf.
+ادامه پروژه SEOlity. مخزن backupclaudeprojects/SEOlity، شاخه claude/beautiful-ride-7ilxpf.
 اول PROJECT_MAP.md و بعد backup/00-START-HERE.md را بخوان و طبق «راهنمای کار با این نقشه» کار کن.
 فایل‌های backup/ را فقط وقتی لازم شد بخوان (03-LESSONS.md را قبل از هر تغییر مهم).
 کار بعدی: <کار را اینجا بنویسید>
@@ -47,7 +47,7 @@
 ## بازگردانی از این بکاپ
 - **کد افزونه:** همه چیز در گیت است. برای ساخت دوباره فایل نصبی:
   ```bash
-  git clone https://github.com/benlifoodaiwriter/aria-ai-runner.git
+  git clone https://github.com/backupclaudeprojects/SEOlity.git
   ```
   ```bash
   cd aria-ai-runner && git checkout claude/beautiful-ride-7ilxpf

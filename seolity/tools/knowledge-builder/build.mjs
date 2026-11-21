@@ -141,7 +141,7 @@ export function extractText( html ) {
 async function fetchSource( url ) {
 	const res = await fetch( url, {
 		headers: {
-			'User-Agent': 'SEOlityKnowledgeBuilder/1.0 (+https://github.com/benlifoodaiwriter/aria-ai-runner)',
+			'User-Agent': 'SEOlityKnowledgeBuilder/1.0 (+https://github.com/benlifoodplugindata)',
 			Accept: 'text/html,application/xhtml+xml',
 			'Accept-Language': url.includes( 'hl=fa' ) ? 'fa,en;q=0.5' : 'en',
 		},
