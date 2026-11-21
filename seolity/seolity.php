@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name:       ARIAGH.SEOLITY
- * Plugin URI:        https://github.com/benlifoodaiwriter/aria-ai-runner/tree/main/seolity
+ * Plugin URI:        https://github.com/benlifoodplugindata
  * Description:       AI SEO Intelligence for WordPress — an AI-powered SEO operating system: audits, Google Search Console analytics, AI content & product optimization, experiments, redirects, schema and more.
- * Version:           1.20.0
+ * Version:           1.20.1
  * Requires at least: 6.2
  * Requires PHP:      7.4
  * Author:            SEOlity
@@ -19,7 +19,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SEOLITY_VERSION', '1.20.0' );
+define( 'SEOLITY_VERSION', '1.20.1' );
 define( 'SEOLITY_DB_VERSION', '1.8.0' );
 define( 'SEOLITY_FILE', __FILE__ );
 define( 'SEOLITY_DIR', plugin_dir_path( __FILE__ ) );

@@ -1,8 +1,12 @@
 # بکاپ و راهنمای ادامه پروژه SEOlity — از اینجا شروع کنید
 
 > تاریخ این بکاپ: 2026-11-09 · نسخه افزونه: **1.15.0** · نسخه پایگاه داده: **1.7.0**
+<<<<<<< HEAD
 > شاخه کامل و مستقل: **`seolity-complete`** (قابل انتقال به هر مخزن و حساب دیگر).
 > مخزن اصلی که کار در آن انجام شد: `benlifoodaiwriter/aria-ai-runner`، شاخه `claude/beautiful-ride-7ilxpf`.
+=======
+> مخزن: `backupclaudeprojects/SEOlity` · شاخه کار: `claude/beautiful-ride-7ilxpf`
+>>>>>>> claude/beautiful-ride-7ilxpf
 
 این پوشه هر چیزی را که یک گفتگوی جدید Claude (یا یک برنامه‌نویس) برای ادامه دقیق پروژه لازم دارد در خود دارد.
 
@@ -30,7 +34,11 @@
 این را در یک گفتگوی جدید Claude Code (روی همین مخزن) بفرستید:
 
 ```
+<<<<<<< HEAD
 ادامه پروژه SEOlity (افزونه وردپرس در پوشه seolity/). روی شاخه seolity-complete کار کن.
+=======
+ادامه پروژه SEOlity. مخزن backupclaudeprojects/SEOlity، شاخه claude/beautiful-ride-7ilxpf.
+>>>>>>> claude/beautiful-ride-7ilxpf
 اول PROJECT_MAP.md و بعد backup/00-START-HERE.md را بخوان و طبق «راهنمای کار با این نقشه» کار کن.
 فایل‌های backup/ را فقط وقتی لازم شد بخوان (03-LESSONS.md را قبل از هر تغییر مهم).
 کار بعدی: <کار را اینجا بنویسید>
@@ -48,7 +56,11 @@
 ## بازگردانی از این بکاپ
 - **کد افزونه:** همه چیز در گیت است. برای ساخت دوباره فایل نصبی:
   ```bash
+<<<<<<< HEAD
   git clone https://github.com/<حساب-شما>/<مخزن-شما>.git
+=======
+  git clone https://github.com/backupclaudeprojects/SEOlity.git
+>>>>>>> claude/beautiful-ride-7ilxpf
   ```
   ```bash
   cd <مخزن-شما> && git checkout seolity-complete

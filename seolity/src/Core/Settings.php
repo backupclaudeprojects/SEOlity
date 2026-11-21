@@ -172,7 +172,7 @@ final class Settings {
 			// Experiments.
 			'experiment_window'    => array( 'int', 14, array( 7, 90 ) ),
 			// Knowledge base (GitHub).
-			'kb_repo'              => array( 'string', 'benlifoodaiwriter/aria-ai-runner' ),
+			'kb_repo'              => array( 'string', 'benlifoodplugindata/seolity-knowledge' ),
 			'kb_branch'            => array( 'string', 'main' ),
 			'kb_path'              => array( 'string', 'seolity/knowledge' ),
 			'kb_auto_sync'         => array( 'bool', true ),

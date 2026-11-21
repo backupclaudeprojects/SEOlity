@@ -123,9 +123,9 @@
     2  .gitignore                                                 Added by code-review-graph
    12  .mcp.json
    26  CLAUDE.md                                                  CLAUDE.md — instructions for Claude working on SEOlity
-  131  PROJECT_MAP.md                                             PROJECT_MAP — SEOlity (ARIAGH.SEOLITY)
-  131  PROJECT_MAP.md                                             PROJECT_MAP — SEOlity (ARIAGH.SEOLITY)
-  131  PROJECT_MAP.md                                             PROJECT_MAP — SEOlity (ARIAGH.SEOLITY)
+  132  PROJECT_MAP.md                                             PROJECT_MAP — SEOlity (ARIAGH.SEOLITY)
+  132  PROJECT_MAP.md                                             PROJECT_MAP — SEOlity (ARIAGH.SEOLITY)
+  132  PROJECT_MAP.md                                             PROJECT_MAP — SEOlity (ARIAGH.SEOLITY)
    44  README.md                                                  ARIAGH.SEOLITY — AI SEO plugin for WordPress (SEOlity)
    34  docs/SESSION-ROADMAP.md                                    SEOlity — session roadmap (read this first; replaces the old chat history)
     8  extras/README.md                                           extras/ — not part of the SEOlity plugin
@@ -167,7 +167,7 @@
   896  seolity/docs/CONNECT.md                                    SEOlity — Connection guide / راهنمای اتصال
   940  seolity/docs/FEATURES.md                                   SEOlity — Feature Catalog
    53  seolity/knowledge/README.md                                SEOlity Knowledge Base
-  267  seolity/readme.txt                                         Site rules (new page): the owner's lasting decisions, binding everywhere. "This search belongs
+  270  seolity/readme.txt                                         The shared knowledge base and the plugin's home moved from the old GitHub account to benlifoodp
    15  seolity/runner/README.md                                   SEOlity – Subscription AI runner
   366  seolity/runner/runner.mjs                                  SEOlity – Subscription AI runner (GitHub Actions)
    66  seolity/runner/seolity-ai.yml                              SEOlity – Subscription AI runner
@@ -238,7 +238,7 @@
    80  seolity/src/Core/Crypto.php                                Authenticated encryption for secrets at rest.
   910  seolity/src/Core/Database.php                              Database access layer: table registry, schema definition and query helpers.
   187  seolity/src/Core/Http.php                                  HTTP helpers: JSON requests, parallel fetches and SSRF protection.
-  149  seolity/src/Core/Installer.php                             Activation, deactivation and schema upgrades.
+  157  seolity/src/Core/Installer.php                             Activation, deactivation and schema upgrades.
   356  seolity/src/Core/Settings.php                              Typed settings with schema-driven sanitization.
   342  seolity/src/Crawler/Checks.php                             Audit check catalog + page-level evaluation + issue persistence.
   716  seolity/src/Crawler/Crawler.php                            Full-site / incremental crawler (section 7).

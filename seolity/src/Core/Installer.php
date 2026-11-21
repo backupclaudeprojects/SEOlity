@@ -74,6 +74,14 @@ final class Installer {
 					update_option( Settings::OPTION, $s, false );
 				}
 			}
+			// 1.20.1: the shared knowledge moved from the old account to benlifoodplugindata.
+			$s = get_option( Settings::OPTION, array() );
+			if ( is_array( $s ) && isset( $s['kb_repo'] ) && 'benlifoodaiwriter/aria-ai-runner' === $s['kb_repo'] ) {
+				$s['kb_repo']   = 'benlifoodplugindata/seolity-knowledge';
+				$s['kb_branch'] = 'main';
+				$s['kb_path']   = 'seolity/knowledge';
+				update_option( Settings::OPTION, $s, false );
+			}
 			update_option( 'seolity_plugin_version', SEOLITY_VERSION, false );
 			// New worker / runner code ships with updates: redeploy the worker and re-measure routes.
 			if ( function_exists( 'seolity' ) ) {

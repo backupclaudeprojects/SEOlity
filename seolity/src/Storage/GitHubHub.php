@@ -27,7 +27,7 @@ final class GitHubHub {
 
 	/** The shared, read-only knowledge base every install can sync from. */
 	const SHARED_KB = array(
-		'repo'   => 'benlifoodaiwriter/aria-ai-runner',
+		'repo'   => 'benlifoodplugindata/seolity-knowledge',
 		'branch' => 'main',
 		'path'   => 'seolity/knowledge',
 	);
